@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private PieChart piechart;
     private float[] yData = {5,10,15,20,40};
     private String[] xData = {"Lunes","Martes","Miercoles","Jueves","Viernes"};
+    private Button logout,powerButton;
 
 
     @Override
@@ -120,6 +121,20 @@ public class MainActivity extends AppCompatActivity {
             //Adding and configuring charts of home page
 
         }
+        logout = (Button) findViewById(R.id.logoutbutton);
+        logout.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                mFirebaseAuth.signOut();
+                loadLogInView();
+            }
+        });
+
+        powerButton = (Button) findViewById(R.id.powerbutton);
+        powerButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                loadPowerView();
+            }
+        });
     }
 
     private void addData(){
@@ -163,6 +178,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadLogInView() {
         Intent intent = new Intent(this, LogInActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+
+    private void loadPowerView() {
+        Intent intent = new Intent(this, power_select_exercise.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
