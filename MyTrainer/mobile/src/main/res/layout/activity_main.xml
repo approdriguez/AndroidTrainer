@@ -37,13 +37,6 @@
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true" />
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="83dp"></TableLayout>
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,8 +50,40 @@
             android:layout_height="wrap_content"
             android:text="Logout"
             android:id="@+id/logoutbutton"
-            android:layout_below="@+id/button"
-            android:layout_alignParentStart="true" />
+            android:layout_column="53"
+            android:layout_below="@+id/textView"
+            android:layout_toEndOf="@+id/textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="acel x"
+            android:id="@+id/x"
+            android:layout_alignBottom="@+id/z"
+            android:layout_toStartOf="@+id/logoutbutton"
+            android:layout_alignTop="@+id/z" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="acel y"
+            android:id="@+id/y"
+            android:layout_alignTop="@+id/z"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="42dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="acel z"
+            android:id="@+id/z"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/logoutbutton"
+            android:layout_marginBottom="81dp" />
+
     </RelativeLayout>
 
 
