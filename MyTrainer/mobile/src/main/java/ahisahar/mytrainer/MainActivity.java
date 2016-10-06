@@ -135,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
                 loadPowerView();
             }
         });
+
+
+
     }
 
     private void addData(){

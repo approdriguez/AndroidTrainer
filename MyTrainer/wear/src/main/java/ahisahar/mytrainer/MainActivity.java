@@ -1,23 +1,60 @@
 package ahisahar.mytrainer;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.view.View;
 import android.widget.TextView;
+import android.app.Notification;
+import android.app.Service;
+import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.IBinder;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.concurrent.ScheduledExecutorService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends WearableActivity {
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataEvent;
+import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataItem;
+import com.google.android.gms.wearable.DataItemBuffer;
+import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
 
-    private static final SimpleDateFormat AMBIENT_DATE_FORMAT =
-            new SimpleDateFormat("HH:mm", Locale.US);
+public class MainActivity extends WearableActivity implements SensorEventListener, DataApi.DataListener, MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
-    private BoxInsetLayout mContainerView;
-    private TextView mTextView;
-    private TextView mClockView;
+    private static final String KEY = "SensorService";
+    private static final String ITEM_0="/accelerometer0";
+    private static final String ITEM_1="/accelerometer1";
+    private static final String ITEM_2="/accelerometer2";
+    private final static int SENS_ACCELEROMETER = Sensor.TYPE_ACCELEROMETER;
+    //private final static int SENS_GYROSCOPE = Sensor.TYPE_GYROSCOPE;
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+    GoogleApiClient apiClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,40 +62,105 @@ public class MainActivity extends WearableActivity {
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
 
-        mContainerView = (BoxInsetLayout) findViewById(R.id.container);
-        mTextView = (TextView) findViewById(R.id.text);
-        mClockView = (TextView) findViewById(R.id.clock);
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        apiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this)//nos notifica cuando estamos conectados
+                .addOnConnectionFailedListener(this)// ofrece el resultado del error
+                .build();
+
+
+
+
+
     }
 
     @Override
-    public void onEnterAmbient(Bundle ambientDetails) {
-        super.onEnterAmbient(ambientDetails);
-        updateDisplay();
+    public void onSensorChanged(SensorEvent event) {
+
+        Float[] accelerometer = new Float[3];
+        accelerometer[0]=event.values[0];
+        accelerometer[1]=event.values[1];
+        accelerometer[2]=event.values[2];
+
+        //Valor eje x
+        PutDataMapRequest putDataMapReq = PutDataMapRequest.create(ITEM_0);
+        putDataMapReq.getDataMap().putFloat(KEY,  accelerometer[0]);
+        PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
+        PendingResult<DataApi.DataItemResult> resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
+        enviarMensaje(ITEM_0, Float.toString(accelerometer[0]));
+
+        //Valor eje y
+        putDataMapReq = PutDataMapRequest.create(ITEM_1);
+        putDataMapReq.getDataMap().putFloat(KEY,  accelerometer[1]);
+        putDataReq = putDataMapReq.asPutDataRequest();
+        resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
+        enviarMensaje(ITEM_1, Float.toString(accelerometer[1]));
+
+        //Valor eje z
+        putDataMapReq = PutDataMapRequest.create(ITEM_2);
+        putDataMapReq.getDataMap().putFloat(KEY,  accelerometer[2]);
+        putDataReq = putDataMapReq.asPutDataRequest();
+        resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
+        enviarMensaje(ITEM_2, Float.toString(accelerometer[2]));
     }
 
     @Override
-    public void onUpdateAmbient() {
-        super.onUpdateAmbient();
-        updateDisplay();
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     @Override
-    public void onExitAmbient() {
-        updateDisplay();
-        super.onExitAmbient();
+    public void onConnected(@Nullable Bundle bundle) {
+
     }
 
-    private void updateDisplay() {
-        if (isAmbient()) {
-            mContainerView.setBackgroundColor(getResources().getColor(android.R.color.black));
-            mTextView.setTextColor(getResources().getColor(android.R.color.white));
-            mClockView.setVisibility(View.VISIBLE);
+    @Override
+    public void onConnectionSuspended(int i) {
 
-            mClockView.setText(AMBIENT_DATE_FORMAT.format(new Date()));
-        } else {
-            mContainerView.setBackground(null);
-            mTextView.setTextColor(getResources().getColor(android.R.color.black));
-            mClockView.setVisibility(View.GONE);
-        }
     }
+
+    @Override
+    public void onDataChanged(DataEventBuffer dataEventBuffer) {
+
+    }
+
+    @Override
+    public void onMessageReceived(MessageEvent messageEvent) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+
+    private void enviarMensaje(final String path, final String texto){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NodeApi.GetConnectedNodesResult nodos=Wearable.NodeApi.getConnectedNodes(apiClient).await();
+
+                for (Node nodo: nodos.getNodes()){
+                    Wearable.MessageApi.sendMessage(apiClient, nodo.getId(), path, texto.getBytes())
+                            .setResultCallback(
+                                    new ResultCallback<MessageApi.SendMessageResult>() {
+                                        @Override
+                                        public void onResult(MessageApi.SendMessageResult resultado) {
+                                            if (!resultado.getStatus().isSuccess()) {
+                                                Log.e("sincronizacion", "Error al enviar mensaje. Codigo" + resultado.getStatus().getStatusCode());
+                                            }
+                                        }
+                                    }
+                            );
+                }
+
+            }
+        }).start();
+
+    }
+
 }
