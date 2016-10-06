@@ -54,6 +54,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private SensorManager mSensorManager;
     private Sensor mSensor;
     GoogleApiClient apiClient;
+    TextView x,y,z;
 
 
     @Override
@@ -70,7 +71,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 .addConnectionCallbacks(this)//nos notifica cuando estamos conectados
                 .addOnConnectionFailedListener(this)// ofrece el resultado del error
                 .build();
-
+        x = (TextView) findViewById(R.id.x);
+        y = (TextView) findViewById(R.id.y);
+        z = (TextView) findViewById(R.id.z);
 
 
 
@@ -84,6 +87,10 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         accelerometer[0]=event.values[0];
         accelerometer[1]=event.values[1];
         accelerometer[2]=event.values[2];
+
+        x.setText(Float.toString(event.values[0]));
+        y.setText(Float.toString(event.values[1]));
+        z.setText(Float.toString(event.values[2]));
 
         //Valor eje x
         PutDataMapRequest putDataMapReq = PutDataMapRequest.create(ITEM_0);
