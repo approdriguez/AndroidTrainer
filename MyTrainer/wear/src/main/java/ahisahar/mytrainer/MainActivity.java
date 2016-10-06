@@ -77,7 +77,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
 
 
-
     }
 
     @Override
@@ -112,6 +111,18 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         putDataReq = putDataMapReq.asPutDataRequest();
         resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
         enviarMensaje(ITEM_2, Float.toString(accelerometer[2]));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
     }
 
     @Override
