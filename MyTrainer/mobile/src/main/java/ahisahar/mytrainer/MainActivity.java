@@ -6,44 +6,63 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Toast;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.android.gms.fitness.data.DataSet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+//Messages
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataEvent;
+import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataItem;
+import com.google.android.gms.wearable.DataItemBuffer;
+import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks,  GoogleApiClient.OnConnectionFailedListener{
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -53,6 +72,16 @@ public class MainActivity extends AppCompatActivity {
     private float[] yData = {5,10,15,20,40};
     private String[] xData = {"Lunes","Martes","Miercoles","Jueves","Viernes"};
     private Button logout,powerButton;
+
+    //messages
+    private static final String KEY = "SensorService";
+    private static final String ITEM_0="/accelerometer0";
+    private static final String ITEM_1="/accelerometer1";
+    private static final String ITEM_2="/accelerometer2";
+
+    float acel_x,acel_y,acel_z;
+
+    GoogleApiClient apiClient;
 
 
     @Override
@@ -107,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             addData();
-
             Legend l = piechart.getLegend();
             l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
             l.setXEntrySpace(7);
@@ -136,7 +164,66 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Receive the message
 
+        apiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this) //nos notifica cuando estamos conectados
+                .addOnConnectionFailedListener(this)// ofrece el resultado del error
+                .build();
+
+        PendingResult<DataItemBuffer> resultado= Wearable.DataApi.getDataItems(apiClient);
+        resultado.setResultCallback(new ResultCallback<DataItemBuffer>() {
+            @Override
+            public void onResult(DataItemBuffer dataItems) {
+
+                for (DataItem dataItem : dataItems) {
+
+                    if (dataItem.getUri().getPath().equals(ITEM_0)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
+
+                        acel_x = dataMapItem.getDataMap().getInt(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.x)).setText(Float.toString(acel_x));
+
+                            }
+                        });
+                    }
+
+                    if (dataItem.getUri().getPath().equals(ITEM_1)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
+
+                        acel_y = dataMapItem.getDataMap().getInt(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.y)).setText(Float.toString(acel_y));
+
+                            }
+                        });
+                    }
+
+                    if (dataItem.getUri().getPath().equals(ITEM_2)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
+
+                        acel_z = dataMapItem.getDataMap().getInt(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.z)).setText(Float.toString(acel_z));
+
+                            }
+                        });
+                    }
+                }
+                dataItems.release();
+            }
+        });
 
     }
 
@@ -218,4 +305,33 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onMessageReceived(final MessageEvent mensaje) {
+
+
+
+        if(mensaje.getPath().equalsIgnoreCase(WEAR_ENVIAR_TEXTO)){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    textView.setText(textView.getText()+"\n"+ new String(mensaje.getData())+"\n");
+                }
+            });
+        }
+    }
 }
