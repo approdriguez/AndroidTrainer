@@ -62,7 +62,7 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks,  GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity implements DataApi.DataListener, MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks,  GoogleApiClient.OnConnectionFailedListener{
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -323,15 +323,63 @@ public class MainActivity extends AppCompatActivity implements MessageApi.Messag
     @Override
     public void onMessageReceived(final MessageEvent mensaje) {
 
-
-
-        if(mensaje.getPath().equalsIgnoreCase(WEAR_ENVIAR_TEXTO)){
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    textView.setText(textView.getText()+"\n"+ new String(mensaje.getData())+"\n");
-                }
-            });
-        }
     }
+
+    @Override
+    public void onDataChanged(DataEventBuffer eventos) {
+
+            for (DataEvent event : eventos) {
+                if (event.getType() == DataEvent.TYPE_CHANGED){
+                    DataItem item =event.getDataItem();
+                    if (item.getUri().getPath().equals(ITEM_0)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+
+                        acel_x = dataMapItem.getDataMap().getInt(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.x)).setText(Float.toString(acel_x));
+
+                            }
+                        });
+                    }
+
+                    if (item.getUri().getPath().equals(ITEM_1)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+
+                        acel_y = dataMapItem.getDataMap().getInt(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.y)).setText(Float.toString(acel_y));
+
+                            }
+                        });
+                    }
+
+                    if (item.getUri().getPath().equals(ITEM_2)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+
+                        acel_z = dataMapItem.getDataMap().getInt(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.z)).setText(Float.toString(acel_z));
+
+                            }
+                        });
+                    }
+                } else if(event.getType()==DataEvent.TYPE_DELETED){//algun item a sido borrado
+
+                }
+
+
+
+            }
+        }
+
+
 }
