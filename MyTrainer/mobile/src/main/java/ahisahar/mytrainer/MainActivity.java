@@ -28,7 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import jkalman.JKalman;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
@@ -38,6 +38,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.wearable.WearableListenerService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private static final String ITEM_1="/accelerometer1";
     private static final String ITEM_2="/accelerometer2";
 
-    float acel_x,acel_y,acel_z;
+    private float acel_x,acel_y,acel_z;
 
     GoogleApiClient apiClient;
 
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                 loadPowerView();
             }
         });
-
+        ((TextView) findViewById(R.id.z)).setText(Float.toString(1));
         //Receive the message
 
         apiClient = new GoogleApiClient.Builder(this)
@@ -171,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                 .addConnectionCallbacks(this) //nos notifica cuando estamos conectados
                 .addOnConnectionFailedListener(this)// ofrece el resultado del error
                 .build();
+
+        if(!apiClient.isConnected())
+            apiClient.connect();
 
         PendingResult<DataItemBuffer> resultado= Wearable.DataApi.getDataItems(apiClient);
         resultado.setResultCallback(new ResultCallback<DataItemBuffer>() {
@@ -182,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     if (dataItem.getUri().getPath().equals(ITEM_0)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
 
-                        acel_x = dataMapItem.getDataMap().getInt(KEY);
+                        acel_x = dataMapItem.getDataMap().getFloat(KEY);
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -222,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     }
                 }
                 dataItems.release();
+                ((TextView) findViewById(R.id.z)).setText(Float.toString(23));
             }
         });
 
@@ -334,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     if (item.getUri().getPath().equals(ITEM_0)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
 
-                        acel_x = dataMapItem.getDataMap().getInt(KEY);
+                        acel_x = dataMapItem.getDataMap().getFloat(KEY);
 
                         runOnUiThread(new Runnable() {
                             @Override
