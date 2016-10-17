@@ -80,7 +80,11 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private static final String ITEM_1="/accelerometer1";
     private static final String ITEM_2="/accelerometer2";
 
-    private float acel_x,acel_y,acel_z;
+    private float acel_x=0,acel_y=0,acel_z=0;
+    float [] acel;
+
+
+
 
     GoogleApiClient apiClient;
 
@@ -96,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
 
 
         if (mFirebaseUser == null) {
@@ -175,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
         if(!apiClient.isConnected())
             apiClient.connect();
-
+/*
         PendingResult<DataItemBuffer> resultado= Wearable.DataApi.getDataItems(apiClient);
         resultado.setResultCallback(new ResultCallback<DataItemBuffer>() {
             @Override
@@ -183,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                 for (DataItem dataItem : dataItems) {
 
-                    if (dataItem.getUri().getPath().equals(ITEM_0)) {
+                    /*if (dataItem.getUri().getPath().equals(ITEM_0)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
 
                         acel_x = dataMapItem.getDataMap().getFloat(KEY);
@@ -195,22 +197,20 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                             }
                         });
-                    }
+                    }*/
 
-                    if (dataItem.getUri().getPath().equals(ITEM_1)) {
+             /*       if (dataItem.getUri().getPath().equals(ITEM_1)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
-
-                        acel_y = dataMapItem.getDataMap().getInt(KEY);
-
-                        runOnUiThread(new Runnable() {
+                        acel = dataMapItem.getDataMap().getFloatArray(KEY);
+                       /* runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ((TextView) findViewById(R.id.y)).setText(Float.toString(acel_y));
+//                                ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[1]));
 
                             }
-                        });
+                        });*/
                     }
-
+                    /*
                     if (dataItem.getUri().getPath().equals(ITEM_2)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
 
@@ -223,14 +223,14 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                             }
                         });
-                    }
-                }
+                    }*/
+          /*      }
                 dataItems.release();
                 ((TextView) findViewById(R.id.z)).setText(Float.toString(23));
             }
         });
 
-    }
+    }*/
 
     private void addData(){
 
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
             for (DataEvent event : eventos) {
                 if (event.getType() == DataEvent.TYPE_CHANGED){
                     DataItem item =event.getDataItem();
-                    if (item.getUri().getPath().equals(ITEM_0)) {
+                    /*if (item.getUri().getPath().equals(ITEM_0)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
 
                         acel_x = dataMapItem.getDataMap().getFloat(KEY);
@@ -348,23 +348,24 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                             }
                         });
-                    }
+                    }*/
 
                     if (item.getUri().getPath().equals(ITEM_1)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+                        ((TextView) findViewById(R.id.x)).setText("LLego");
+                        acel = dataMapItem.getDataMap().getFloatArray(KEY);
+                        if(acel!=null && acel.length>1){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[2]));
 
-                        acel_y = dataMapItem.getDataMap().getInt(KEY);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ((TextView) findViewById(R.id.y)).setText(Float.toString(acel_y));
-
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
 
-                    if (item.getUri().getPath().equals(ITEM_2)) {
+                    /*if (item.getUri().getPath().equals(ITEM_2)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
 
                         acel_z = dataMapItem.getDataMap().getInt(KEY);
@@ -376,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                             }
                         });
-                    }
+                    }*/
                 } else if(event.getType()==DataEvent.TYPE_DELETED){//algun item a sido borrado
 
                 }

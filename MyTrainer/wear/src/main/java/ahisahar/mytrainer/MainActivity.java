@@ -50,6 +50,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private static final String ITEM_1="/accelerometer1";
     private static final String ITEM_2="/accelerometer2";
     private final static int SENS_ACCELEROMETER = Sensor.TYPE_ACCELEROMETER;
+    private static final String TAG = "AccelerometerData";
     //private final static int SENS_GYROSCOPE = Sensor.TYPE_GYROSCOPE;
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -57,7 +58,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     TextView x,y,z;
     PutDataMapRequest putDataMapReq;
     PendingResult<DataApi.DataItemResult> resultado;
-    Float[] accelerometer = new Float[3];
+    float[] accelerometer = new float[3];
     PutDataRequest putDataReq;
 
     @Override
@@ -86,6 +87,14 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     }
 
     @Override
+    public void onConnected(Bundle connectionHint) {
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "Connected to Google Api Service");
+        }
+        Wearable.DataApi.addListener(apiClient, this);
+    }
+
+    @Override
     public void onSensorChanged(SensorEvent event) {
 
         accelerometer[0]=event.values[0];
@@ -99,14 +108,12 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         //Send X acceleration
         putDataMapReq = PutDataMapRequest.create(ITEM_0);
 
-
-        float pepe []= new float[3];
-        putDataMapReq.getDataMap().putFloatArray(KEY, pepe);
+        putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
         putDataReq = putDataMapReq.asPutDataRequest();
         resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
         Wearable.DataApi.putDataItem(apiClient,putDataReq);
-
-
+        enviarMensaje(ITEM_1, accelerometer.toString());
+/*
         //Valor eje y
         putDataMapReq = PutDataMapRequest.create(ITEM_1);
         putDataMapReq.getDataMap().putFloat(KEY,  accelerometer[1]);
@@ -119,8 +126,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         putDataMapReq.getDataMap().putFloat(KEY,  accelerometer[2]);
         putDataReq = putDataMapReq.asPutDataRequest();
         resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
-        //enviarMensaje(ITEM_2, Float.toString(accelerometer[2]));
-        x.setText("Mensaje enviado");
+        //enviarMensaje(ITEM_2, Float.toString(accelerometer[2]));*/
     }
 
     @Override
@@ -140,10 +146,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -165,7 +167,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     }
 
-    /*
+
     private void enviarMensaje(final String path, final String texto){
         new Thread(new Runnable() {
             @Override
@@ -189,6 +191,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
             }
         }).start();
 
-    }*/
+    }
 
 }
