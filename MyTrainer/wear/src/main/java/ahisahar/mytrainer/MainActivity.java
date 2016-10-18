@@ -47,8 +47,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     private static final String KEY = "SensorService";
     private static final String ITEM_0="/accelerometer0";
-    private static final String ITEM_1="/accelerometer1";
-    private static final String ITEM_2="/accelerometer2";
     private final static int SENS_ACCELEROMETER = Sensor.TYPE_ACCELEROMETER;
     private static final String TAG = "AccelerometerData";
     //private final static int SENS_GYROSCOPE = Sensor.TYPE_GYROSCOPE;
@@ -58,8 +56,10 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     TextView x,y,z;
     PutDataMapRequest putDataMapReq;
     PendingResult<DataApi.DataItemResult> resultado;
-    float[] accelerometer = new float[3];
+    float[] accelerometer = new float[120000];
     PutDataRequest putDataReq;
+    Boolean stop;
+    int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
 
+        stop = false; //Parar medición
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -97,22 +98,28 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        accelerometer[0]=event.values[0];
-        accelerometer[1]=event.values[1];
-        accelerometer[2]=event.values[2];
-
         x.setText(Float.toString(event.values[0]));
         y.setText(Float.toString(event.values[1]));
         z.setText(Float.toString(event.values[2]));
 
-        //Send X acceleration
-        putDataMapReq = PutDataMapRequest.create(ITEM_0);
+        if(i<119997 && stop==false) {
+            //Send X acceleration
+            accelerometer[i] = event.values[0];
+            accelerometer[i + 1] = event.values[1];
+            accelerometer[i + 2] = event.values[2];
+            i=i+3;
 
-        putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
-        putDataReq = putDataMapReq.asPutDataRequest();
-        resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
-        Wearable.DataApi.putDataItem(apiClient,putDataReq);
-        enviarMensaje(ITEM_1, accelerometer.toString());
+        }
+        else {
+            putDataMapReq = PutDataMapRequest.create(ITEM_0);
+            putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
+            putDataReq = putDataMapReq.asPutDataRequest();
+            resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
+            Wearable.DataApi.putDataItem(apiClient, putDataReq);
+            i=0;
+        }
+
+        //enviarMensaje(ITEM_1, accelerometer.toString());
 /*
         //Valor eje y
         putDataMapReq = PutDataMapRequest.create(ITEM_1);
@@ -173,7 +180,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
             @Override
             public void run() {
                 NodeApi.GetConnectedNodesResult nodos=Wearable.NodeApi.getConnectedNodes(apiClient).await();
-
+                Log.d(TAG, "sincronizacion betaalfa");
                 for (Node nodo: nodos.getNodes()){
                     Wearable.MessageApi.sendMessage(apiClient, nodo.getId(), path, texto.getBytes())
                             .setResultCallback(

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private static final String ITEM_2="/accelerometer2";
 
     private float acel_x=0,acel_y=0,acel_z=0;
-    float [] acel;
+    float [] acel = new float[120000];
 
 
 
@@ -232,6 +232,26 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
     }*/
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        apiClient.connect();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Wearable.DataApi.addListener(apiClient, this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Wearable.DataApi.removeListener(apiClient, this);
+        apiClient.disconnect();
+    }
+
+
     private void addData(){
 
         List<PieEntry> entries = new ArrayList<>();
@@ -310,10 +330,6 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
 
     @Override
     public void onConnectionSuspended(int i) {
