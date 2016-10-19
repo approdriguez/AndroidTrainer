@@ -1,6 +1,7 @@
 package ahisahar.mytrainer;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -56,7 +59,8 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     TextView x,y,z;
     PutDataMapRequest putDataMapReq;
     PendingResult<DataApi.DataItemResult> resultado;
-    float[] accelerometer = new float[120000];
+//  float[] accelerometer = new float[120000];
+    float[] accelerometer = new float[3];
     PutDataRequest putDataReq;
     Boolean stop;
     int i = 0;
@@ -71,18 +75,20 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        apiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .addConnectionCallbacks(this)//nos notifica cuando estamos conectados
-                .addOnConnectionFailedListener(this)// ofrece el resultado del error
-                .build();
-        if(!apiClient.isConnected())
-            apiClient.connect();
-
         x = (TextView) findViewById(R.id.x);
         y = (TextView) findViewById(R.id.y);
         z = (TextView) findViewById(R.id.z);
 
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+
+        // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        apiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this)//nos notifica cuando estamos conectados
+                .addOnConnectionFailedListener(this)// ofrece el resultado del error
+                .addApi(AppIndex.API).build();
 
 
     }
@@ -102,22 +108,28 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         y.setText(Float.toString(event.values[1]));
         z.setText(Float.toString(event.values[2]));
 
-        if(i<119997 && stop==false) {
+        /*
+        //if(i<119997 && stop==false) {
             //Send X acceleration
             accelerometer[i] = event.values[0];
             accelerometer[i + 1] = event.values[1];
             accelerometer[i + 2] = event.values[2];
             i=i+3;
-
-        }
-        else {
-            putDataMapReq = PutDataMapRequest.create(ITEM_0);
-            putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
-            putDataReq = putDataMapReq.asPutDataRequest();
-            resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
-            Wearable.DataApi.putDataItem(apiClient, putDataReq);
-            i=0;
-        }
+        */
+        //}
+        //else {
+        if(!stop){
+        accelerometer[0] = event.values[0];
+        accelerometer[1] = event.values[1];
+        accelerometer[2] = event.values[2];
+        putDataMapReq = PutDataMapRequest.create(ITEM_0);
+        putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
+        putDataReq = putDataMapReq.asPutDataRequest();
+        resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
+        Wearable.DataApi.putDataItem(apiClient, putDataReq);
+        Log.d(TAG, "Connected mensaje enviado");}
+            //i=0;
+        //}
 
         //enviarMensaje(ITEM_1, accelerometer.toString());
 /*
@@ -200,4 +212,43 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        apiClient.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://ahisahar.mytrainer/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(apiClient, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://ahisahar.mytrainer/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(apiClient, viewAction);
+        apiClient.disconnect();
+    }
 }

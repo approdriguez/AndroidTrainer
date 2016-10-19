@@ -63,7 +63,7 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements DataApi.DataListener, MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks,  GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity implements DataApi.DataListener,  GoogleApiClient.ConnectionCallbacks,  GoogleApiClient.OnConnectionFailedListener{
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
 
         if (mFirebaseUser == null) {
@@ -169,14 +170,9 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         ((TextView) findViewById(R.id.z)).setText(Float.toString(1));
         //Receive the message
 
-        apiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .addConnectionCallbacks(this) //nos notifica cuando estamos conectados
-                .addOnConnectionFailedListener(this)// ofrece el resultado del error
-                .build();
 
-        if(!apiClient.isConnected())
-            apiClient.connect();
+
+
 /*
         PendingResult<DataItemBuffer> resultado= Wearable.DataApi.getDataItems(apiClient);
         resultado.setResultCallback(new ResultCallback<DataItemBuffer>() {
@@ -209,7 +205,14 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                             }
                         });*/
-                    }
+        apiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this) //nos notifica cuando estamos conectados
+                .addOnConnectionFailedListener(this)// ofrece el resultado del error
+                .build();
+
+
+    }
                     /*
                     if (dataItem.getUri().getPath().equals(ITEM_2)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
@@ -243,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     public void onConnected(Bundle bundle) {
         Wearable.DataApi.addListener(apiClient, this);
     }
+
 
     @Override
     protected void onPause() {
@@ -341,10 +345,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
     }
 
-    @Override
-    public void onMessageReceived(final MessageEvent mensaje) {
 
-    }
 
     @Override
     public void onDataChanged(DataEventBuffer eventos) {
@@ -366,18 +367,17 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                         });
                     }*/
 
-                    if (item.getUri().getPath().equals(ITEM_1)) {
+                    if (item.getUri().getPath().compareTo(ITEM_0) == 1) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
                         ((TextView) findViewById(R.id.x)).setText("LLego");
                         acel = dataMapItem.getDataMap().getFloatArray(KEY);
                         if(acel!=null && acel.length>1){
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+
+
                                     ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[2]));
 
-                                }
-                            });
+
+
                         }
                     }
 
