@@ -14,7 +14,10 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <action android:name="com.google.android.gms.wearable.CAPABILITY_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.CHANNEL_EVENT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -22,6 +25,15 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".Power" />
         <activity android:name=".power_select_exercise"></activity>
+
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <service android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.Data" />
+            </intent-filter>
+        </service>
+
+
     </application>
 
 </manifest>
