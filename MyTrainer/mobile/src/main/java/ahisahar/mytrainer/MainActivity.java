@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private float[] yData = {5,10,15,20,40};
     private String[] xData = {"Lunes","Martes","Miercoles","Jueves","Viernes"};
     private Button logout,powerButton;
+    private static final String TAG = "AccelerometerData";
 
     //messages
     private static final String KEY = "SensorService";
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private static final String ITEM_2="/accelerometer2";
 
     private float acel_x=0,acel_y=0,acel_z=0;
-    float [] acel = new float[120000];
+    float [] acel = new float[3];
 
 
 
@@ -235,6 +236,11 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
     }*/
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        apiClient.connect();
+    }
 
     @Override
     protected void onResume() {
@@ -365,13 +371,13 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                             }
                         });
-                    }*/
+                    }*/Log.d(TAG, "Connected cambio de datos detectado");
 
-                    if (item.getUri().getPath().compareTo(ITEM_0) == 1) {
+                if (item.getUri().getPath().compareTo(ITEM_0) == 1) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
                         ((TextView) findViewById(R.id.x)).setText("LLego");
                         acel = dataMapItem.getDataMap().getFloatArray(KEY);
-                        if(acel!=null && acel.length>1){
+                        if(acel!=null){
 
 
                                     ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[2]));
@@ -401,6 +407,8 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
 
             }
+        apiClient.disconnect();
+        apiClient.connect();
         }
 
 

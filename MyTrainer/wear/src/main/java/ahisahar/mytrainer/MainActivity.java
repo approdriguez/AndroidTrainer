@@ -101,6 +101,8 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         Wearable.DataApi.addListener(apiClient, this);
     }
 
+
+
     @Override
     public void onSensorChanged(SensorEvent event) {
 
