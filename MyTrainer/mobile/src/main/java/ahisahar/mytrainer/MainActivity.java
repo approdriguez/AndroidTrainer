@@ -373,18 +373,18 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                         });
                     }*/Log.d(TAG, "Connected cambio de datos detectado");
 
-                if (item.getUri().getPath().compareTo(ITEM_0) == 1) {
+                if (item.getUri().getPath().compareTo(ITEM_0) == 0) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
                         ((TextView) findViewById(R.id.x)).setText("LLego");
                         acel = dataMapItem.getDataMap().getFloatArray(KEY);
-                        if(acel!=null){
 
-
+                                    ((TextView) findViewById(R.id.x)).setText(Float.toString((Float)acel[0]));
                                     ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[2]));
+                                    ((TextView) findViewById(R.id.z)).setText(Float.toString((Float)acel[1]));
 
 
 
-                        }
+
                     }
 
                     /*if (item.getUri().getPath().equals(ITEM_2)) {
@@ -407,8 +407,6 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
 
             }
-        apiClient.disconnect();
-        apiClient.connect();
         }
 
 
