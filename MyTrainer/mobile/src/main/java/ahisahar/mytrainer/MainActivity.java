@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private Button logout,powerButton;
     private static final String TAG = "AccelerometerData";
 
+    private Orientation orientacion;
+
     //messages
     private static final String KEY = "SensorService";
     private static final String ITEM_0="/accelerometer0";
@@ -82,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private static final String ITEM_2="/accelerometer2";
 
     private float acel_x=0,acel_y=0,acel_z=0;
-    float [] acel = new float[3];
+    float [] acel = new float[6];
+    Orientation.Quaternion quaternion;
 
 
 
@@ -381,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                                     ((TextView) findViewById(R.id.x)).setText(Float.toString((Float)acel[0]));
                                     ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[2]));
                                     ((TextView) findViewById(R.id.z)).setText(Float.toString((Float)acel[1]));
-
+                                    quaternion = orientacion.update((double)acel[0],(double)acel[2],(double)acel[1],(double)acel[3],(double)acel[4],(double)acel[5]);
 
 
 

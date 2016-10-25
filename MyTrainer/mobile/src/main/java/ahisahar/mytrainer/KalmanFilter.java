@@ -55,7 +55,6 @@ public class KalmanFilter {
         m.set(0, 0, x);
         m.set(1, 0, y);
         m.set(2, 0, z);
-
         c = kalman.Correct(m);
         s = kalman.Predict();
     }
