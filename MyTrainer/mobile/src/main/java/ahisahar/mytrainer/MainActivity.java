@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private static final String TAG = "AccelerometerData";
 
     private Orientation orientacion;
+    private GravityCompensation gravityCompensation;
 
     //messages
     private static final String KEY = "SensorService";
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
     private float acel_x=0,acel_y=0,acel_z=0;
     float [] acel = new float[6];
+    double [] acelfixed = new double[3];
     Orientation.Quaternion quaternion;
 
 
@@ -381,11 +383,12 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                         ((TextView) findViewById(R.id.x)).setText("LLego");
                         acel = dataMapItem.getDataMap().getFloatArray(KEY);
 
-                                    ((TextView) findViewById(R.id.x)).setText(Float.toString((Float)acel[0]));
-                                    ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[2]));
-                                    ((TextView) findViewById(R.id.z)).setText(Float.toString((Float)acel[1]));
-                                    quaternion = orientacion.update((double)acel[0],(double)acel[2],(double)acel[1],(double)acel[3],(double)acel[4],(double)acel[5]);
 
+                                    quaternion = orientacion.update((double)acel[0],(double)acel[2],(double)acel[1],(double)acel[3],(double)acel[4],(double)acel[5]);
+                                    acelfixed= gravityCompensation.fixAccelerometerData(quaternion,(double)acel[0],(double)acel[2],(double)acel[1]);
+                                    ((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
+                                    ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[2]));
+                                    ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[1]));
 
 
                     }
