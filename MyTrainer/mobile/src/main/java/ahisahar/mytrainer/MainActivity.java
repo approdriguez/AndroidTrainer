@@ -29,9 +29,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import jkalman.JKalman;
+
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -59,9 +63,15 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Wearable;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 public class MainActivity extends AppCompatActivity implements DataApi.DataListener,  GoogleApiClient.ConnectionCallbacks,  GoogleApiClient.OnConnectionFailedListener{
 
@@ -69,14 +79,16 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private String mUserId;
-    private PieChart piechart;
-    private float[] yData = {5,10,15,20,40};
-    private String[] xData = {"Lunes","Martes","Miercoles","Jueves","Viernes"};
+    //private PieChart piechart;
+    /*private float[] yData = {};
+    private float[] xData = {};*/
+    ArrayList<Float> yData = new ArrayList<>();
+    ArrayList<Float> xData = new ArrayList<>();
     private Button logout,powerButton;
     private static final String TAG = "AccelerometerData";
 
-    private Orientation orientacion;
-    private GravityCompensation gravityCompensation;
+    private Orientation orientacion = new Orientation(1,1,1,0,0,0);
+    private GravityCompensation gravityCompensation = new GravityCompensation();
 
     //messages
     private static final String KEY = "SensorService";
@@ -88,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     float [] acel = new float[6];
     double [] acelfixed = new double[3];
     Orientation.Quaternion quaternion;
+    LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+    GraphView graph;
+    int count=0;
+    double modulo=0;
 
 
 
@@ -118,10 +134,12 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
             ////////////////
             //piechart = new PieChart(this);
-            piechart = (PieChart) findViewById(R.id.chartactivity);
+            //piechart = (PieChart) findViewById(R.id.chartactivity);
+            graph = (GraphView) findViewById(R.id.graph);
+
 
             //mainlayout.addView(piechart);
-
+/*
             piechart.setUsePercentValues(true);
             piechart.setDescription("Tu actividad esta semana");
             piechart.setDrawHoleEnabled(true);
@@ -150,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
             l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
             l.setXEntrySpace(7);
             l.setYEntrySpace(5);
-
+*/
             ///////////////
             // Add items via the Button and EditText at the bottom of the view.
 
@@ -269,18 +287,21 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
     private void addData(){
 
-        List<PieEntry> entries = new ArrayList<>();
+        /*List<PieEntry> entries = new ArrayList<>();
 
         for(int i=0;i<yData.length && i<xData.length ;i++)
-            entries.add(new PieEntry(yData[i],xData[i]));
+            entries.add(new PieEntry(yData[i],xData[i]));*/
 
-        PieDataSet dataSet = new PieDataSet(entries, "Mi actividad");
+
+        //PieDataSet dataSet = new PieDataSet(entries, "Mi actividad");
+
+
         /*
         dataSet.setSliceSpace(5);
         dataSet.setSelectionShift(5);
         */
         //Add some colors
-
+/*
         ArrayList<Integer> colors= new ArrayList<Integer>();
 
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
@@ -296,13 +317,13 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
             colors.add(c);
         colors.add(ColorTemplate.getHoloBlue());
         dataSet.setColors(colors);
-
+*/
         //Instantiate pie data
 
-        PieData pieData = new PieData(dataSet);
+        /*PieData pieData = new PieData(dataSet);
         piechart.setData(pieData);
         piechart.invalidate();
-        piechart.setNoDataText("Error generating the chart");
+        piechart.setNoDataText("Error generating the chart");*/
 
     }
 
@@ -384,11 +405,15 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                         acel = dataMapItem.getDataMap().getFloatArray(KEY);
 
 
-                                    quaternion = orientacion.update((double)acel[0],(double)acel[2],(double)acel[1],(double)acel[3],(double)acel[4],(double)acel[5]);
+                                    quaternion = orientacion.update((double)acel[0],(double)acel[1],(double)acel[2],(double)acel[3],(double)acel[4],(double)acel[5]);
                                     acelfixed= gravityCompensation.fixAccelerometerData(quaternion,(double)acel[0],(double)acel[2],(double)acel[1]);
-                                    ((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
-                                    ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[2]));
-                                    ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[1]));
+                                    /*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
+                                    ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
+                                    ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
+                                    modulo = sqrt(pow(acelfixed[0],2)*pow(acelfixed[1],2)*pow(acelfixed[2],2));
+                                    series.appendData(new DataPoint(count,modulo),false,200);
+                                    count++;
+                                    graph.addSeries(series);
 
 
                     }

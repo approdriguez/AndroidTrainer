@@ -75,7 +75,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         setAmbientEnabled();
 
         stop = false; //Parar medición
-        send = true;
+        send = false;
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -86,7 +86,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         z = (TextView) findViewById(R.id.z);
 
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_UI);
 
         // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -169,6 +171,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override

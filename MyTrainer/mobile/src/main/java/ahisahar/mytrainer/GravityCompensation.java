@@ -5,6 +5,13 @@ package ahisahar.mytrainer;
  */
 public class GravityCompensation {
 
+    public GravityCompensation(){
+        fixedAccelerometerData[0]=0;
+        fixedAccelerometerData[1]=0;
+        fixedAccelerometerData[2]=0;
+
+    }
+
     private double[] fixedAccelerometerData = new double[3];
 
 
