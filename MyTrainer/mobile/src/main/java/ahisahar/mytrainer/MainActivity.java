@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import jkalman.JKalman;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -67,13 +68,19 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+import java.io.PrintWriter;
+import java.nio.*;
 
-public class MainActivity extends AppCompatActivity implements DataApi.DataListener,  GoogleApiClient.ConnectionCallbacks,  GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity implements DataApi.DataListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -84,28 +91,28 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private float[] xData = {};*/
     ArrayList<Float> yData = new ArrayList<>();
     ArrayList<Float> xData = new ArrayList<>();
-    private Button logout,powerButton;
+    private Button logout, powerButton;
     private static final String TAG = "AccelerometerData";
 
-    private Orientation orientacion = new Orientation(1,1,1,0,0,0);
+    private Orientation orientacion = new Orientation(1, 1, 1, 0, 0, 0);
     private GravityCompensation gravityCompensation = new GravityCompensation();
 
     //messages
     private static final String KEY = "SensorService";
-    private static final String ITEM_0="/accelerometer0";
-    private static final String ITEM_1="/accelerometer1";
-    private static final String ITEM_2="/accelerometer2";
+    private static final String ITEM_0 = "/accelerometer0";
+    private static final String ITEM_1 = "/accelerometer1";
+    private static final String ITEM_2 = "/accelerometer2";
 
-    private float acel_x=0,acel_y=0,acel_z=0;
-    float [] acel = new float[6];
-    double [] acelfixed = new double[3];
+    private float acel_x = 0, acel_y = 0, acel_z = 0;
+    float[] acel = new float[6];
+    double[] acelfixed = new double[3];
     Orientation.Quaternion quaternion;
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
     GraphView graph;
-    int count=0;
-    double modulo=0;
-
-
+    int count = 0;
+    double modulo = 0;
+    ArrayList<Float> accelerometer = new ArrayList();
+    ArrayList<Float> gyroscope = new ArrayList();
 
 
     GoogleApiClient apiClient;
@@ -122,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
 
 
         if (mFirebaseUser == null) {
@@ -178,20 +184,22 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
         }
         logout = (Button) findViewById(R.id.logoutbutton);
-        logout.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        logout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 mFirebaseAuth.signOut();
                 loadLogInView();
             }
         });
 
         powerButton = (Button) findViewById(R.id.powerbutton);
-        powerButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        powerButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 loadPowerView();
             }
         });
         ((TextView) findViewById(R.id.z)).setText(Float.toString(1));
+        File file = new File("datas.txt");
+
         //Receive the message
 
 
@@ -285,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     }
 
 
-    private void addData(){
+    private void addData() {
 
         /*List<PieEntry> entries = new ArrayList<>();
 
@@ -378,13 +386,12 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     }
 
 
-
     @Override
     public void onDataChanged(DataEventBuffer eventos) {
 
-            for (DataEvent event : eventos) {
-                if (event.getType() == DataEvent.TYPE_CHANGED){
-                    DataItem item =event.getDataItem();
+        for (DataEvent event : eventos) {
+            if (event.getType() == DataEvent.TYPE_CHANGED) {
+                DataItem item = event.getDataItem();
                     /*if (item.getUri().getPath().equals(ITEM_0)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
 
@@ -397,26 +404,35 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                             }
                         });
-                    }*/Log.d(TAG, "Connected cambio de datos detectado");
+                    }*/
+                Log.d(TAG, "Connected cambio de datos detectado");
 
                 if (item.getUri().getPath().compareTo(ITEM_0) == 0) {
-                        DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                        ((TextView) findViewById(R.id.x)).setText("LLego");
-                        acel = dataMapItem.getDataMap().getFloatArray(KEY);
+                    DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+                    ((TextView) findViewById(R.id.x)).setText("LLego");
+                    acel = dataMapItem.getDataMap().getFloatArray(KEY);
 
-
-                                    quaternion = orientacion.update((double)acel[0],(double)acel[1],(double)acel[2],(double)acel[3],(double)acel[4],(double)acel[5]);
+                    mDatabase.child("users").child(mUserId).child("accelerometerRotate").child(Integer.toString(count)).child("x").setValue(acel[0]);
+                    mDatabase.child("users").child(mUserId).child("accelerometerRotate").child(Integer.toString(count)).child("y").setValue(acel[1]);
+                    mDatabase.child("users").child(mUserId).child("accelerometerRotate").child(Integer.toString(count)).child("z").setValue(acel[2]);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeRotate").child(Integer.toString(count)).child("x").setValue(acel[3]);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeRotate").child(Integer.toString(count)).child("y").setValue(acel[4]);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeRotate").child(Integer.toString(count)).child("z").setValue(acel[5]);
+                    count++;
+                                    /*quaternion = orientacion.update((double)acel[0],(double)acel[1],(double)acel[2],(double)acel[3],(double)acel[4],(double)acel[5]);
                                     acelfixed= gravityCompensation.fixAccelerometerData(quaternion,(double)acel[0],(double)acel[2],(double)acel[1]);
                                     /*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
                                     ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
                                     ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
-                                    modulo = sqrt(pow(acelfixed[0],2)*pow(acelfixed[1],2)*pow(acelfixed[2],2));
+                                    /*modulo = sqrt(pow(acelfixed[0],2)*pow(acelfixed[1],2)*pow(acelfixed[2],2));
+                        if(modulo<0.05)
+                            modulo=0;
                                     series.appendData(new DataPoint(count,modulo),false,200);
                                     count++;
-                                    graph.addSeries(series);
+                                    graph.addSeries(series);*/
 
 
-                    }
+                }
 
                     /*if (item.getUri().getPath().equals(ITEM_2)) {
                         DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
@@ -431,14 +447,29 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                             }
                         });
                     }*/
-                } else if(event.getType()==DataEvent.TYPE_DELETED){//algun item a sido borrado
-
-                }
-
-
+            } else if (event.getType() == DataEvent.TYPE_DELETED) {//algun item a sido borrado
 
             }
+
+
         }
+    }
+
+    public static byte[] encode (float floatArray[]) {
+        byte byteArray[] = new byte[floatArray.length*4];
+
+// wrap the byte array to the byte buffer
+        ByteBuffer byteBuf = ByteBuffer.wrap(byteArray);
+
+// create a view of the byte buffer as a float buffer
+        FloatBuffer floatBuf = byteBuf.asFloatBuffer();
+
+// now put the float array to the float buffer,
+// it is actually stored to the byte array
+        floatBuf.put (floatArray);
+
+        return byteArray;
+    }
 
 
 }
