@@ -411,6 +411,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
                     ((TextView) findViewById(R.id.x)).setText("LLego");
                     acel = dataMapItem.getDataMap().getFloatArray(KEY);
+                    //
 
                     mDatabase.child("users").child(mUserId).child("accelerometerRotate").child(Integer.toString(count)).child("x").setValue(acel[0]);
                     mDatabase.child("users").child(mUserId).child("accelerometerRotate").child(Integer.toString(count)).child("y").setValue(acel[1]);
