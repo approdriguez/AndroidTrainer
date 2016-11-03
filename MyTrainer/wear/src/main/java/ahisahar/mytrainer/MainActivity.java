@@ -55,14 +55,17 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     //private final static int SENS_GYROSCOPE = Sensor.TYPE_GYROSCOPE;
     private SensorManager mSensorManager;
     private Sensor mSensor;
+    private Sensor mGyro;
+
     GoogleApiClient apiClient;
     TextView x,y,z;
     PutDataMapRequest putDataMapReq;
     PendingResult<DataApi.DataItemResult> resultado;
 //  float[] accelerometer = new float[120000];
-    float[] accelerometer = new float[3];
+    float[] accelerometer = new float[6];
     PutDataRequest putDataReq;
     Boolean stop;
+    Boolean send;
     int i = 0;
 
     @Override
@@ -72,15 +75,20 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         setAmbientEnabled();
 
         stop = false; //Parar medición
+        send = false;
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
 
         x = (TextView) findViewById(R.id.x);
         y = (TextView) findViewById(R.id.y);
         z = (TextView) findViewById(R.id.z);
 
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_UI);
 
         // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -108,30 +116,37 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        x.setText(Float.toString(event.values[0]));
-        y.setText(Float.toString(event.values[1]));
-        z.setText(Float.toString(event.values[2]));
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
-        /*
-        //if(i<119997 && stop==false) {
-            //Send X acceleration
-            accelerometer[i] = event.values[0];
-            accelerometer[i + 1] = event.values[1];
-            accelerometer[i + 2] = event.values[2];
-            i=i+3;
-        */
-        //}
-        //else {
-        if(!stop){
-        accelerometer[0] = event.values[0];
-        accelerometer[1] = event.values[1];
-        accelerometer[2] = event.values[2];
-        putDataMapReq = PutDataMapRequest.create(ITEM_0);
-        putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
-        putDataReq = putDataMapReq.asPutDataRequest();
-        resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
-        Wearable.DataApi.putDataItem(apiClient, putDataReq);
-        Log.d(TAG, "Connected mensaje enviado");}
+            if(!stop) {
+                x.setText(Float.toString(event.values[0]));
+                y.setText(Float.toString(event.values[1]));
+                z.setText(Float.toString(event.values[2]));
+                accelerometer[0] = event.values[0];
+                accelerometer[1] = event.values[1];
+                accelerometer[2] = event.values[2];
+            }
+        }
+
+        else if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
+            if(!stop) {
+                accelerometer[3] = event.values[0];
+                accelerometer[4] = event.values[1];
+                accelerometer[5] = event.values[2];
+                stop = true;
+                send = true;
+            }
+        }
+        if(send){
+            putDataMapReq = PutDataMapRequest.create(ITEM_0);
+            putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
+            putDataReq = putDataMapReq.asPutDataRequest();
+            resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
+            Wearable.DataApi.putDataItem(apiClient, putDataReq);
+            Log.d(TAG, "Connected mensaje enviado");
+            stop=false;
+            send=false;
+        }
             //i=0;
         //}
 
@@ -156,6 +171,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     public void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override

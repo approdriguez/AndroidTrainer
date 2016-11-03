@@ -1,0 +1,3 @@
+Bateria de pruebas:
+
+- accelerometer corresponde con el reloj en horizontal, subiendo una vez y bajando
