@@ -426,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("x").setValue(acel[3]);
                     mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("y").setValue(acel[4]);
                     mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("z").setValue(acel[5]);
-                    mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("time").setValue(difference/1000);
+                    mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("time").setValue(difference/1000);
                     count++;
                                     /*quaternion = orientacion.update((double)acel[0],(double)acel[1],(double)acel[2],(double)acel[3],(double)acel[4],(double)acel[5]);
                                     acelfixed= gravityCompensation.fixAccelerometerData(quaternion,(double)acel[0],(double)acel[2],(double)acel[1]);
