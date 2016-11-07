@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -415,18 +416,18 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     acel = dataMapItem.getDataMap().getFloatArray(KEY);
                     if(!timecount) {
                         timecount=true;
-                        startTime = System.currentTimeMillis();
+                        startTime = SystemClock.elapsedRealtime();
                     }
 
                     mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("x").setValue(acel[0]);
                     mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("y").setValue(acel[1]);
                     mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("z").setValue(acel[2]);
-                    long difference = System.currentTimeMillis() - startTime;
-                    mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("time").setValue(difference/1000);
+                    long difference = SystemClock.elapsedRealtime() - startTime;
+                    mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("time").setValue(difference);
                     mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("x").setValue(acel[3]);
                     mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("y").setValue(acel[4]);
                     mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("z").setValue(acel[5]);
-                    mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("time").setValue(difference/1000);
+                    mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("time").setValue(difference);
                     count++;
                                     /*quaternion = orientacion.update((double)acel[0],(double)acel[1],(double)acel[2],(double)acel[3],(double)acel[4],(double)acel[5]);
                                     acelfixed= gravityCompensation.fixAccelerometerData(quaternion,(double)acel[0],(double)acel[2],(double)acel[1]);
