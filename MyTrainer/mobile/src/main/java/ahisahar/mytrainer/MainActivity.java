@@ -422,7 +422,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("x").setValue(acel[0]);
                     mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("y").setValue(acel[1]);
                     mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("z").setValue(acel[2]);
-                    long difference = SystemClock.elapsedRealtime() - startTime;
+                    difference = SystemClock.elapsedRealtime() - startTime;
                     mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("time").setValue(difference);
                     mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("x").setValue(acel[3]);
                     mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("y").setValue(acel[4]);
