@@ -35,7 +35,7 @@
             android:id="@+id/textView"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true" />
-
+        <!--
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,8 @@
             android:layout_column="53"
             android:layout_below="@+id/graph"
             android:layout_alignStart="@+id/graph" />
-
+        -->
+        <!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,6 +83,7 @@
             android:layout_below="@+id/x"
             android:layout_alignStart="@+id/x"
             android:layout_marginTop="31dp" />
+            -->
 
         <com.jjoe64.graphview.GraphView
             android:layout_width="1000px"
@@ -90,9 +92,63 @@
             android:minWidth="200dp"
             android:layout_gravity="top|center_horizontal"
             android:id="@+id/graph"
-            android:layout_marginBottom="31dp"
             android:layout_above="@+id/textView"
             android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Dead Lift"
+            android:id="@+id/tittle"
+            android:textSize="30dp"
+            style="@style/AppTheme.PopupOverlay"
+            android:layout_above="@+id/graph"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/accelvalue"
+            android:width="120dp"
+            android:layout_below="@+id/textView"
+            android:layout_toEndOf="@+id/accelLabel"
+            android:layout_marginStart="39dp"
+            android:textSize="20dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/accelLabel"
+            android:width="120dp"
+            android:layout_marginStart="37dp"
+            android:text="Max accel (m/s^2)"
+            style="@style/AppTheme.AppBarOverlay"
+            android:textSize="20dp"
+            android:layout_alignTop="@+id/accelvalue"
+            android:layout_alignStart="@+id/graph" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weightLabel"
+            android:layout_marginTop="48dp"
+            android:width="120dp"
+            android:layout_below="@+id/accelLabel"
+            android:layout_toStartOf="@+id/accelvalue"
+            android:text="Weight (Kg)" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editText2"
+            android:layout_alignBottom="@+id/weightLabel"
+            android:layout_alignStart="@+id/accelvalue"
+            android:width="120dp" />
 
     </RelativeLayout>
 

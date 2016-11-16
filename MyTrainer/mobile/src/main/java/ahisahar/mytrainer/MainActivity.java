@@ -78,6 +78,7 @@ import java.util.List;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+
 import java.io.PrintWriter;
 import java.nio.*;
 
@@ -186,14 +187,14 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
             //Adding and configuring charts of home page
 
         }
-        logout = (Button) findViewById(R.id.logoutbutton);
+        /*logout = (Button) findViewById(R.id.logoutbutton);
         logout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mFirebaseAuth.signOut();
                 loadLogInView();
             }
-        });
-
+        });*/
+        /*
         powerButton = (Button) findViewById(R.id.powerbutton);
         powerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         });
         ((TextView) findViewById(R.id.z)).setText(Float.toString(1));
         File file = new File("datas.txt");
-
+        */
         //Receive the message
 
 
@@ -412,34 +413,35 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                 if (item.getUri().getPath().compareTo(ITEM_0) == 0) {
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                    ((TextView) findViewById(R.id.x)).setText("LLego");
+                    //((TextView) findViewById(R.id.x)).setText("LLego");
                     acel = dataMapItem.getDataMap().getFloatArray(KEY);
-                    if(!timecount) {
-                        timecount=true;
+                    if (!timecount) {
+                        timecount = true;
                         startTime = SystemClock.elapsedRealtime();
                     }
-
-                    mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("x").setValue(acel[0]);
-                    mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("y").setValue(acel[1]);
-                    mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("z").setValue(acel[2]);
+                    /*
+                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("x").setValue(acel[0]);
+                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("y").setValue(acel[1]);
+                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("z").setValue(acel[2]);
                     difference = SystemClock.elapsedRealtime() - startTime;
-                    mDatabase.child("users").child(mUserId).child("accelerometer0").child(Integer.toString(count)).child("time").setValue(difference);
-                    mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("x").setValue(acel[3]);
-                    mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("y").setValue(acel[4]);
-                    mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("z").setValue(acel[5]);
-                    mDatabase.child("users").child(mUserId).child("gyroscope0").child(Integer.toString(count)).child("time").setValue(difference);
-                    count++;
-                                    /*quaternion = orientacion.update((double)acel[0],(double)acel[1],(double)acel[2],(double)acel[3],(double)acel[4],(double)acel[5]);
-                                    acelfixed= gravityCompensation.fixAccelerometerData(quaternion,(double)acel[0],(double)acel[2],(double)acel[1]);
+                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("time").setValue(difference);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("x").setValue(acel[3]);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("y").setValue(acel[4]);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("z").setValue(acel[5]);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("time").setValue(difference);
+                    */
+                    quaternion = orientacion.update((double) acel[0], (double) acel[1], (double) acel[2], (double) acel[3], (double) acel[4], (double) acel[5]);
+                    acelfixed = gravityCompensation.fixAccelerometerData(quaternion, (double) acel[0], (double) acel[2], (double) acel[1]);
                                     /*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
                                     ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
                                     ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
-                                    /*modulo = sqrt(pow(acelfixed[0],2)*pow(acelfixed[1],2)*pow(acelfixed[2],2));
-                        if(modulo<0.05)
-                            modulo=0;
-                                    series.appendData(new DataPoint(count,modulo),false,200);
-                                    count++;
-                                    graph.addSeries(series);*/
+                    modulo = sqrt(pow(acelfixed[2], 2));
+                    //modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
+                    /*if (modulo < 0.11)
+                        modulo = 0;*/
+                    series.appendData(new DataPoint(count, modulo), false, 200);
+                    count++;
+                    graph.addSeries(series);
 
 
                 }
@@ -465,8 +467,8 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         }
     }
 
-    public static byte[] encode (float floatArray[]) {
-        byte byteArray[] = new byte[floatArray.length*4];
+    public static byte[] encode(float floatArray[]) {
+        byte byteArray[] = new byte[floatArray.length * 4];
 
 // wrap the byte array to the byte buffer
         ByteBuffer byteBuf = ByteBuffer.wrap(byteArray);
@@ -476,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
 // now put the float array to the float buffer,
 // it is actually stored to the byte array
-        floatBuf.put (floatArray);
+        floatBuf.put(floatArray);
 
         return byteArray;
     }
