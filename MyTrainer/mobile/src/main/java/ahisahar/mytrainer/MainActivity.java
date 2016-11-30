@@ -105,9 +105,12 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private static final String ITEM_1 = "/accelerometer1";
     private static final String ITEM_2 = "/accelerometer2";
 
+    static final float ALPHA = 0.25f;
     private float acel_x = 0, acel_y = 0, acel_z = 0;
     float[] acel = new float[6];
     double[] acelfixed = new double[3];
+    float[] acelnotfiltered = new float [192];
+    float[] acelfiltered = new float [192];
     Orientation.Quaternion quaternion;
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
     GraphView graph;
@@ -187,13 +190,13 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
             //Adding and configuring charts of home page
 
         }
-        /*logout = (Button) findViewById(R.id.logoutbutton);
+        logout = (Button) findViewById(R.id.logoutbutton);
         logout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mFirebaseAuth.signOut();
                 loadLogInView();
             }
-        });*/
+        });
         /*
         powerButton = (Button) findViewById(R.id.powerbutton);
         powerButton.setOnClickListener(new View.OnClickListener() {
@@ -340,7 +343,11 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     }
 
     private void loadLogInView() {
-        Intent intent = new Intent(this, LogInActivity.class);
+        /*Intent intent = new Intent(this, LogInActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);*/
+        Intent intent = new Intent(this, power_select_exercise.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -432,16 +439,34 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     */
                     quaternion = orientacion.update((double) acel[0], (double) acel[1], (double) acel[2], (double) acel[3], (double) acel[4], (double) acel[5]);
                     acelfixed = gravityCompensation.fixAccelerometerData(quaternion, (double) acel[0], (double) acel[2], (double) acel[1]);
+
                                     /*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
                                     ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
                                     ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
-                    modulo = sqrt(pow(acelfixed[2], 2));
+                    //modulo = sqrt(pow(acelfixed[2], 2));
+
+
                     //modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
                     /*if (modulo < 0.11)
                         modulo = 0;*/
-                    series.appendData(new DataPoint(count, modulo), false, 200);
-                    count++;
-                    graph.addSeries(series);
+                    int filter = 0;
+                    modulo = 0;
+                    while(filter<(64*3)-3){
+                        acelnotfiltered[filter]=(float)acelfixed[0];
+                        acelnotfiltered[filter+1]=(float)acelfixed[1];
+                        acelnotfiltered[filter+2]=(float)acelfixed[2];
+                        filter=filter+3;
+                    }
+                    acelfiltered = lowPass(acelnotfiltered,acelfiltered);
+                    for(int i=0;i<acelfiltered.length;i+=3){
+                        modulo = sqrt(pow(acelfiltered[i], 2) * pow(acelfiltered[i+1], 2) * pow(acelfiltered[i+2], 2));
+                        series.appendData(new DataPoint(count, modulo), false, 200);
+                        count++;
+                        graph.addSeries(series);
+                    }
+                    //series.appendData(new DataPoint(count, modulo), false, 200);
+                    //count++;
+                    //graph.addSeries(series);
 
 
                 }
@@ -481,6 +506,16 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         floatBuf.put(floatArray);
 
         return byteArray;
+    }
+
+    //Low-pass filter using alpha=0.25
+    protected float[] lowPass( float[] input, float[] output ) {
+        if ( output == null )
+            return input;
+        for ( int i=0; i<input.length; i++ ) {
+            output[i] = output[i] + ALPHA * (input[i] - output[i]);
+        }
+        return output;
     }
 
 

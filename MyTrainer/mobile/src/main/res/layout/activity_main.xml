@@ -43,15 +43,15 @@
             android:id="@+id/powerbutton"
             android:layout_alignTop="@+id/logoutbutton"
             android:layout_alignEnd="@+id/graph" />
-
+        -->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logout"
             android:id="@+id/logoutbutton"
             android:layout_column="53"
-            android:layout_below="@+id/graph"
-            android:layout_alignStart="@+id/graph" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
         -->
         <!--
         <TextView
@@ -116,7 +116,8 @@
             android:layout_below="@+id/textView"
             android:layout_toEndOf="@+id/accelLabel"
             android:layout_marginStart="39dp"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:text="1.2" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -148,7 +149,8 @@
             android:id="@+id/editText2"
             android:layout_alignBottom="@+id/weightLabel"
             android:layout_alignStart="@+id/accelvalue"
-            android:width="120dp" />
+            android:width="120dp"
+            android:text="50" />
 
     </RelativeLayout>
 
