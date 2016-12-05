@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     double modulo = 0;
     ArrayList<Float> accelerometer = new ArrayList();
     ArrayList<Float> gyroscope = new ArrayList();
+    int filter = 0;
+    boolean f = false;
 
 
     GoogleApiClient apiClient;
@@ -442,27 +444,41 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     //modulo = sqrt(pow(acelfixed[2], 2));
 
 
-                    //modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
-                    /*if (modulo < 0.11)
-                        modulo = 0;*/
-                    int filter = 0;
+                    modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
+                    //if (modulo <= 0.11 && modulo >= -0.11)
+                      //  modulo = 0;
+
+
+                    /*
+
+                    Proceso de filtrado usando un filtro paso bajo
+
                     modulo = 0;
-                    while(filter<(64*3)-3){
+                    if(filter<189){
                         acelnotfiltered[filter]=(float)acelfixed[0];
                         acelnotfiltered[filter+1]=(float)acelfixed[1];
                         acelnotfiltered[filter+2]=(float)acelfixed[2];
                         filter=filter+3;
                     }
+                    //if(acelnotfiltered[191]!=0)
+                        f = true;
                     acelfiltered = lowPass(acelnotfiltered,acelfiltered);
-                    for(int i=0;i<acelfiltered.length;i+=3){
-                        modulo = sqrt(pow(acelfiltered[i], 2) * pow(acelfiltered[i+1], 2) * pow(acelfiltered[i+2], 2));
+                    for(int i=0;i<acelfiltered.length && f;i+=3){
+                        modulo = sqrt(pow(acelfiltered[i+2], 2));
                         series.appendData(new DataPoint(count, modulo), false, 200);
                         count++;
                         graph.addSeries(series);
+                        System.out.print(i);
+                        System.out.print(filter);
+                        if(i==acelfiltered.length-1)
+                            filter = 0;f = false;
                     }
-                    //series.appendData(new DataPoint(count, modulo), false, 200);
-                    //count++;
-                    //graph.addSeries(series);
+
+                    */
+
+                    series.appendData(new DataPoint(count, modulo), false, 200);
+                    count++;
+                    graph.addSeries(series);
 
 
                 }
