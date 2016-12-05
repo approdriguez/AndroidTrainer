@@ -122,7 +122,9 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     ArrayList<Float> gyroscope = new ArrayList();
     int filter = 0;
     boolean f = false;
-
+    double [] ventana = new double [5];
+    int cventana, dif = 0;
+    double [] datos = new double[5];
 
     GoogleApiClient apiClient;
 
@@ -445,8 +447,23 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
 
                     modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
-                    //if (modulo <= 0.11 && modulo >= -0.11)
-                      //  modulo = 0;
+                    if(cventana<5){
+                        ventana[cventana]=modulo;
+                        cventana++;
+                    }
+
+                    if(cventana==4){
+                        for(int i=0;i<ventana.length-1;i++){
+
+                            dif += abs(ventana[i]-ventana[i+1])/(abs(ventana[i]-ventana[i+1])/2);
+                        }
+                        dif = dif / ventana.length;
+                        if(dif<=0.05)
+                            for(int i=0;i<ventana.length;i++)
+                                ventana[i] = 0;
+                        for(int i=0;i<ventana.length;i++)
+                            datos[i]=ventana[i];
+                    }
 
 
                     /*
@@ -475,11 +492,18 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                     }
 
                     */
-
+                    if(cventana==4) {
+                        for(int i=0;i<datos.length;i++){
+                            series.appendData(new DataPoint(count, datos[i]), false, 200);
+                            count++;
+                            graph.addSeries(series);
+                        }
+                        cventana=0;
+                    }
+                    /*
                     series.appendData(new DataPoint(count, modulo), false, 200);
                     count++;
-                    graph.addSeries(series);
-
+                    graph.addSeries(series);*/
 
                 }
 
