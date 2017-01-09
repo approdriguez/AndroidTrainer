@@ -78,6 +78,7 @@ import java.util.List;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+import static java.lang.StrictMath.abs;
 
 import java.io.PrintWriter;
 import java.nio.*;
@@ -123,8 +124,10 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     int filter = 0;
     boolean f = false;
     double [] ventana = new double [5];
-    int cventana, dif = 0;
+    int cventana = 0;
+    int dif = 0;
     double [] datos = new double[5];
+    double velocity, force, weight, time;
 
     GoogleApiClient apiClient;
 
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        weight = 50;
         // Initialize Firebase Auth and Database Reference
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -443,10 +446,10 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                                     /*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
                                     ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
                                     ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
-                    //modulo = sqrt(pow(acelfixed[2], 2));
+                    modulo = sqrt(pow(acelfixed[2], 2));
 
-
-                    modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
+                    /*Window
+                    //modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
                     if(cventana<5){
                         ventana[cventana]=modulo;
                         cventana++;
@@ -454,16 +457,15 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                     if(cventana==4){
                         for(int i=0;i<ventana.length-1;i++){
-
                             dif += abs(ventana[i]-ventana[i+1])/(abs(ventana[i]-ventana[i+1])/2);
                         }
                         dif = dif / ventana.length;
-                        if(dif<=0.05)
+                        if(dif<=0.4)
                             for(int i=0;i<ventana.length;i++)
                                 ventana[i] = 0;
                         for(int i=0;i<ventana.length;i++)
                             datos[i]=ventana[i];
-                    }
+                    }*/
 
 
                     /*
@@ -491,7 +493,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                             filter = 0;f = false;
                     }
 
-                    */
+                    *//*
                     if(cventana==4) {
                         for(int i=0;i<datos.length;i++){
                             series.appendData(new DataPoint(count, datos[i]), false, 200);
@@ -500,10 +502,16 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                         }
                         cventana=0;
                     }
-                    /*
-                    series.appendData(new DataPoint(count, modulo), false, 200);
+                    */
+                    if(modulo<0.4) modulo=0;
+                    //modulo = aceleracion en m/s^2
+                    time = SystemClock.elapsedRealtime() - startTime;
+                    velocity = modulo * time;
+                    force = modulo * weight;
+                    series.appendData(new DataPoint(velocity, force), false, 200);
                     count++;
-                    graph.addSeries(series);*/
+                    graph.addSeries(series);
+
 
                 }
 
