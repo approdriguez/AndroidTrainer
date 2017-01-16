@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -77,6 +78,8 @@ import java.util.List;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+import static java.lang.StrictMath.abs;
+
 import java.io.PrintWriter;
 import java.nio.*;
 
@@ -103,17 +106,28 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private static final String ITEM_1 = "/accelerometer1";
     private static final String ITEM_2 = "/accelerometer2";
 
+    static final float ALPHA = 0.25f;
     private float acel_x = 0, acel_y = 0, acel_z = 0;
     float[] acel = new float[6];
     double[] acelfixed = new double[3];
+    float[] acelnotfiltered = new float [192];
+    float[] acelfiltered = new float [192];
     Orientation.Quaternion quaternion;
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
     GraphView graph;
     int count = 0;
+    Boolean timecount = false;
+    long startTime, difference;
     double modulo = 0;
     ArrayList<Float> accelerometer = new ArrayList();
     ArrayList<Float> gyroscope = new ArrayList();
-
+    int filter = 0;
+    boolean f = false;
+    double [] ventana = new double [5];
+    int cventana = 0;
+    int dif = 0;
+    double [] datos = new double[5];
+    double velocity, force, weight, time;
 
     GoogleApiClient apiClient;
 
@@ -124,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        weight = 50;
         // Initialize Firebase Auth and Database Reference
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -190,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                 loadLogInView();
             }
         });
-
+        /*
         powerButton = (Button) findViewById(R.id.powerbutton);
         powerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -199,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         });
         ((TextView) findViewById(R.id.z)).setText(Float.toString(1));
         File file = new File("datas.txt");
-
+        */
         //Receive the message
 
 
@@ -409,27 +423,94 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
                 if (item.getUri().getPath().compareTo(ITEM_0) == 0) {
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-                    ((TextView) findViewById(R.id.x)).setText("LLego");
+                    //((TextView) findViewById(R.id.x)).setText("LLego");
                     acel = dataMapItem.getDataMap().getFloatArray(KEY);
+                    if (!timecount) {
+                        timecount = true;
+                        startTime = SystemClock.elapsedRealtime();
+                    }
+                    /*
+                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("x").setValue(acel[0]);
+                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("y").setValue(acel[1]);
+                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("z").setValue(acel[2]);
+                    difference = SystemClock.elapsedRealtime() - startTime;
+                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("time").setValue(difference);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("x").setValue(acel[3]);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("y").setValue(acel[4]);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("z").setValue(acel[5]);
+                    mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("time").setValue(difference);
+                    */
+                    quaternion = orientacion.update((double) acel[0], (double) acel[1], (double) acel[2], (double) acel[3], (double) acel[4], (double) acel[5]);
+                    acelfixed = gravityCompensation.fixAccelerometerData(quaternion, (double) acel[0], (double) acel[2], (double) acel[1]);
 
-                    mDatabase.child("users").child(mUserId).child("accelerometerRotate").child(Integer.toString(count)).child("x").setValue(acel[0]);
-                    mDatabase.child("users").child(mUserId).child("accelerometerRotate").child(Integer.toString(count)).child("y").setValue(acel[1]);
-                    mDatabase.child("users").child(mUserId).child("accelerometerRotate").child(Integer.toString(count)).child("z").setValue(acel[2]);
-                    mDatabase.child("users").child(mUserId).child("gyroscopeRotate").child(Integer.toString(count)).child("x").setValue(acel[3]);
-                    mDatabase.child("users").child(mUserId).child("gyroscopeRotate").child(Integer.toString(count)).child("y").setValue(acel[4]);
-                    mDatabase.child("users").child(mUserId).child("gyroscopeRotate").child(Integer.toString(count)).child("z").setValue(acel[5]);
-                    count++;
-                                    /*quaternion = orientacion.update((double)acel[0],(double)acel[1],(double)acel[2],(double)acel[3],(double)acel[4],(double)acel[5]);
-                                    acelfixed= gravityCompensation.fixAccelerometerData(quaternion,(double)acel[0],(double)acel[2],(double)acel[1]);
                                     /*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
                                     ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
                                     ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
-                                    /*modulo = sqrt(pow(acelfixed[0],2)*pow(acelfixed[1],2)*pow(acelfixed[2],2));
-                        if(modulo<0.05)
-                            modulo=0;
-                                    series.appendData(new DataPoint(count,modulo),false,200);
-                                    count++;
-                                    graph.addSeries(series);*/
+                    modulo = sqrt(pow(acelfixed[2], 2));
+
+                    /*Window
+                    //modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
+                    if(cventana<5){
+                        ventana[cventana]=modulo;
+                        cventana++;
+                    }
+
+                    if(cventana==4){
+                        for(int i=0;i<ventana.length-1;i++){
+                            dif += abs(ventana[i]-ventana[i+1])/(abs(ventana[i]-ventana[i+1])/2);
+                        }
+                        dif = dif / ventana.length;
+                        if(dif<=0.4)
+                            for(int i=0;i<ventana.length;i++)
+                                ventana[i] = 0;
+                        for(int i=0;i<ventana.length;i++)
+                            datos[i]=ventana[i];
+                    }*/
+
+
+                    /*
+
+                    Proceso de filtrado usando un filtro paso bajo
+
+                    modulo = 0;
+                    if(filter<189){
+                        acelnotfiltered[filter]=(float)acelfixed[0];
+                        acelnotfiltered[filter+1]=(float)acelfixed[1];
+                        acelnotfiltered[filter+2]=(float)acelfixed[2];
+                        filter=filter+3;
+                    }
+                    //if(acelnotfiltered[191]!=0)
+                        f = true;
+                    acelfiltered = lowPass(acelnotfiltered,acelfiltered);
+                    for(int i=0;i<acelfiltered.length && f;i+=3){
+                        modulo = sqrt(pow(acelfiltered[i+2], 2));
+                        series.appendData(new DataPoint(count, modulo), false, 200);
+                        count++;
+                        graph.addSeries(series);
+                        System.out.print(i);
+                        System.out.print(filter);
+                        if(i==acelfiltered.length-1)
+                            filter = 0;f = false;
+                    }
+
+                    *//*
+                    if(cventana==4) {
+                        for(int i=0;i<datos.length;i++){
+                            series.appendData(new DataPoint(count, datos[i]), false, 200);
+                            count++;
+                            graph.addSeries(series);
+                        }
+                        cventana=0;
+                    }
+                    */
+                    if(modulo<0.4) modulo=0;
+                    //modulo = aceleracion en m/s^2
+                    time = SystemClock.elapsedRealtime() - startTime;
+                    velocity = modulo * time;
+                    force = modulo * weight;
+                    series.appendData(new DataPoint(velocity, force), false, 200);
+                    count++;
+                    graph.addSeries(series);
 
 
                 }
@@ -455,8 +536,8 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         }
     }
 
-    public static byte[] encode (float floatArray[]) {
-        byte byteArray[] = new byte[floatArray.length*4];
+    public static byte[] encode(float floatArray[]) {
+        byte byteArray[] = new byte[floatArray.length * 4];
 
 // wrap the byte array to the byte buffer
         ByteBuffer byteBuf = ByteBuffer.wrap(byteArray);
@@ -466,9 +547,19 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
 // now put the float array to the float buffer,
 // it is actually stored to the byte array
-        floatBuf.put (floatArray);
+        floatBuf.put(floatArray);
 
         return byteArray;
+    }
+
+    //Low-pass filter using alpha=0.25
+    protected float[] lowPass( float[] input, float[] output ) {
+        if ( output == null )
+            return input;
+        for ( int i=0; i<input.length; i++ ) {
+            output[i] = output[i] + ALPHA * (input[i] - output[i]);
+        }
+        return output;
     }
 
 
