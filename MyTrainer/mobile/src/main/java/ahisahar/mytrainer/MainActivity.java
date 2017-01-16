@@ -89,11 +89,11 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private String mUserId;
-    //private PieChart piechart;
-    /*private float[] yData = {};
-    private float[] xData = {};*/
-    ArrayList<Float> yData = new ArrayList<>();
-    ArrayList<Float> xData = new ArrayList<>();
+    private PieChart piechart;
+    private float[] yData = {};
+    private float[] xData = {};
+    //ArrayList<Float> yData = new ArrayList<>();
+    //ArrayList<Float> xData = new ArrayList<>();
     private Button logout, powerButton;
     private static final String TAG = "AccelerometerData";
 
@@ -153,13 +153,13 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
 
             ////////////////
-            //piechart = new PieChart(this);
-            //piechart = (PieChart) findViewById(R.id.chartactivity);
+            piechart = new PieChart(this);
+            piechart = (PieChart) findViewById(R.id.chartactivity);
             graph = (GraphView) findViewById(R.id.graph);
 
 
             //mainlayout.addView(piechart);
-/*
+
             piechart.setUsePercentValues(true);
             piechart.setDescription("Tu actividad esta semana");
             piechart.setDrawHoleEnabled(true);
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
             l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
             l.setXEntrySpace(7);
             l.setYEntrySpace(5);
-*/
+
             ///////////////
             // Add items via the Button and EditText at the bottom of the view.
 
@@ -204,13 +204,13 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
                 loadLogInView();
             }
         });
-        /*
+
         powerButton = (Button) findViewById(R.id.powerbutton);
         powerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 loadPowerView();
             }
-        });
+        });/*
         ((TextView) findViewById(R.id.z)).setText(Float.toString(1));
         File file = new File("datas.txt");
         */
@@ -309,21 +309,21 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
     private void addData() {
 
-        /*List<PieEntry> entries = new ArrayList<>();
+        List<PieEntry> entries = new ArrayList<>();
 
         for(int i=0;i<yData.length && i<xData.length ;i++)
-            entries.add(new PieEntry(yData[i],xData[i]));*/
+            entries.add(new PieEntry(yData[i],xData[i]));
 
 
-        //PieDataSet dataSet = new PieDataSet(entries, "Mi actividad");
+        PieDataSet dataSet = new PieDataSet(entries, "Mi actividad");
 
 
-        /*
+
         dataSet.setSliceSpace(5);
         dataSet.setSelectionShift(5);
-        */
+
         //Add some colors
-/*
+
         ArrayList<Integer> colors= new ArrayList<Integer>();
 
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
@@ -339,13 +339,13 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
             colors.add(c);
         colors.add(ColorTemplate.getHoloBlue());
         dataSet.setColors(colors);
-*/
+
         //Instantiate pie data
 
-        /*PieData pieData = new PieData(dataSet);
+        PieData pieData = new PieData(dataSet);
         piechart.setData(pieData);
         piechart.invalidate();
-        piechart.setNoDataText("Error generating the chart");*/
+        piechart.setNoDataText("Error generating the chart");
 
     }
 
@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
 
     private void loadPowerView() {
-        Intent intent = new Intent(this, power_select_exercise.class);
+        Intent intent = new Intent(this, deadlift_descriptor.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

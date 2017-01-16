@@ -15,4 +15,5 @@
     <string name="action_logout">Logout</string>
     <string name="welcome">Tu actividad esta semana</string>
     <string name="calories">Media de calorías/día</string>
+    <string name="title_activity_deadlift_descriptor">deadlift_descriptor</string>
 </resources>

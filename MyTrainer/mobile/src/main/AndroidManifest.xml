@@ -33,7 +33,7 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".Power" />
         <activity android:name=".power_select_exercise" />
-        <activity android:name=".Listener"></activity>
+        <activity android:name=".Listener" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -47,7 +47,11 @@
         </service>
         -->
 
-        <activity android:name=".deadLift"></activity>
+        <activity android:name=".deadLift" />
+        <activity
+            android:name=".deadlift_descriptor"
+            android:label="@string/title_activity_deadlift_descriptor"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
