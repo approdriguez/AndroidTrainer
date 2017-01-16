@@ -18,7 +18,7 @@ public class deadlift_descriptor extends AppCompatActivity {
 
     CarouselView carouselView;
 
-    int[] sampleImages = {R.drawable.dead0, R.drawable.dead1, R.drawable.dead2};
+    int[] sampleImages = {R.drawable.dead0, R.drawable.dead2, R.drawable.dead1};
 
 
     @Override
@@ -32,14 +32,6 @@ public class deadlift_descriptor extends AppCompatActivity {
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     ImageListener imageListener = new ImageListener() {
