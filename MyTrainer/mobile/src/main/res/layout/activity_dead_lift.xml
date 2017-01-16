@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="ahisahar.mytrainer.MainActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mainlayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
+        <!--
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Power Training"
+            android:id="@+id/powerbutton"
+            android:layout_alignTop="@+id/logoutbutton"
+            android:layout_alignEnd="@+id/graph" />
+        -->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:id="@+id/logoutbutton"
+            android:layout_column="53"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+        -->
+        <!--
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="acel x"
+            android:id="@+id/x"
+            android:layout_marginTop="51dp"
+            android:layout_below="@+id/logoutbutton"
+            android:layout_alignEnd="@+id/logoutbutton" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="acel y"
+            android:id="@+id/y"
+            android:layout_below="@+id/z"
+            android:layout_alignStart="@+id/z"
+            android:layout_marginTop="38dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="acel z"
+            android:id="@+id/z"
+            android:layout_below="@+id/x"
+            android:layout_alignStart="@+id/x"
+            android:layout_marginTop="31dp" />
+            -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Dead Lift"
+            android:id="@+id/tittle"
+            android:textSize="30dp"
+            style="@style/AppTheme.PopupOverlay"
+            android:layout_above="@+id/graph"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weightLabel"
+            android:layout_marginTop="48dp"
+            android:width="120dp"
+            android:layout_below="@+id/accelLabel"
+            android:layout_toStartOf="@+id/accelvalue"
+            android:text="Weight (Kg)" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/editText2"
+            android:layout_alignBottom="@+id/weightLabel"
+            android:layout_alignStart="@+id/accelvalue"
+            android:width="120dp"
+            android:text="50" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/accelvalue"
+            android:width="120dp"
+            android:layout_marginStart="39dp"
+            android:textSize="20dp"
+            android:text="1.2"
+            android:layout_below="@+id/textView"
+            android:layout_toEndOf="@+id/accelLabel"
+            android:layout_marginTop="74dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/accelLabel"
+            android:width="120dp"
+            android:text="Max accel (m/s^2)"
+            style="@style/AppTheme.AppBarOverlay"
+            android:textSize="20dp"
+            android:layout_alignBaseline="@+id/accelvalue"
+            android:layout_alignBottom="@+id/accelvalue"
+            android:layout_toStartOf="@+id/logoutbutton" />
+
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="1000px"
+            android:layout_height="500px"
+            android:minHeight="200dp"
+            android:minWidth="200dp"
+            android:layout_gravity="top|center_horizontal"
+            android:id="@+id/graph"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_toEndOf="@+id/textView" />
+
+    </RelativeLayout>
+
+    <!--
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chartactivity"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:minHeight="200dp"
+        android:minWidth="200dp"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="50dp"/>-->
+
+</android.support.design.widget.CoordinatorLayout>
+
+
