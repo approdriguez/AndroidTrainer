@@ -13,4 +13,6 @@
     <string name="title_activity_login">Sign in</string>
     <string name="add_item">Add New Item</string>
     <string name="action_logout">Logout</string>
+    <string name="welcome">Tu actividad esta semana</string>
+    <string name="calories">Media de calorías/día</string>
 </resources>
