@@ -51,7 +51,8 @@
         <activity
             android:name=".deadlift_descriptor"
             android:label="@string/title_activity_deadlift_descriptor"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".bench_press_descriptor"></activity>
     </application>
 
 </manifest>
