@@ -10,8 +10,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ahisahar.mytrainer.deadlift_descriptor"
-    tools:showIn="@layout/activity_deadlift_descriptor">
+    tools:context="ahisahar.mytrainer.bench_press_descriptor"
+    tools:showIn="@layout/activity_bench_press_descriptor">
 
     <com.synnapps.carouselview.CarouselView
         android:id="@+id/carouselView"
@@ -27,7 +27,7 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="@string/descripcionpesomuerto"
+        android:text="@string/descripcionpress"
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="200dp"
