@@ -54,7 +54,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".bench_press_descriptor" />
         <activity android:name=".squat_descriptor" />
-        <activity android:name=".remo"></activity>
+        <activity android:name=".remo" />
+        <activity android:name=".row_descriptor"></activity>
     </application>
 
 </manifest>
