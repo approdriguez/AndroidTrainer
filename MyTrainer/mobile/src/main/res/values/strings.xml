@@ -15,4 +15,10 @@
     <string name="action_logout">Logout</string>
     <string name="welcome">Tu actividad esta semana</string>
     <string name="calories">Media de calorías/día</string>
+    <string name="title_activity_deadlift_descriptor">Peso muerto</string>
+    <string name="start">Empezar! </string>
+    <string name="descripcionpesomuerto">La posición inicial se realiza flexionando las piernas lo justo para llegar a agarrar la barra.
+        \n El agarre con las manos separadas entre ellas con una distancia ligeramente mayor a la altura de los hombros.
+        \n\n La barra será llevada hasta arriba con la única ayuda del tronco y las piernas y con los brazos lo más pegados posibles al cuerpo.
+        \n\n La posición final se alcanza hasta llevar al tronco a una posición totalmente vertical manteniendo la ligera curvatura de la espalda hacia dentro</string>
 </resources>
