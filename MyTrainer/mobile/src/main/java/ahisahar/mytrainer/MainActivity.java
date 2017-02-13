@@ -358,9 +358,8 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
 
     private void loadPowerView() {
-        Intent intent = new Intent(this, deadlift_descriptor.class);
+        Intent intent = new Intent(this, power_select_exercise.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 /*

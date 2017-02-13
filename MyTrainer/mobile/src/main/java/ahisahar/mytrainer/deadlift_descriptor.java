@@ -31,7 +31,11 @@ public class deadlift_descriptor extends AppCompatActivity {
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
-
+        //super.onBackPressed();
+    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
     }
 
     ImageListener imageListener = new ImageListener() {
@@ -40,5 +44,8 @@ public class deadlift_descriptor extends AppCompatActivity {
             imageView.setImageResource(sampleImages[position]);
         }
     };
+
+
+
 
 }
