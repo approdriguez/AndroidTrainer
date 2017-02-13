@@ -52,10 +52,15 @@
             android:name=".deadlift_descriptor"
             android:label="@string/title_activity_deadlift_descriptor"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".bench_press_descriptor" />
-        <activity android:name=".squat_descriptor" />
-        <activity android:name=".remo" />
-        <activity android:name=".row_descriptor"></activity>
+        <activity android:name=".bench_press_descriptor"
+            android:label="@string/title_activity_bench_descriptor"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".squat_descriptor"
+            android:label="@string/title_activity_squat_descriptor"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".row_descriptor"
+            android:label="@string/title_activity_row_descriptor"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
