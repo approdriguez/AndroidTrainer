@@ -50,7 +50,7 @@ public class row_descriptor extends AppCompatActivity {
     };
 
     private void launchExercise(){
-        Intent intent = new Intent(this, squat_descriptor.class);
+        Intent intent = new Intent(this, exercise.class);
         intent.putExtra("id",1);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
