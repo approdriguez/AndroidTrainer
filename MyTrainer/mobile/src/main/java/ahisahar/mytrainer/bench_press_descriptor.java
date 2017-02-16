@@ -30,7 +30,7 @@ public class bench_press_descriptor extends AppCompatActivity {
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
         //super.onBackPressed();
-        Button launch = (Button) findViewById(R.id.start);
+        launch = (Button) findViewById(R.id.start);
 
         launch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

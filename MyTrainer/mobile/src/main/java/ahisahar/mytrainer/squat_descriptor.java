@@ -24,7 +24,7 @@ public class squat_descriptor extends AppCompatActivity {
         setContentView(R.layout.activity_squat_descriptor);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        launch = (Button) findViewById(R.id.start);
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);

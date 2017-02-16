@@ -34,7 +34,7 @@ public class deadlift_descriptor extends AppCompatActivity {
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
         //super.onBackPressed();
-
+        launch = (Button) findViewById(R.id.start);
         launch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 launchExercise();
