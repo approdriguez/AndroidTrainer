@@ -101,8 +101,9 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         weight = 50;
-        // Initialize Firebase Auth and Database Reference
-
+        //Cogemos el id al crear el intent
+        Bundle b = getIntent().getExtras();
+        int id = b.getInt("id");
 
 
         }
