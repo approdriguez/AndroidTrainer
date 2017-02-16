@@ -104,67 +104,8 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         //Cogemos el id al crear el intent
         Bundle b = getIntent().getExtras();
         int id = b.getInt("id");
+    }
 
-
-        }
-
-
-
-
-/*
-        PendingResult<DataItemBuffer> resultado= Wearable.DataApi.getDataItems(apiClient);
-        resultado.setResultCallback(new ResultCallback<DataItemBuffer>() {
-            @Override
-            public void onResult(DataItemBuffer dataItems) {
-
-                for (DataItem dataItem : dataItems) {
-
-                    /*if (dataItem.getUri().getPath().equals(ITEM_0)) {
-                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
-
-                        acel_x = dataMapItem.getDataMap().getFloat(KEY);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ((TextView) findViewById(R.id.x)).setText(Float.toString(acel_x));
-
-                            }
-                        });
-                    }*/
-
-             /*       if (dataItem.getUri().getPath().equals(ITEM_1)) {
-                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
-                        acel = dataMapItem.getDataMap().getFloatArray(KEY);
-                       /* runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-//                                ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[1]));
-
-                            }
-                        });*/
-
-                    /*
-                    if (dataItem.getUri().getPath().equals(ITEM_2)) {
-                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
-
-                        acel_z = dataMapItem.getDataMap().getInt(KEY);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ((TextView) findViewById(R.id.z)).setText(Float.toString(acel_z));
-
-                            }
-                        });
-                    }*/
-          /*      }
-                dataItems.release();
-                ((TextView) findViewById(R.id.z)).setText(Float.toString(23));
-            }
-        });
-
-    }*/
 
     @Override
     protected void onStart() {
@@ -201,24 +142,6 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         startActivity(intent);
     }
 
-
-    private void loadPowerView() {
-        Intent intent = new Intent(this, power_select_exercise.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-*/
-
-
-
-
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -236,19 +159,6 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         for (DataEvent event : eventos) {
             if (event.getType() == DataEvent.TYPE_CHANGED) {
                 DataItem item = event.getDataItem();
-                    /*if (item.getUri().getPath().equals(ITEM_0)) {
-                        DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
-
-                        acel_x = dataMapItem.getDataMap().getFloat(KEY);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ((TextView) findViewById(R.id.x)).setText(Float.toString(acel_x));
-
-                            }
-                        });
-                    }*/
                 Log.d(TAG, "Connected cambio de datos detectado");
 
                 if (item.getUri().getPath().compareTo(ITEM_0) == 0) {
