@@ -162,12 +162,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
 
         }
         logout = (Button) findViewById(R.id.logoutbutton);
-        logout.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mFirebaseAuth.signOut();
-                loadLogInView();
-            }
-        });
+
 
         powerButton = (Button) findViewById(R.id.powerbutton);
         powerButton.setOnClickListener(new View.OnClickListener() {

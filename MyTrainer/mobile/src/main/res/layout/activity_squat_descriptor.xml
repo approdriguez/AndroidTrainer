@@ -44,7 +44,7 @@
         android:layout_alignParentEnd="true"
         android:background="#F44336"
         android:textColor="#FFEBEE"
-        android:id="@+id/button7"
+        android:id="@+id/start"
         />
     <!--android:drawableRight="@drawable/dumbbell"-->
 
