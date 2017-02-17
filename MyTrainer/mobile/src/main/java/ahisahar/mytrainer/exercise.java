@@ -11,15 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.util.Log;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -49,9 +40,10 @@ import java.nio.*;
 
 public class exercise extends AppCompatActivity implements DataApi.DataListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private String mUserId;
-    private PieChart piechart;
     private float[] yData = {};
     private float[] xData = {};
     //ArrayList<Float> yData = new ArrayList<>();
@@ -101,11 +93,106 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         weight = 50;
-        //Cogemos el id al crear el intent
-        Bundle b = getIntent().getExtras();
-        int id = b.getInt("id");
-    }
+        // Initialize Firebase Auth and Database Reference
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
+
+        /*if (mFirebaseUser == null) {
+            // Not logged in, launch the Log In activity
+            loadLogInView();
+        } else {*/
+            mUserId = mFirebaseUser.getUid();
+
+            Bundle b = getIntent().getExtras();
+            int id = b.getInt("id");
+            ////////////////
+
+            graph = (GraphView) findViewById(R.id.graph);
+
+
+            ///////////////
+            // Add items via the Button and EditText at the bottom of the view.
+
+
+            // Use Firebase to populate the list.
+            //Adding and configuring charts of home page
+
+        //}
+
+
+
+        /*
+        ((TextView) findViewById(R.id.z)).setText(Float.toString(1));
+        File file = new File("datas.txt");
+        */
+        //Receive the message
+
+
+
+
+/*
+        PendingResult<DataItemBuffer> resultado= Wearable.DataApi.getDataItems(apiClient);
+        resultado.setResultCallback(new ResultCallback<DataItemBuffer>() {
+            @Override
+            public void onResult(DataItemBuffer dataItems) {
+
+                for (DataItem dataItem : dataItems) {
+
+                    /*if (dataItem.getUri().getPath().equals(ITEM_0)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
+
+                        acel_x = dataMapItem.getDataMap().getFloat(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.x)).setText(Float.toString(acel_x));
+
+                            }
+                        });
+                    }*/
+
+             /*       if (dataItem.getUri().getPath().equals(ITEM_1)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
+                        acel = dataMapItem.getDataMap().getFloatArray(KEY);
+                       /* runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[1]));
+
+                            }
+                        });*/
+        apiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this) //nos notifica cuando estamos conectados
+                .addOnConnectionFailedListener(this)// ofrece el resultado del error
+                .build();
+
+
+    }
+                    /*
+                    if (dataItem.getUri().getPath().equals(ITEM_2)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
+
+                        acel_z = dataMapItem.getDataMap().getInt(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.z)).setText(Float.toString(acel_z));
+
+                            }
+                        });
+                    }*/
+          /*      }
+                dataItems.release();
+                ((TextView) findViewById(R.id.z)).setText(Float.toString(23));
+            }
+        });
+
+    }*/
 
     @Override
     protected void onStart() {
@@ -134,13 +221,32 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
 
 
-
     private void loadLogInView() {
         Intent intent = new Intent(this, LogInActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_logout) {
+            mFirebaseAuth.signOut();
+            loadLogInView();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -159,6 +265,19 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         for (DataEvent event : eventos) {
             if (event.getType() == DataEvent.TYPE_CHANGED) {
                 DataItem item = event.getDataItem();
+                    /*if (item.getUri().getPath().equals(ITEM_0)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
+
+                        acel_x = dataMapItem.getDataMap().getFloat(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.x)).setText(Float.toString(acel_x));
+
+                            }
+                        });
+                    }*/
                 Log.d(TAG, "Connected cambio de datos detectado");
 
                 if (item.getUri().getPath().compareTo(ITEM_0) == 0) {
@@ -255,7 +374,19 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
                 }
 
+                    /*if (item.getUri().getPath().equals(ITEM_2)) {
+                        DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
 
+                        acel_z = dataMapItem.getDataMap().getInt(KEY);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((TextView) findViewById(R.id.z)).setText(Float.toString(acel_z));
+
+                            }
+                        });
+                    }*/
             } else if (event.getType() == DataEvent.TYPE_DELETED) {//algun item a sido borrado
 
             }
@@ -292,4 +423,3 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
 
 }
-

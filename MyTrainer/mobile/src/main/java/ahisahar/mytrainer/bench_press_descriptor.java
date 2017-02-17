@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -17,7 +16,6 @@ public class bench_press_descriptor extends AppCompatActivity {
     Button launch;
 
     int[] sampleImages = {R.drawable.bench0, R.drawable.bench1, R.drawable.bench2};
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +29,6 @@ public class bench_press_descriptor extends AppCompatActivity {
         carouselView.setImageListener(imageListener);
         //super.onBackPressed();
         launch = (Button) findViewById(R.id.start);
-
         launch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 launchExercise();
@@ -53,7 +50,8 @@ public class bench_press_descriptor extends AppCompatActivity {
     private void launchExercise(){
         Intent intent = new Intent(this, exercise.class);
         intent.putExtra("id",0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 

@@ -3,6 +3,17 @@
     package="ahisahar.mytrainer">
 
     <service android:name=".MainActivity">
+        <!--<intent-filter>
+            <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+
+            <data
+                android:host="*"
+                android:pathPrefix="/accelerometer0"
+                android:scheme="wear" />
+        </intent-filter>-->
+    </service>
+
+    <service android:name=".exercise">
         <intent-filter>
             <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
 
@@ -32,7 +43,8 @@
         <activity android:name=".LogInActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".Power" />
-        <activity android:name=".power_select_exercise" />
+        <activity android:name=".power_select_exercise"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Listener" />
 
         <meta-data
@@ -64,7 +76,9 @@
             android:name=".row_descriptor"
             android:label="@string/title_activity_row_descriptor"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".exercise"></activity>
+        <activity android:name=".exercise"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
