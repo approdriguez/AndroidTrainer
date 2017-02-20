@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_column="53"
+        android:layout_column="100"
         android:text="Logout" />
 
     <RelativeLayout
