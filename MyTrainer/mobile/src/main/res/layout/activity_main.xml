@@ -30,14 +30,7 @@
         android:layout_centerVertical="true"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/logoutbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_column="100"
-        android:text="Logout" />
+
 
     <RelativeLayout
         android:id="@+id/mainlayout"
@@ -90,6 +83,14 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="42dp"
             android:text="Select your workout!" />
+
+        <Button
+            android:text="Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/powerbutton"
+            android:layout_alignParentStart="true"
+            android:id="@+id/logoutbutton" />
     </RelativeLayout>
     -->
     <!--
