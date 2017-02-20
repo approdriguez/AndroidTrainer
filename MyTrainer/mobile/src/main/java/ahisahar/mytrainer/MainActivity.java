@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.jjoe64.graphview.GraphView;
 import java.util.ArrayList;
 import java.util.List;
+import android.support.design.widget.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private float[] xData = {};
     private Button logout, powerButton;
     GraphView graph;
+    private BottomBar mBottomBar;
 
 
 
@@ -105,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
                 loadPowerView();
             }
         });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loadLogInView();
+            }
+        });
+
     }
 
 
