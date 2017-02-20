@@ -49,7 +49,7 @@ public class bench_press_descriptor extends AppCompatActivity {
 
     private void launchExercise(){
         Intent intent = new Intent(this, exercise.class);
-        intent.putExtra("id",0);
+        //intent.putExtra("id",0);
         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);

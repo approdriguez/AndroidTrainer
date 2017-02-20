@@ -89,9 +89,9 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_exercise);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         weight = 50;
         // Initialize Firebase Auth and Database Reference
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -105,8 +105,8 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         } else {*/
             mUserId = mFirebaseUser.getUid();
 
-            Bundle b = getIntent().getExtras();
-            int id = b.getInt("id");
+            //Bundle b = getIntent().getExtras();
+            //int id = b.getInt("id");
             ////////////////
 
             graph = (GraphView) findViewById(R.id.graph);
