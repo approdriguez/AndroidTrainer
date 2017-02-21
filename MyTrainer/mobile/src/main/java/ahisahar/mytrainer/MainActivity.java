@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private float[] xData = {};
     private Button logout, powerButton;
     GraphView graph;
-    private BottomBar mBottomBar;
+    private BottomNavigationView bottomNavigationView;
 
 
 
