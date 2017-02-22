@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/main"
+        android:enabled="true"
+        android:icon="@drawable/menu"
+        android:title="menu"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/settings"
         android:enabled="true"
         android:icon="@drawable/settings"
@@ -12,12 +18,6 @@
         android:enabled="true"
         android:icon="@drawable/exercise"
         android:title="exercises"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/main"
-        android:enabled="true"
-        android:icon="@drawable/menu"
-        android:title="menu"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/historial"
