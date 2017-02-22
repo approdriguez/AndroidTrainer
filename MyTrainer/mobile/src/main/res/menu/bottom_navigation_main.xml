@@ -8,16 +8,16 @@
         android:title="settings"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/main"
-        android:enabled="true"
-        android:icon="@drawable/menu"
-        android:title="menu"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/exercise"
         android:enabled="true"
         android:icon="@drawable/exercise"
         android:title="exercises"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/main"
+        android:enabled="true"
+        android:icon="@drawable/menu"
+        android:title="menu"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/historial"
