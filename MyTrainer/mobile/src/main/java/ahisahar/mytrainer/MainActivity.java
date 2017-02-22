@@ -1,6 +1,7 @@
 package ahisahar.mytrainer;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mUserId = mFirebaseUser.getUid();
 
-            BottomNavigationView bottomNavigationView = (BottomNavigationView)
+            final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                     findViewById(R.id.bottom_navigation);
 
             bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -72,9 +73,15 @@ public class MainActivity extends AppCompatActivity {
 
                                     break;
                                 case R.id.settings:
-
+                                    loadSettings();
                                     break;
                                 case R.id.main:
+
+                                    break;
+                                case R.id.about:
+
+                                    break;
+                                case R.id.historial:
 
                                     break;
                             }
@@ -195,6 +202,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadPowerView() {
         Intent intent = new Intent(this, power_select_exercise.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void loadSettings() {
+        Intent intent = new Intent(this, settings.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
