@@ -11,15 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.util.Log;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -47,13 +38,12 @@ import static java.lang.Math.sqrt;
 
 import java.nio.*;
 
-public class MainActivity extends AppCompatActivity implements DataApi.DataListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class exercise extends AppCompatActivity implements DataApi.DataListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private String mUserId;
-    private PieChart piechart;
     private float[] yData = {};
     private float[] xData = {};
     //ArrayList<Float> yData = new ArrayList<>();
@@ -99,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_exercise);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         weight = 50;
         // Initialize Firebase Auth and Database Reference
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -109,49 +99,18 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-        if (mFirebaseUser == null) {
+        /*if (mFirebaseUser == null) {
             // Not logged in, launch the Log In activity
             loadLogInView();
-        } else {
+        } else {*/
             mUserId = mFirebaseUser.getUid();
 
-
+            //Bundle b = getIntent().getExtras();
+            //int id = b.getInt("id");
             ////////////////
-            piechart = new PieChart(this);
-            piechart = (PieChart) findViewById(R.id.chartactivity);
+
             graph = (GraphView) findViewById(R.id.graph);
 
-
-            //mainlayout.addView(piechart);
-
-            piechart.setUsePercentValues(true);
-            piechart.setDescription("Tu actividad esta semana");
-            piechart.setDrawHoleEnabled(true);
-            piechart.setHoleColor(0);
-            piechart.setHoleRadius(7);
-
-            piechart.setRotationAngle(0);
-            piechart.setRotationEnabled(true);
-
-            piechart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-                @Override
-                public void onValueSelected(Entry e, Highlight h) {
-                    if (e == null)
-                        return;
-                    Toast.makeText(MainActivity.this, xData[(int) e.getX()]+ " = "+ e.getData() + "%", Toast.LENGTH_SHORT).show();
-
-                }
-
-                @Override
-                public void onNothingSelected() {
-
-                }
-            });
-            addData();
-            Legend l = piechart.getLegend();
-            l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
-            l.setXEntrySpace(7);
-            l.setYEntrySpace(5);
 
             ///////////////
             // Add items via the Button and EditText at the bottom of the view.
@@ -160,16 +119,11 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
             // Use Firebase to populate the list.
             //Adding and configuring charts of home page
 
-        }
-        logout = (Button) findViewById(R.id.logoutbutton);
+        //}
 
 
-        powerButton = (Button) findViewById(R.id.powerbutton);
-        powerButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                loadPowerView();
-            }
-        });/*
+
+        /*
         ((TextView) findViewById(R.id.z)).setText(Float.toString(1));
         File file = new File("datas.txt");
         */
@@ -266,47 +220,6 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     }
 
 
-    private void addData() {
-
-        List<PieEntry> entries = new ArrayList<>();
-
-        for(int i=0;i<yData.length && i<xData.length ;i++)
-            entries.add(new PieEntry(yData[i],xData[i]));
-
-
-        PieDataSet dataSet = new PieDataSet(entries, "Mi actividad");
-
-
-
-        dataSet.setSliceSpace(5);
-        dataSet.setSelectionShift(5);
-
-        //Add some colors
-
-        ArrayList<Integer> colors= new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-        colors.add(ColorTemplate.getHoloBlue());
-        dataSet.setColors(colors);
-
-        //Instantiate pie data
-
-        PieData pieData = new PieData(dataSet);
-        piechart.setData(pieData);
-        piechart.invalidate();
-        piechart.setNoDataText("Error generating the chart");
-
-    }
 
     private void loadLogInView() {
         Intent intent = new Intent(this, LogInActivity.class);
@@ -316,19 +229,7 @@ public class MainActivity extends AppCompatActivity implements DataApi.DataListe
     }
 
 
-    private void loadPowerView() {
-        Intent intent = new Intent(this, power_select_exercise.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-*/
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

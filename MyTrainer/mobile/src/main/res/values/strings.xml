@@ -13,4 +13,29 @@
     <string name="title_activity_login">Sign in</string>
     <string name="add_item">Add New Item</string>
     <string name="action_logout">Logout</string>
+    <string name="welcome">Tu actividad esta semana</string>
+    <string name="calories">Media de calorías/día</string>
+    <string name="title_activity_deadlift_descriptor">Peso muerto</string>
+    <string name="title_activity_squat_descriptor">Sentadilla</string>
+    <string name="title_activity_bench_descriptor">Press de pecho</string>
+    <string name="title_activity_row_descriptor">Remo</string>
+    <string name="start">Empezar! </string>
+    <string name="descripcionpesomuerto">La posición inicial se realiza flexionando las piernas lo justo para llegar a agarrar la barra.
+        \n El agarre con las manos separadas entre ellas con una distancia ligeramente mayor a la altura de los hombros.
+        \n\n La barra será llevada hasta arriba con la única ayuda del tronco y las piernas y con los brazos lo más pegados posibles al cuerpo.
+        \n\n La posición final se alcanza hasta llevar al tronco a una posición totalmente vertical manteniendo la ligera curvatura de la espalda hacia dentro</string>
+    <string name="descripcionsquat">La posición inicial se realiza poniendo la barra encima de los trapecios,
+         y abriendo las piernas hasta el ancho de los hombros, en posición de luchador de sumo. \nSe realiza el movimiento de descenso echando la parte inferior
+         del tronco hacia atrás y bajar hasta una altura media/profunda. Realizar todo el proceso sin levantar el pie del suelo.
+    </string>
+    <string name="descripcionpress">
+        \n\n\n La posición inicial se realiza tumbado, con cuatro puntos de apoyo principalmente, pierna izquierda y derecha, el glúteo y las escápulas.
+        \n Es muy importante mantener las escapulas hacia atrás y hacia abajo, de manera que queden libres.
+        \n La barra debe ser agarrada fuertemente y rodeandola con el pulgar, de manera que no se pueda escapar la barra en ningún momento.
+    </string>
+    <string name="descripcionremo">
+        \n \n \n Debemos colocarnos de pie con las rodillas ligeramente flexionadas  y el tronco inclinado de manera que forme un ángulo de 45º.\n\n Es muy importante mantener
+        la espalda recta en todo momento.
+        \n\n Cogemos la barra dejando caer los brazos y realizaremos un movimiento hacia el pecho de tracción mientras realizamos una contracción abdominal.
+    </string>
 </resources>
