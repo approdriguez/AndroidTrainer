@@ -20,13 +20,27 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </android.support.design.widget.AppBarLayout>
+
+    </android.support.design.widget.AppBarLayout><![CDATA[
     -->
 
+    ]]>
+
+    <Button
+        android:id="@+id/logoutbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView5"
+        android:layout_below="@+id/textView5"
+        android:layout_marginEnd="17dp"
+        android:layout_marginTop="18dp"
+        android:text="Button" />
+
     <RelativeLayout
-        android:id="@+id/content_deadlift_descriptor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/main"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true">
 
 
         <TextView
@@ -38,17 +52,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/chartactivity"
-            android:layout_width="200px"
-            android:layout_height="200px"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="top|center_horizontal"
-            android:layout_marginTop="156dp"
-            android:minHeight="200dp"
-            android:minWidth="200dp" />
-
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
@@ -58,53 +61,68 @@
             android:layout_marginTop="102dp"
             android:text="@string/welcome" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/chartactivity"
-            android:layout_below="@+id/chartactivity"
-            android:layout_marginTop="56dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView4"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="26dp"
-            android:text="@string/calories" />
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:itemBackground="@color/white"
-            app:itemIconTint="@color/colorPrimary"
-            app:itemTextColor="@color/colorPrimary"
-            app:menu="@menu/bottom_navigation_main" />
 
         <Button
             android:id="@+id/powerbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Select your workout!" />
+        <!--
             android:layout_alignBaseline="@+id/logoutbutton"
             android:layout_alignBottom="@+id/logoutbutton"
-            android:layout_alignEnd="@+id/bottom_navigation"
-            android:text="Select your workout!" />
+            android:layout_alignEnd="@+id/bottom_navigation"-->
 
-        <Button
-            android:id="@+id/logoutbutton"
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chartactivity"
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:layout_gravity="top|center_horizontal"
+            android:minHeight="200dp"
+            android:minWidth="200dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="51dp" />
+
+        <TextView
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/textView5"
-            android:layout_below="@+id/textView5"
-            android:layout_marginEnd="17dp"
-            android:layout_marginTop="18dp"
-            android:text="Button" />
+            android:text="@string/calories"
+            android:layout_below="@+id/chartactivity"
+            android:layout_toEndOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_below="@+id/chartactivity"
+            android:layout_toEndOf="@+id/chartactivity" />
+
+        <RelativeLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:layout_marginBottom="13dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/textView">
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottom_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                app:itemBackground="@color/white"
+                app:itemIconTint="@color/colorPrimary"
+                app:itemTextColor="@color/colorPrimary"
+                app:menu="@menu/bottom_navigation_main" />
+
+        </RelativeLayout>
+
+
     </RelativeLayout>
+
     <!--
     </RelativeLayout>
     -->
@@ -145,5 +163,6 @@
     -->
 
 ]]>
+
 </android.support.design.widget.CoordinatorLayout>
 

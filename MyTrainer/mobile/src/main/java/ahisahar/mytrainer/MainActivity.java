@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        final RelativeLayout mainLayout=(RelativeLayout) this.findViewById(R.id.main);
 
         if (mFirebaseUser == null) {
             // Not logged in, launch the Log In activity
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.exercise:
-
+                                    mainLayout.setVisibility(RelativeLayout.GONE);
                                     break;
                                 case R.id.settings:
                                     loadSettings();
