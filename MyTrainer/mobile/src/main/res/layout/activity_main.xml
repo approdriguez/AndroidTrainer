@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,61 +7,33 @@
     android:fitsSystemWindows="true"
     tools:context="ahisahar.mytrainer.MainActivity">
 
-
-    <android.support.design.widget.AppBarLayout
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/white"
+        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="@color/colorPrimary"
+        app:menu="@menu/bottom_navigation_main"
+        android:layout_alignParentStart="true" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-
-    </android.support.design.widget.AppBarLayout>
-    <![CDATA[
-    -->
-
-    ]]>
-
-    <Button
-        android:id="@+id/logoutbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView5"
-        android:layout_below="@+id/textView5"
-        android:layout_marginEnd="17dp"
-        android:layout_marginTop="18dp"
-        android:text="Button" />
-
-    <FrameLayout
-        android:id="@+id/bottom_layout"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:layout_alignBottom="@+id/chartactivity"
-        android:layout_marginTop="1030px"
-        android:layout_marginBottom="17dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:itemBackground="@color/white"
-            app:itemIconTint="@color/colorPrimary"
-            app:itemTextColor="@color/colorPrimary"
-            app:menu="@menu/bottom_navigation_main" />
-
-    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="518dp"
-        android:layout_alignParentBottom="true">
+        android:layout_width="100px"
+        android:layout_height="100px"
+        android:layout_marginTop="120px"
+        android:layout_alignParentBottom="false">
 
 
         <TextView
@@ -83,87 +55,69 @@
             android:text="@string/welcome" />
 
 
-        <Button
-            android:id="@+id/powerbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select your workout!" />
         <!--
             android:layout_alignBaseline="@+id/logoutbutton"
             android:layout_alignBottom="@+id/logoutbutton"
             android:layout_alignEnd="@+id/bottom_navigation"-->
 
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/chartactivity"
-            android:layout_width="200px"
-            android:layout_height="200px"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="top|center_horizontal"
-            android:layout_marginBottom="51dp"
-            android:minHeight="200dp"
-            android:minWidth="200dp" />
+        <!--android:layout_gravity="top|center_horizontal"-->
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/chartactivity"
-            android:layout_toEndOf="@+id/textView"
-            android:text="@string/calories" />
+
+    </FrameLayout>
+
+
+
+
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/chartactivity"
-            android:layout_toEndOf="@+id/chartactivity"
-            android:text="TextView" />
+            android:text="TextView"
+            android:layout_alignTop="@+id/chartactivity"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="55dp" />
 
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calories"
+            android:layout_below="@+id/textView4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp" />
 
-    </FrameLayout>
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chartactivity"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:minHeight="200dp"
+        android:minWidth="200dp"
+        android:layout_below="@+id/main"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp" />
 
-    <!--
-    </RelativeLayout>
-    -->
-    <!--
-    <TextView
+    <Button
+            android:id="@+id/logoutbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/chartactivity"
+        android:layout_toEndOf="@+id/main" />
+
+    <Button
+        android:id="@+id/powerbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="acel x"
-        android:id="@+id/x"
-        android:layout_marginTop="51dp"
-        android:layout_below="@+id/logoutbutton"
-        android:layout_alignEnd="@+id/logoutbutton" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="acel y"
-        android:id="@+id/y"
-        android:layout_below="@+id/z"
-        android:layout_alignStart="@+id/z"
-        android:layout_marginTop="38dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="acel z"
-        android:id="@+id/z"
-        android:layout_below="@+id/x"
-        android:layout_alignStart="@+id/x"
-        android:layout_marginTop="31dp" />
-        --><![CDATA[
+        android:text="Select your workout!"
+        android:layout_alignBaseline="@+id/logoutbutton"
+        android:layout_alignBottom="@+id/logoutbutton"
+        android:layout_alignEnd="@+id/bottom_navigation"
+        android:layout_marginEnd="19dp" />
 
 
-
-    -->
-
-]]>
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
 

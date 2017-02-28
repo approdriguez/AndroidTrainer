@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
     private void addData() {
 
         List<PieEntry> entries = new ArrayList<>();
@@ -231,9 +233,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
 }
