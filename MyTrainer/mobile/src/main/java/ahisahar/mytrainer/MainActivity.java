@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
             mUserId = mFirebaseUser.getUid();
 
-            final BottomNavigationView bottomNavigationView = (BottomNavigationView)
+            BottomNavigationView bottomNavigationView = (BottomNavigationView)
                     findViewById(R.id.bottom_navigation);
 
 
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.settings:
-                bottomNavigationView.setBackgroundColor(Color.RED);
+                bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation); bottomNavigationView.setBackgroundColor(Color.RED);
                 //bottomNavigationView.setItemBackgroundResource(Color.TRANSPARENT);
                 fragaux = settings.newInstance();
                 mSelectedItem = item.getItemId();
