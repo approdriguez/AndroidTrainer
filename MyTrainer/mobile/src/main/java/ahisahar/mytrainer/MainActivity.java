@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.settings:
-                //loadSettings();
+                frag = settings.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
