@@ -28,7 +28,7 @@
         design:itemTextColor="@color/white"
         design:itemBackground="@color/colorPrimary"
         design:itemIconTint="@color/white"
-        design:menu="@menu/bottom_navigation_main" />
+        design:menu="@menu/bottom_navigation_main"/>
 
 
 </LinearLayout>

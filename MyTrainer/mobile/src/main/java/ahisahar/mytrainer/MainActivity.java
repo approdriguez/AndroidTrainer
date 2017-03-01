@@ -1,7 +1,9 @@
 package ahisahar.mytrainer;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -117,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.settings:
-                bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.red));
+                bottomNavigationView.setBackgroundColor(Color.RED);
+                //bottomNavigationView.setItemBackgroundResource(Color.TRANSPARENT);
                 fragaux = settings.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
