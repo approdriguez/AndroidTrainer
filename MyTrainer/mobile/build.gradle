@@ -32,6 +32,6 @@ dependencies {
     compile 'com.jjoe64:graphview:4.2.1'
     compile 'com.synnapps:carouselview:0.0.10'
     compile 'com.android.support:design:25.0.0'
-    compile 'com.aurelhubert:ahbottomnavigation:2.0.5'
+
 }
 apply plugin: 'com.google.gms.google-services'

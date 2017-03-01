@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -30,18 +32,19 @@ import com.jjoe64.graphview.GraphView;
 import java.util.ArrayList;
 import java.util.List;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    private int mSelectedItem;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private String mUserId;
-    private PieChart piechart;
-    private float[] yData = {};
-    private float[] xData = {};
-    private Button logout, powerButton;
+
+
+
     GraphView graph;
     private BottomNavigationView bottomNavigationView;
 
@@ -56,97 +59,99 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        final FrameLayout mainLayout=(FrameLayout) this.findViewById(R.id.main);
+
+
 
         if (mFirebaseUser == null) {
             // Not logged in, launch the Log In activity
             loadLogInView();
         } else {
+            Fragment frag = home.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.container, frag, frag.getTag());
+            ft.commit();
+
             mUserId = mFirebaseUser.getUid();
 
             final BottomNavigationView bottomNavigationView = (BottomNavigationView)
                     findViewById(R.id.bottom_navigation);
 
+
             bottomNavigationView.setOnNavigationItemSelectedListener(
                     new BottomNavigationView.OnNavigationItemSelectedListener() {
                         @Override
                         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.exercise:
-                                    mainLayout.setVisibility(RelativeLayout.GONE);
-                                    break;
-                                case R.id.settings:
-                                    loadSettings();
-                                    break;
-                                case R.id.main:
-
-                                    break;
-                                case R.id.about:
-
-                                    break;
-                                case R.id.historial:
-
-                                    break;
-                            }
-                            return false;
+                            selectFragment(item);
+                            return true;
                         }
                     });
 
 
+
+
+
 // Colors for selected (active) and non-selected items (in color reveal mode).
             ////////////////
-            piechart = new PieChart(this);
-            piechart = (PieChart) findViewById(R.id.chartactivity);
+
             graph = (GraphView) findViewById(R.id.graph);
 
 
             //mainlayout.addView(piechart);
 
-            piechart.setUsePercentValues(true);
-            piechart.setDescription("Tu actividad esta semana");
-            piechart.setDrawHoleEnabled(true);
-            piechart.setHoleColor(0);
-            piechart.setHoleRadius(7);
 
-            piechart.setRotationAngle(0);
-            piechart.setRotationEnabled(true);
-
-            piechart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-                @Override
-                public void onValueSelected(Entry e, Highlight h) {
-                    if (e == null)
-                        return;
-                    Toast.makeText(MainActivity.this, xData[(int) e.getX()]+ " = "+ e.getData() + "%", Toast.LENGTH_SHORT).show();
-
-                }
-
-                @Override
-                public void onNothingSelected() {
-
-                }
-            });
-            addData();
-            Legend l = piechart.getLegend();
-            l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
-            l.setXEntrySpace(7);
-            l.setYEntrySpace(5);
 
         }
-        logout = (Button) findViewById(R.id.logoutbutton);
+        //logout = (Button) findViewById(R.id.logoutbutton);
 
 
-        powerButton = (Button) findViewById(R.id.powerbutton);
-        powerButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                loadPowerView();
-            }
-        });
 
-        logout.setOnClickListener(new View.OnClickListener() {
+        /*logout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 loadLogInView();
             }
-        });
+        });*/
+
+    }
+
+    private void updateToolbarText(CharSequence text) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(text);
+        }
+    }
+
+    private void selectFragment(MenuItem item) {
+        Fragment frag = null;
+
+        switch (item.getItemId()) {
+            case R.id.exercise:
+                mSelectedItem = item.getItemId();
+                updateToolbarText(item.getTitle());
+                break;
+            case R.id.settings:
+                //loadSettings();
+                mSelectedItem = item.getItemId();
+                updateToolbarText(item.getTitle());
+                break;
+            case R.id.main:
+                frag = home.newInstance();
+                mSelectedItem = item.getItemId();
+                updateToolbarText(item.getTitle());
+                break;
+            case R.id.about:
+                mSelectedItem = item.getItemId();
+                updateToolbarText(item.getTitle());
+                break;
+            case R.id.historial:
+                mSelectedItem = item.getItemId();
+                updateToolbarText(item.getTitle());
+                break;
+        }
+        if (frag != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.container, frag, frag.getTag());
+            ft.commit();
+        }
 
     }
 
@@ -155,47 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void addData() {
 
-        List<PieEntry> entries = new ArrayList<>();
-
-        for(int i=0;i<yData.length && i<xData.length ;i++)
-            entries.add(new PieEntry(yData[i],xData[i]));
-
-
-        PieDataSet dataSet = new PieDataSet(entries, "Mi actividad");
-
-
-
-        dataSet.setSliceSpace(5);
-        dataSet.setSelectionShift(5);
-
-        //Add some colors
-
-        ArrayList<Integer> colors= new ArrayList<Integer>();
-
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-        colors.add(ColorTemplate.getHoloBlue());
-        dataSet.setColors(colors);
-
-        //Instantiate pie data
-
-        PieData pieData = new PieData(dataSet);
-        piechart.setData(pieData);
-        piechart.invalidate();
-        piechart.setNoDataText("Error generating the chart");
-
-    }
 
     private void loadLogInView() {
         Intent intent = new Intent(this, LogInActivity.class);
