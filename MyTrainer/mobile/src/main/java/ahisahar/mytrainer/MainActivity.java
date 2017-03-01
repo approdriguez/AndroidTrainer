@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectFragment(MenuItem item) {
-        Fragment frag = null;
+        Fragment fragaux = null;
 
         switch (item.getItemId()) {
             case R.id.exercise:
@@ -114,12 +117,13 @@ public class MainActivity extends AppCompatActivity {
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.settings:
-                frag = settings.newInstance();
+                bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.red));
+                fragaux = settings.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.main:
-                frag = home.newInstance();
+                fragaux = home.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
@@ -132,9 +136,11 @@ public class MainActivity extends AppCompatActivity {
                 updateToolbarText(item.getTitle());
                 break;
         }
-        if (frag != null) {
+        if (fragaux != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.container, frag, frag.getTag());
+            View cont = findViewById(R.id.container);
+            //cont.c
+            ft.add(R.id.container, fragaux, fragaux.getTag());
             ft.commit();
         }
 
