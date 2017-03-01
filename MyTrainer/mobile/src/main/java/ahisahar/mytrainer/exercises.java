@@ -1,5 +1,6 @@
 package ahisahar.mytrainer;
 
+import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -14,14 +15,13 @@ import java.util.List;
 
 public class exercises extends Fragment {
 
-    public List<ex> exes = new ArrayList<>();
-
 
     private View mContent;
 
 
     public static Fragment newInstance() {
         Fragment frag = new exercises();
+
         Bundle args = new Bundle();
         return frag;
     }
@@ -32,14 +32,17 @@ public class exercises extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_exercises, container, false);
 
+
+
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Image image1 = view.findViewById(R.id.exercise_photo);
         // initialize views
         mContent = view.findViewById(R.id.fragment_content);
+
 
 
 
