@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         if (fragaux != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             View cont = findViewById(R.id.container);
-            //cont.c
+            //cont.ce
             ft.add(R.id.container, fragaux, fragaux.getTag());
             ft.commit();
         }
