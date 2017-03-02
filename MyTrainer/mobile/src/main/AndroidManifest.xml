@@ -90,7 +90,8 @@
         </activity>
         <activity android:name=".settings" />
         <activity android:name=".home" />
-        <activity android:name=".exercises"></activity>
+        <activity android:name=".exercises" />
+        <activity android:name=".historico"></activity>
     </application>
 
 </manifest>
