@@ -33,9 +33,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_cover_image"
-            android:background="#ebca0707"
+            android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:paddingBottom="24dp">
+            <!--android:background="#ebca0707"-->
 
 
             <ImageView
