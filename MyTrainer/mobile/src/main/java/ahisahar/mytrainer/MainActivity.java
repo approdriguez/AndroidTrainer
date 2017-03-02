@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private String mUserId;
 
+    // bar fragments
+
+
+
 
 
     GraphView graph;
@@ -150,9 +154,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-
 
 
 
