@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.exercise:
+                fragaux = exercises.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
