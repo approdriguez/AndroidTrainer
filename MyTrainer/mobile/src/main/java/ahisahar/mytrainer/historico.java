@@ -10,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class historico extends Fragment {
@@ -42,6 +44,21 @@ public class historico extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        DatePicker datePicker = (DatePicker) view.findViewById(R.id.datePicker2);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+
+            @Override
+            public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                //Log.d("Date", "Year=" + year + " Month=" + (month + 1) + " day=" + dayOfMonth);
+                //Lanzamos el new intent con los parametros del DatePicker
+                Intent intent = new Intent(getContext(), history_exercises.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+            }
+        });
 
         mContent = view.findViewById(R.id.fragment_content);
 
@@ -50,50 +67,6 @@ public class historico extends Fragment {
 
 
     }
-
-    View.OnClickListener imgButtonHandler1 = new View.OnClickListener() {
-
-        public void onClick(View v) {
-
-            Intent intent = new Intent(getContext(),bench_press_descriptor.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-        }
-    };
-
-    View.OnClickListener imgButtonHandler2 = new View.OnClickListener() {
-
-        public void onClick(View v) {
-            Intent intent = new Intent(getContext(), squat_descriptor.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-
-        }
-    };
-
-    View.OnClickListener imgButtonHandler3 = new View.OnClickListener() {
-
-        public void onClick(View v) {
-            Intent intent = new Intent(getContext(), deadlift_descriptor.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-
-        }
-    };
-
-    View.OnClickListener imgButtonHandler4 = new View.OnClickListener() {
-
-        public void onClick(View v) {
-            Intent intent = new Intent(getContext(), row_descriptor.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
-
-        }
-    };
 
 
 
