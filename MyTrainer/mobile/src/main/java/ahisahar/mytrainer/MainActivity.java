@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private String mUserId;
+
+    // bar fragments
+
+
 
 
 
@@ -120,22 +125,26 @@ public class MainActivity extends AppCompatActivity {
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.settings:
-                bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation); bottomNavigationView.setBackgroundColor(Color.RED);
+                //clearFragmentStack();
+                //bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation); bottomNavigationView.setBackgroundColor(Color.RED);
                 //bottomNavigationView.setItemBackgroundResource(Color.TRANSPARENT);
                 fragaux = settings.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.main:
+                clearFragmentStack();
                 fragaux = home.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
-            case R.id.about:
+            case R.id.notes:
+                fragaux = notes.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.historial:
+                fragaux = historico.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
@@ -143,17 +152,20 @@ public class MainActivity extends AppCompatActivity {
         if (fragaux != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             View cont = findViewById(R.id.container);
-            //cont.c
-            ft.add(R.id.container, fragaux, fragaux.getTag());
+            //cont.ce
+            ft.replace(R.id.container, fragaux, fragaux.getTag());
             ft.commit();
         }
 
     }
 
-
-
-
-
+    private void clearFragmentStack(){
+        android.app.FragmentManager fm = getFragmentManager(); // or 'getSupportFragmentManager();'
+        int count = fm.getBackStackEntryCount();
+        for(int i = 0; i < count; ++i) {
+            fm.popBackStack();
+        }
+    }
 
 
 

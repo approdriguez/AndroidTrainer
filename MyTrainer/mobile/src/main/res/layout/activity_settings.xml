@@ -45,6 +45,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/white"
                 android:layout_toLeftOf="@+id/drop_down_option_menu"
                 android:src="@drawable/ic_action_user_add" />
 
@@ -53,6 +54,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
+                android:backgroundTint="@color/white"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/ic_action_overflow" />
@@ -75,7 +77,7 @@
                 android:layout_below="@+id/user_profile_name"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="12dp"
-                android:text="Begginer"
+                android:text="Experto"
                 android:textColor="#fff"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -96,7 +98,7 @@
                 android:clickable="true"
                 android:elevation="4dp"
                 android:padding="20dp"
-                android:text="Settings" />
+                android:text="About" />
 
             <Button
                 android:layout_width="fill_parent"
@@ -108,7 +110,7 @@
                 android:clickable="true"
                 android:elevation="2dp"
                 android:padding="20dp"
-                android:text="Logout" />
+                android:text="Cerrar sesión" />
 
 
         </LinearLayout>

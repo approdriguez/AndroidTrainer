@@ -5,31 +5,31 @@
         android:id="@+id/main"
         android:enabled="true"
         android:icon="@drawable/menu"
-        android:title="menu"
+        android:title="Home"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/settings"
         android:enabled="true"
         android:icon="@drawable/settings"
-        android:title="settings"
+        android:title="Ajustes"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/exercise"
         android:enabled="true"
         android:icon="@drawable/exercise"
-        android:title="exercises"
+        android:title="Ejercicios"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/historial"
         android:enabled="true"
         android:icon="@drawable/clock"
-        android:title="historico"
+        android:title="Historico"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/about"
+        android:id="@+id/notes"
         android:enabled="true"
         android:icon="@drawable/question"
-        android:title="about"
+        android:title="Notas"
         app:showAsAction="ifRoom" />
 </menu>
