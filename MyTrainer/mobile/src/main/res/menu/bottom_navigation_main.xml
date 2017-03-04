@@ -27,7 +27,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/about"
+        android:id="@+id/notes"
         android:enabled="true"
         android:icon="@drawable/question"
         android:title="Notas"

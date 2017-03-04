@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.settings:
-                clearFragmentStack();
+                //clearFragmentStack();
                 //bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation); bottomNavigationView.setBackgroundColor(Color.RED);
                 //bottomNavigationView.setItemBackgroundResource(Color.TRANSPARENT);
                 fragaux = settings.newInstance();
@@ -138,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
-            case R.id.about:
+            case R.id.notes:
+                fragaux = settings.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
