@@ -19,7 +19,7 @@ public class notes extends Fragment {
 
 
     public static Fragment newInstance() {
-        Fragment frag = new historico();
+        Fragment frag = new notes();
 
         Bundle args = new Bundle();
         return frag;
