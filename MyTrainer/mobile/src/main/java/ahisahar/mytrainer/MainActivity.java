@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 updateToolbarText(item.getTitle());
                 break;
             case R.id.notes:
-                fragaux = settings.newInstance();
+                fragaux = notes.newInstance();
                 mSelectedItem = item.getItemId();
                 updateToolbarText(item.getTitle());
                 break;
