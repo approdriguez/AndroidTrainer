@@ -45,6 +45,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/white"
                 android:layout_toLeftOf="@+id/drop_down_option_menu"
                 android:src="@drawable/ic_action_user_add" />
 
@@ -53,6 +54,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
+                android:backgroundTint="@color/white"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/ic_action_overflow" />
