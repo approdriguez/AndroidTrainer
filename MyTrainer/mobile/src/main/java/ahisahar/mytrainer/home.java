@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,9 +51,12 @@ public class home extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // initialize views
-        mContent = view.findViewById(R.id.fragment_content);
+
         piechart = new PieChart(this.getContext());
         piechart = (PieChart) view.findViewById(R.id.chartactivity);
+        //mainlayout.addView(piechart);
+        RelativeLayout fragment_content = (RelativeLayout) view.findViewById(R.id.fragment_content);
+        fragment_content.addView(piechart);
         piechart.setUsePercentValues(true);
         piechart.setDescription("Tu actividad esta semana");
         piechart.setDrawHoleEnabled(true);
@@ -81,7 +85,7 @@ public class home extends Fragment {
         l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
         l.setXEntrySpace(7);
         l.setYEntrySpace(5);
-
+        mContent = view.findViewById(R.id.fragment_content);
 
     }
 
