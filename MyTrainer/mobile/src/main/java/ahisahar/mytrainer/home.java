@@ -58,11 +58,13 @@ public class home extends Fragment {
         //RelativeLayout fragment_content = (RelativeLayout) view.findViewById(R.id.main);
         //fragment_content.removeView(fragment_content.getParent());
         RelativeLayout parent = (RelativeLayout) view.findViewById(R.id.fragment_content);
+        TextView name = (TextView) view.findViewById(R.id.text);
         //parent.removeView(parent);
         parent.removeAllViews();
         //((ViewGroup)fragment_content.getParent()).removeView(fragment_content);
         //fragment_content.removeAllViews();
         parent.addView(piechart);
+        parent.addView(name);
         piechart.setUsePercentValues(true);
         piechart.setDescription("Tu actividad esta semana");
         piechart.setDrawHoleEnabled(true);
