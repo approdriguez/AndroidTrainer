@@ -29,8 +29,8 @@ public class home extends Fragment {
 
     private PieChart piechart;
     private View mContent;
-    private float[] yData = {};
-    private float[] xData = {};
+    private float[] yData = {2,3,1,0,1};
+    private String[] xData = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes"};
 
     public static Fragment newInstance() {
         Fragment frag = new home();
@@ -55,8 +55,14 @@ public class home extends Fragment {
         piechart = new PieChart(this.getContext());
         piechart = (PieChart) view.findViewById(R.id.chartactivity);
         //mainlayout.addView(piechart);
-        RelativeLayout fragment_content = (RelativeLayout) view.findViewById(R.id.fragment_content);
-        fragment_content.addView(piechart);
+        //RelativeLayout fragment_content = (RelativeLayout) view.findViewById(R.id.main);
+        //fragment_content.removeView(fragment_content.getParent());
+        RelativeLayout parent = (RelativeLayout) view.findViewById(R.id.fragment_content);
+        //parent.removeView(parent);
+        parent.removeAllViews();
+        //((ViewGroup)fragment_content.getParent()).removeView(fragment_content);
+        //fragment_content.removeAllViews();
+        parent.addView(piechart);
         piechart.setUsePercentValues(true);
         piechart.setDescription("Tu actividad esta semana");
         piechart.setDrawHoleEnabled(true);
@@ -102,6 +108,7 @@ public class home extends Fragment {
 
         for(int i=0;i<yData.length && i<xData.length ;i++)
             entries.add(new PieEntry(yData[i],xData[i]));
+
 
 
         PieDataSet dataSet = new PieDataSet(entries, "Mi actividad");
