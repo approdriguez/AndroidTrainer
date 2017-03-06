@@ -365,9 +365,9 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     if(modulo<0.4) modulo=0;
                     //modulo = aceleracion en m/s^2
                     time = SystemClock.elapsedRealtime() - startTime;
-                    velocity = modulo * time;
-                    force = modulo * weight;
-                    series.appendData(new DataPoint(velocity, force), false, 200);
+                    //velocity = modulo * time;
+                    //force = modulo * weight;
+                    series.appendData(new DataPoint(count, modulo), false, 200);
                     count++;
                     graph.addSeries(series);
 
