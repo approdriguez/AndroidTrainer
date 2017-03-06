@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Peso Muerto"
-        android:id="@+id/button"
+        android:id="@+id/bench"
         android:layout_alignParentTop="true"
         android:layout_marginTop="75dp"
         android:layout_alignParentStart="true"
@@ -23,37 +23,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Press de Banca"
-        android:id="@+id/button2"
-        android:layout_below="@+id/button"
+        android:id="@+id/deadlift"
+        android:layout_below="@+id/bench"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/button" />
+        android:layout_alignEnd="@+id/bench" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sentadillas"
-        android:id="@+id/button3"
-        android:layout_below="@+id/button2"
+        android:id="@+id/squat"
+        android:layout_below="@+id/deadlift"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/button2" />
+        android:layout_alignEnd="@+id/deadlift" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remo"
-        android:id="@+id/button4"
-        android:layout_below="@+id/button3"
+        android:id="@+id/row"
+        android:layout_below="@+id/squat"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/button3" />
+        android:layout_alignEnd="@+id/squat" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Press Militar"
         android:id="@+id/button5"
-        android:layout_below="@+id/button4"
+        android:layout_below="@+id/row"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/button4" />
+        android:layout_alignEnd="@+id/row" />
 
     <Button
         android:layout_width="wrap_content"
