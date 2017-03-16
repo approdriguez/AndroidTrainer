@@ -10,9 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ahisahar.mytrainer.bench_press_descriptor"
     tools:showIn="@layout/activity_exercise">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -86,7 +84,7 @@
             android:minWidth="200dp" />
     </RelativeLayout>
 
-    </ScrollView>
+
 
 
 </RelativeLayout>
