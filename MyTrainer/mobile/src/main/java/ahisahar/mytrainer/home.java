@@ -61,8 +61,6 @@ public class home extends Fragment {
         TextView name = (TextView) view.findViewById(R.id.text);
         //parent.removeView(parent);
         parent.removeAllViews();
-        //((ViewGroup)fragment_content.getParent()).removeView(fragment_content);
-        //fragment_content.removeAllViews();
         parent.addView(piechart);
         parent.addView(name);
         piechart.setUsePercentValues(true);
