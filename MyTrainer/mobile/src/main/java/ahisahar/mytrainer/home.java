@@ -29,7 +29,7 @@ public class home extends Fragment {
 
     private PieChart piechart;
     private View mContent;
-    private float[] yData = {2,3,1,0,1};
+    private float[] yData = {2,3,1,0,1};// nº of exercise each day
     private String[] xData = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes"};
 
     public static Fragment newInstance() {
