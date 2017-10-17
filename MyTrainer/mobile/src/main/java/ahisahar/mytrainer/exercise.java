@@ -63,7 +63,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     static final float ALPHA = 0.25f;
     private float acel_x = 0, acel_y = 0, acel_z = 0;
     float[] acel = new float[6];
-    double[] acelfixed = new double[3];
+    float[] acelfixed = new float[3];
     float[] acelnotfiltered = new float [192];
     float[] acelfiltered = new float [192];
     Orientation.Quaternion quaternion;
@@ -81,9 +81,11 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     int cventana = 0;
     int dif = 0;
     double [] datos = new double[5];
-    double velocity, force, weight, time;
-
+    double weight, time;
+    float velocity = 0, previousAcceleration=0, acceleration=0, force;
     GoogleApiClient apiClient;
+
+    final float window = 0.2f;
 
 
     @Override
@@ -288,25 +290,36 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                         timecount = true;
                         startTime = SystemClock.elapsedRealtime();
                     }
-                    /*
-                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("x").setValue(acel[0]);
-                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("y").setValue(acel[1]);
-                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("z").setValue(acel[2]);
+                    /*  Unfiltered accelerometer data */
+                    ///*
+                    mDatabase.child("users").child(mUserId).child("linearAcelGoogle2").child(Integer.toString(count)).child("x").setValue(acel[0]);
+                    mDatabase.child("users").child(mUserId).child("linearAcelGoogle2").child(Integer.toString(count)).child("y").setValue(acel[1]);
+                    mDatabase.child("users").child(mUserId).child("linearAcelGoogle2").child(Integer.toString(count)).child("z").setValue(acel[2]);
                     difference = SystemClock.elapsedRealtime() - startTime;
-                    mDatabase.child("users").child(mUserId).child("accelerometerStopped4").child(Integer.toString(count)).child("time").setValue(difference);
+                    mDatabase.child("users").child(mUserId).child("linearAcelGoogle2").child(Integer.toString(count)).child("time").setValue(difference);
+                    //*/
+                    /*
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("x").setValue(acel[3]);
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("y").setValue(acel[4]);
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("z").setValue(acel[5]);
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("time").setValue(difference);
                     */
                     quaternion = orientacion.update((double) acel[0], (double) acel[1], (double) acel[2], (double) acel[3], (double) acel[4], (double) acel[5]);
-                    acelfixed = gravityCompensation.fixAccelerometerData(quaternion, (double) acel[0], (double) acel[2], (double) acel[1]);
+                    acelfixed = gravityCompensation.fixAccelerometerData(quaternion,  acel[0],  acel[2],  acel[1]);
 
-                                    /*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
+                    /*          Save filtered data
+                    mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("x").setValue(acelfixed[0]);
+                    mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("y").setValue(acelfixed[1]);
+                    mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("z").setValue(acelfixed[2]);
+                    difference = SystemClock.elapsedRealtime() - startTime;
+                    mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("time").setValue(difference);
+                                    *//*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
                                     ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
                                     ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
-                    modulo = sqrt(pow(acelfixed[2], 2));
-
+                    modulo = sqrt(pow(acelfixed[2], 2)); //Solo teniendo en cuenta el eje Y
+                    acceleration = acelfixed[2];
+                    velocity = computeVelocity(previousAcceleration,velocity,acceleration);
+                    previousAcceleration=acceleration;
                     /*Window
                     //modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
                     if(cventana<5){
@@ -374,19 +387,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
                 }
 
-                    /*if (item.getUri().getPath().equals(ITEM_2)) {
-                        DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
 
-                        acel_z = dataMapItem.getDataMap().getInt(KEY);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ((TextView) findViewById(R.id.z)).setText(Float.toString(acel_z));
-
-                            }
-                        });
-                    }*/
             } else if (event.getType() == DataEvent.TYPE_DELETED) {//algun item a sido borrado
 
             }
@@ -398,7 +399,14 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     public static byte[] encode(float floatArray[]) {
         byte byteArray[] = new byte[floatArray.length * 4];
 
-// wrap the byte array to the byte buffer
+// wrap the byte array to the byte buffe
+//
+//
+//
+//
+//
+//
+// r
         ByteBuffer byteBuf = ByteBuffer.wrap(byteArray);
 
 // create a view of the byte buffer as a float buffer
@@ -412,7 +420,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     }
 
     //Low-pass filter using alpha=0.25
-    protected float[] lowPass( float[] input, float[] output ) {
+    public float[] lowPass( float[] input, float[] output ) {
         if ( output == null )
             return input;
         for ( int i=0; i<input.length; i++ ) {
@@ -420,6 +428,26 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         }
         return output;
     }
+
+    //Mechanical filtering window for zero movement condition
+    public float mechanicalFilteringWindow(float acceleration){
+        if (acceleration<=window && acceleration>=-(window))
+            acceleration=0;
+        return acceleration;
+    }
+
+    //First integration from acceleration in order to calculate velocity
+
+    public float computeVelocity ( float previousAcceleration, float previousVelocity, float currentAcceleration){
+
+        return (previousVelocity + previousAcceleration + ((int)(currentAcceleration - previousAcceleration)>>1));
+
+    }
+
+
+
+
+
 
 
 }
