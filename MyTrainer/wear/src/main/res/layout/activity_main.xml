@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,19 +10,28 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.03"
-        android:text="TextView"
+        android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        tools:text="Pulsa el botón para empezar!" />
-    <!--
+        android:layout_marginLeft="30dp"
+        android:text="Pulsa el botón para empezar a monitorizar el ejercicio"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="202dp"
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:visibility="invisible" />
 
-        android:src="@drawable/generic_confirmation_animation" />
-        -->
+    <Button
+        android:id="@+id/button2"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:layout_weight="0.03"
+        android:elevation="20dp"
+        android:text="Start" />
 
-</android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>
