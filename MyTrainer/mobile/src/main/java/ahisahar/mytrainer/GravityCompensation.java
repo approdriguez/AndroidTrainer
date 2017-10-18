@@ -12,13 +12,13 @@ public class GravityCompensation {
 
     }
 
-    private double[] fixedAccelerometerData = new double[3];
+    private float[] fixedAccelerometerData = new float[3];
 
 
-    public double [] fixAccelerometerData(Orientation.Quaternion quaternion, Double x,Double y, Double z){
-        fixedAccelerometerData[0] = 2 * (quaternion.q2 * quaternion.q4 - quaternion.q1 * quaternion.q3);
-        fixedAccelerometerData[1] = 2 * (quaternion.q1 * quaternion.q2 + quaternion.q3 * quaternion.q4);
-        fixedAccelerometerData[2] = quaternion.q1 * quaternion.q1 - quaternion.q2 * quaternion.q2 - quaternion.q3 * quaternion.q3 + quaternion.q4 * quaternion.q4;
+    public float [] fixAccelerometerData(Orientation.Quaternion quaternion, Float x,Float y, Float z){
+        fixedAccelerometerData[0] =(float)(2 * (quaternion.q2 * quaternion.q4 - quaternion.q1 * quaternion.q3));
+        fixedAccelerometerData[1] = (float)(2 * (quaternion.q1 * quaternion.q2 + quaternion.q3 * quaternion.q4));
+        fixedAccelerometerData[2] = (float)(quaternion.q1 * quaternion.q1 - quaternion.q2 * quaternion.q2 - quaternion.q3 * quaternion.q3 + quaternion.q4 * quaternion.q4);
         return fixedAccelerometerData;
     }
 

@@ -77,13 +77,13 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         stop = false; //Parar medición
         send = false;
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
 
-        x = (TextView) findViewById(R.id.x);
-        y = (TextView) findViewById(R.id.y);
-        z = (TextView) findViewById(R.id.z);
+        //x = (TextView) findViewById(R.id.x);
+        //y = (TextView) findViewById(R.id.y);
+        //z = (TextView) findViewById(R.id.z);
 
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
         mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
@@ -116,15 +116,16 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+        if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
 
             if(!stop) {
-                x.setText(Float.toString(event.values[0]));
-                y.setText(Float.toString(event.values[1]));
-                z.setText(Float.toString(event.values[2]));
+                //x.setText(Float.toString(event.values[0]));
+                //y.setText(Float.toString(event.values[1]));
+                //z.setText(Float.toString(event.values[2]));
                 accelerometer[0] = event.values[0];
                 accelerometer[1] = event.values[1];
                 accelerometer[2] = event.values[2];
+
             }
         }
 

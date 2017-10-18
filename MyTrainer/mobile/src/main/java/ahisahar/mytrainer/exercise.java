@@ -298,7 +298,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     difference = SystemClock.elapsedRealtime() - startTime;
                     mDatabase.child("users").child(mUserId).child("linearAcelGoogle2").child(Integer.toString(count)).child("time").setValue(difference);
                     //*/
-                    /*
+                    /* save raw data
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("x").setValue(acel[3]);
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("y").setValue(acel[4]);
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("z").setValue(acel[5]);
@@ -317,8 +317,13 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                                     ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
                                     ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
                     modulo = sqrt(pow(acelfixed[2], 2)); //Solo teniendo en cuenta el eje Y
+                    //Acceleration asgined
                     acceleration = acelfixed[2];
+                    //Check if there is real movement
+                    acceleration = mechanicalFilteringWindow(acceleration);
+                    //Integrate acceleration to calculate velocity
                     velocity = computeVelocity(previousAcceleration,velocity,acceleration);
+                    //Last acceleration value
                     previousAcceleration=acceleration;
                     /*Window
                     //modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
@@ -431,6 +436,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
     //Mechanical filtering window for zero movement condition
     public float mechanicalFilteringWindow(float acceleration){
+
         if (acceleration<=window && acceleration>=-(window))
             acceleration=0;
         return acceleration;

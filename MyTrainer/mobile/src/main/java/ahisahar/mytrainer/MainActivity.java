@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearFragmentStack(){
-        android.app.FragmentManager fm = getFragmentManager(); // or 'getSupportFragmentManager();'
+        android.app.FragmentManager fm = getFragmentManager();
         int count = fm.getBackStackEntryCount();
         for(int i = 0; i < count; ++i) {
             fm.popBackStack();

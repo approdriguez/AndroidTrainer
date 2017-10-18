@@ -4,7 +4,7 @@
     <item
         android:id="@+id/main"
         android:enabled="true"
-        android:icon="@drawable/menu"
+        android:icon="@drawable/home"
         android:title="Home"
         app:showAsAction="ifRoom" />
     <item
@@ -16,13 +16,13 @@
     <item
         android:id="@+id/exercise"
         android:enabled="true"
-        android:icon="@drawable/exercise"
+        android:icon="@drawable/dumbbell"
         android:title="Ejercicios"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/historial"
         android:enabled="true"
-        android:icon="@drawable/clock"
+        android:icon="@drawable/time"
         android:title="Historico"
         app:showAsAction="ifRoom" />
 
