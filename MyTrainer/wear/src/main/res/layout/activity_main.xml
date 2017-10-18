@@ -15,6 +15,7 @@
         android:layout_marginTop="100dp"
         tools:text="Pulsa el botón para empezar!" />
     <!--
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="202dp"
