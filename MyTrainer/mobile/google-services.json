@@ -46,6 +46,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "310137109842-ofo1v7vv1g0vib196rv1l8jo9tvne68d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ahisahar.mytrainer",
+            "certificate_hash": "208d482d9e48ad7097948c6993669b2d9f764df9"
+          }
+        },
+        {
           "client_id": "310137109842-70nrsuopk3niagq7ui0bqg2b47lh118b.apps.googleusercontent.com",
           "client_type": 3
         }
