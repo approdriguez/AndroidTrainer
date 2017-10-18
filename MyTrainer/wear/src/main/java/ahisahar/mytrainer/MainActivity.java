@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.app.Notification;
 import android.app.Service;
@@ -58,14 +60,16 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private Sensor mGyro;
 
     GoogleApiClient apiClient;
-    TextView x,y,z;
+
     PutDataMapRequest putDataMapReq;
     PendingResult<DataApi.DataItemResult> resultado;
 //  float[] accelerometer = new float[120000];
     float[] accelerometer = new float[6];
     PutDataRequest putDataReq;
-    Boolean stop;
-    Boolean send;
+    //Parar medición
+    Boolean stop=false,send=false, meassuring=false;
+    int visibility=View.INVISIBLE;
+
     int i = 0;
 
     @Override
@@ -74,11 +78,38 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
 
-        stop = false; //Parar medición
-        send = false;
+        //*****UI objects****
+
+        /*******************/
+        final Button button = (Button) findViewById(R.id.button);
+        final TextView info = (TextView) findViewById(R.id.info);
+        final ProgressBar bar = (ProgressBar) findViewById(R.id.progressBar);
+        //Infinite bar
+        bar.setIndeterminate(true);
+        //  *************Start/Stop button*************
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                info.setVisibility(visibility);
+                meassuring=!meassuring;
+                if(meassuring){
+                    visibility=View.VISIBLE;
+                    button.setText("STOP");
+                }
+                else {
+                    visibility = View.INVISIBLE;
+                    button.setText("START");
+                }
+                bar.setVisibility(visibility);
+
+
+
+            }
+        });
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
 
 
         //x = (TextView) findViewById(R.id.x);
@@ -116,37 +147,38 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+        if(meassuring) {
 
-            if(!stop) {
-                //x.setText(Float.toString(event.values[0]));
-                //y.setText(Float.toString(event.values[1]));
-                //z.setText(Float.toString(event.values[2]));
-                accelerometer[0] = event.values[0];
-                accelerometer[1] = event.values[1];
-                accelerometer[2] = event.values[2];
+            if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
 
+                if (!stop) {
+                    //x.setText(Float.toString(event.values[0]));
+                    //y.setText(Float.toString(event.values[1]));
+                    //z.setText(Float.toString(event.values[2]));
+                    accelerometer[0] = event.values[0];
+                    accelerometer[1] = event.values[1];
+                    accelerometer[2] = event.values[2];
+
+                }
+            } else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                if (!stop) {
+                    accelerometer[3] = event.values[0];
+                    accelerometer[4] = event.values[1];
+                    accelerometer[5] = event.values[2];
+                    stop = true;
+                    send = true;
+                }
             }
-        }
-
-        else if(event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
-            if(!stop) {
-                accelerometer[3] = event.values[0];
-                accelerometer[4] = event.values[1];
-                accelerometer[5] = event.values[2];
-                stop = true;
-                send = true;
+            if (send) {
+                putDataMapReq = PutDataMapRequest.create(ITEM_0);
+                putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
+                putDataReq = putDataMapReq.asPutDataRequest();
+                resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
+                Wearable.DataApi.putDataItem(apiClient, putDataReq);
+                Log.d(TAG, "Connected mensaje enviado");
+                stop = false;
+                send = false;
             }
-        }
-        if(send){
-            putDataMapReq = PutDataMapRequest.create(ITEM_0);
-            putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
-            putDataReq = putDataMapReq.asPutDataRequest();
-            resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
-            Wearable.DataApi.putDataItem(apiClient, putDataReq);
-            Log.d(TAG, "Connected mensaje enviado");
-            stop=false;
-            send=false;
         }
             //i=0;
         //}
