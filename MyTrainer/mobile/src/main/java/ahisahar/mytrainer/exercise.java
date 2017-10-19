@@ -115,15 +115,14 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
 
             ///////////////
-            // Add items via the Button and EditText at the bottom of the view.
+            // Refresh graph
+
             final Button reset = (Button) findViewById(R.id.reset);
             reset.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    // Code here executes on main thread after user presses button
+                    // clean graph
                     graph.removeAllSeries();
-
-
-
+                    series = new LineGraphSeries<>();
                 }
             });
 

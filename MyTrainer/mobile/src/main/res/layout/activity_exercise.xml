@@ -84,29 +84,20 @@
         android:minHeight="200dp"
         android:minWidth="200dp" />
         </RelativeLayout>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/reset"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
         android:layout_marginStart="72dp"
         android:layout_marginTop="455dp"
         android:width="200dp"
         android:background="@android:color/holo_orange_dark"
-        android:backgroundTint="@drawable/quantum_ic_cast_white_36"
         android:padding="10sp"
         android:text="Nueva Serie"
-
         android:textColor="@color/white" />
-</FrameLayout>
+
 
 </RelativeLayout>
 
