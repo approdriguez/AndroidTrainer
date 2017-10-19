@@ -116,10 +116,16 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
             ///////////////
             // Add items via the Button and EditText at the bottom of the view.
+            final Button reset = (Button) findViewById(R.id.reset);
+            reset.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Code here executes on main thread after user presses button
+                    graph.removeAllSeries();
 
 
-            // Use Firebase to populate the list.
-            //Adding and configuring charts of home page
+
+                }
+            });
 
         //}
 
@@ -292,11 +298,11 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     }
                     /*  Unfiltered accelerometer data */
                     ///*
-                    mDatabase.child("users").child(mUserId).child("linearAcelGoogle2").child(Integer.toString(count)).child("x").setValue(acel[0]);
-                    mDatabase.child("users").child(mUserId).child("linearAcelGoogle2").child(Integer.toString(count)).child("y").setValue(acel[1]);
-                    mDatabase.child("users").child(mUserId).child("linearAcelGoogle2").child(Integer.toString(count)).child("z").setValue(acel[2]);
+                    mDatabase.child("users").child(mUserId).child("test").child(Integer.toString(count)).child("x").setValue(acel[0]);
+                    mDatabase.child("users").child(mUserId).child("test").child(Integer.toString(count)).child("y").setValue(acel[1]);
+                    mDatabase.child("users").child(mUserId).child("test").child(Integer.toString(count)).child("z").setValue(acel[2]);
                     difference = SystemClock.elapsedRealtime() - startTime;
-                    mDatabase.child("users").child(mUserId).child("linearAcelGoogle2").child(Integer.toString(count)).child("time").setValue(difference);
+                    mDatabase.child("users").child(mUserId).child("test").child(Integer.toString(count)).child("time").setValue(difference);
                     //*/
                     /* save raw data
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("x").setValue(acel[3]);
