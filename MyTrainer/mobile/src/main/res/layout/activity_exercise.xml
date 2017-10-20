@@ -28,51 +28,52 @@
         android:id="@+id/weightLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/accelLabel"
+        android:layout_below="@+id/powerLabel"
         android:layout_marginTop="8dp"
-        android:layout_toStartOf="@+id/accelvalue"
+        android:layout_toStartOf="@+id/powerValue"
         android:width="120dp"
-        android:textIsSelectable="false"
-        android:text="Weight (Kg)" />
+        android:text="Weight (Kg)"
+        android:inputType="none"/>
 
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/weightValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/weightLabel"
-        android:layout_alignStart="@+id/accelvalue"
+        android:layout_alignStart="@+id/powerValue"
         android:width="120dp"
         android:ems="10"
         android:inputType="number"
-        android:text="50" />
+        android:text="0" />
 
     <EditText
-        android:id="@+id/accelvalue"
+        android:id="@+id/powerValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="24dp"
-        android:layout_toEndOf="@+id/accelLabel"
+        android:layout_marginStart="79dp"
+        android:layout_marginTop="14dp"
+        android:layout_toEndOf="@+id/powerLabel"
         android:width="120dp"
         android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="0.8"
+        android:inputType="none"
+        android:text="0.0"
         android:textSize="20dp" />
 
     <EditText
-        android:id="@+id/accelLabel"
+        android:id="@+id/powerLabel"
         style="@style/AppTheme.AppBarOverlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/accelvalue"
-        android:layout_alignBottom="@+id/accelvalue"
+        android:layout_alignBaseline="@+id/powerValue"
+        android:layout_alignBottom="@+id/powerValue"
         android:layout_toStartOf="@+id/logoutbutton"
         android:width="120dp"
-        android:textIsSelectable="false"
+
         android:text="Peak power"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        />
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
@@ -91,12 +92,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="455dp"
+        android:layout_marginTop="475dp"
         android:width="200dp"
         android:background="@android:color/holo_orange_dark"
         android:padding="10sp"
         android:text="Nueva Serie"
         android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="43dp"
+        android:text="Tipo ejercicio"
+        android:textSize="30dp"/>
+
+
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="150dp"
+        android:textSize="20dp"
+
+        android:layout_marginTop="426dp" />
+
 
 
 </RelativeLayout>

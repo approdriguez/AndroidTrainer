@@ -6,11 +6,16 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -30,9 +35,9 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
+
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
@@ -64,8 +69,8 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     private float acel_x = 0, acel_y = 0, acel_z = 0;
     float[] acel = new float[6];
     float[] acelfixed = new float[3];
-    float[] acelnotfiltered = new float [192];
-    float[] acelfiltered = new float [192];
+    float[] acelnotfiltered = new float[192];
+    float[] acelfiltered = new float[192];
     Orientation.Quaternion quaternion;
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
     GraphView graph;
@@ -77,14 +82,14 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     ArrayList<Float> gyroscope = new ArrayList();
     int filter = 0;
     boolean f = false;
-    double [] ventana = new double [5];
+    double[] ventana = new double[5];
     int cventana = 0;
     int dif = 0;
-    double [] datos = new double[5];
+    double[] datos = new double[5];
     double weight, time;
-    float velocity = 0, previousAcceleration=0, acceleration=0, force;
+    float velocity = 0, previousAcceleration = 0, acceleration = 0, force;
     GoogleApiClient apiClient;
-
+    Chronometer chronometer;
     final float window = 0.2f;
 
 
@@ -105,26 +110,39 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
             // Not logged in, launch the Log In activity
             loadLogInView();
         } else {*/
-            mUserId = mFirebaseUser.getUid();
+        mUserId = mFirebaseUser.getUid();
 
-            //Bundle b = getIntent().getExtras();
-            //int id = b.getInt("id");
-            ////////////////
+        //Bundle b = getIntent().getExtras();
+        //int id = b.getInt("id");
+        ////////////////
 
-            graph = (GraphView) findViewById(R.id.graph);
+        graph = (GraphView) findViewById(R.id.graph);
 
+        //Texedit inmutables
 
-            ///////////////
-            // Refresh graph
+        EditText powerLabel = (EditText) findViewById(R.id.powerLabel);
+        EditText powerValue = (EditText) findViewById(R.id.powerValue);
+        EditText weightLabel = (EditText) findViewById(R.id.weightLabel);
+        EditText weightValue = (EditText) findViewById(R.id.weightValue);
+        powerLabel.setKeyListener(null);
+        weightLabel.setKeyListener(null);
+        powerValue.setKeyListener(null);
+        weightLabel.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-            final Button reset = (Button) findViewById(R.id.reset);
-            reset.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    // clean graph
-                    graph.removeAllSeries();
-                    series = new LineGraphSeries<>();
-                }
-            });
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        ///////////////
+        // Refresh graph
+
+        final Button reset = (Button) findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // clean graph
+                graph.removeAllSeries();
+                series = new LineGraphSeries<>();
+                chronometer.setBase(SystemClock.elapsedRealtime());
+
+            }
+        });
 
         //}
 
@@ -227,15 +245,12 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     }
 
 
-
     private void loadLogInView() {
         Intent intent = new Intent(this, LogInActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
-
-
 
 
     @Override
@@ -290,6 +305,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                 if (item.getUri().getPath().compareTo(ITEM_0) == 0) {
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(item);
                     //((TextView) findViewById(R.id.x)).setText("LLego");
+                    chronometer.start();
                     acel = dataMapItem.getDataMap().getFloatArray(KEY);
                     if (!timecount) {
                         timecount = true;
@@ -310,7 +326,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("time").setValue(difference);
                     */
                     quaternion = orientacion.update((double) acel[0], (double) acel[1], (double) acel[2], (double) acel[3], (double) acel[4], (double) acel[5]);
-                    acelfixed = gravityCompensation.fixAccelerometerData(quaternion,  acel[0],  acel[2],  acel[1]);
+                    acelfixed = gravityCompensation.fixAccelerometerData(quaternion, acel[0], acel[2], acel[1]);
 
                     /*          Save filtered data
                     mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("x").setValue(acelfixed[0]);
@@ -327,9 +343,9 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     //Check if there is real movement
                     acceleration = mechanicalFilteringWindow(acceleration);
                     //Integrate acceleration to calculate velocity
-                    velocity = computeVelocity(previousAcceleration,velocity,acceleration);
+                    velocity = computeVelocity(previousAcceleration, velocity, acceleration);
                     //Last acceleration value
-                    previousAcceleration=acceleration;
+                    previousAcceleration = acceleration;
                     /*Window
                     //modulo = sqrt(pow(acelfixed[0], 2) * pow(acelfixed[1], 2) * pow(acelfixed[2], 2));
                     if(cventana<5){
@@ -385,7 +401,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                         cventana=0;
                     }
                     */
-                    if(modulo<0.4) modulo=0;
+                    if (modulo < 0.4) modulo = 0;
                     //modulo = aceleracion en m/s^2
                     time = SystemClock.elapsedRealtime() - startTime;
                     //velocity = modulo * time;
@@ -401,6 +417,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
             } else if (event.getType() == DataEvent.TYPE_DELETED) {//algun item a sido borrado
 
             }
+            chronometer.stop();
 
 
         }
@@ -430,35 +447,30 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     }
 
     //Low-pass filter using alpha=0.25
-    public float[] lowPass( float[] input, float[] output ) {
-        if ( output == null )
+    public float[] lowPass(float[] input, float[] output) {
+        if (output == null)
             return input;
-        for ( int i=0; i<input.length; i++ ) {
+        for (int i = 0; i < input.length; i++) {
             output[i] = output[i] + ALPHA * (input[i] - output[i]);
         }
         return output;
     }
 
     //Mechanical filtering window for zero movement condition
-    public float mechanicalFilteringWindow(float acceleration){
+    public float mechanicalFilteringWindow(float acceleration) {
 
-        if (acceleration<=window && acceleration>=-(window))
-            acceleration=0;
+        if (acceleration <= window && acceleration >= -(window))
+            acceleration = 0;
         return acceleration;
     }
 
     //First integration from acceleration in order to calculate velocity
 
-    public float computeVelocity ( float previousAcceleration, float previousVelocity, float currentAcceleration){
+    public float computeVelocity(float previousAcceleration, float previousVelocity, float currentAcceleration) {
 
-        return (previousVelocity + previousAcceleration + ((int)(currentAcceleration - previousAcceleration)>>1));
+        return (previousVelocity + previousAcceleration + ((int) (currentAcceleration - previousAcceleration) >> 1));
 
     }
-
-
-
-
-
 
 
 }
