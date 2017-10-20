@@ -53,6 +53,7 @@ public class row_descriptor extends AppCompatActivity {
         Intent intent = new Intent(this, exercise.class);
         intent.putExtra("id",1);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("NAME","Remo");
         startActivity(intent);
     }
 

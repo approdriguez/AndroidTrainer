@@ -52,6 +52,7 @@ public class bench_press_descriptor extends AppCompatActivity {
         //intent.putExtra("id",0);
         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("NAME","Press de banca");
         startActivity(intent);
     }
 

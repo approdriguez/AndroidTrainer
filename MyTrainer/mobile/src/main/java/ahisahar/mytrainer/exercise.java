@@ -99,6 +99,8 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         setContentView(R.layout.activity_exercise);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+        String tittl = getIntent().getStringExtra("NAME");
+        Log.d("QWERT",tittl);
         weight = 50;
         // Initialize Firebase Auth and Database Reference
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -124,10 +126,12 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         EditText powerValue = (EditText) findViewById(R.id.powerValue);
         EditText weightLabel = (EditText) findViewById(R.id.weightLabel);
         EditText weightValue = (EditText) findViewById(R.id.weightValue);
+        TextView tittle = (TextView) findViewById(R.id.titulo);
         powerLabel.setKeyListener(null);
         weightLabel.setKeyListener(null);
         powerValue.setKeyListener(null);
         weightLabel.setInputType(InputType.TYPE_CLASS_NUMBER);
+        tittle.setText(tittl);
 
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         ///////////////

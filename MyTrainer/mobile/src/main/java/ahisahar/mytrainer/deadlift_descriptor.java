@@ -57,6 +57,7 @@ public class deadlift_descriptor extends AppCompatActivity {
         Intent intent = new Intent(this, exercise.class);
         //intent.putExtra("id",2);
         //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("NAME","Peso muerto");
         startActivity(intent);
     }
 
