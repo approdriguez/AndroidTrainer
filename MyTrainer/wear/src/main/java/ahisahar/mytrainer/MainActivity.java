@@ -3,6 +3,7 @@ package ahisahar.mytrainer;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.wearable.activity.WearableActivity;
@@ -116,10 +117,10 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         //y = (TextView) findViewById(R.id.y);
         //z = (TextView) findViewById(R.id.z);
 
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
-        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
-        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_UI);
+        //mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+        //mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_NORMAL);
 
         // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -158,13 +159,18 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     accelerometer[0] = event.values[0];
                     accelerometer[1] = event.values[1];
                     accelerometer[2] = event.values[2];
-
+                    //Log.d("valorx", Float.toString(event.values[0]));
+                    //Log.d("valory", Float.toString(event.values[1]));
+                    //Log.d("valorz", Float.toString(event.values[2]));
                 }
             } else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
                 if (!stop) {
                     accelerometer[3] = event.values[0];
                     accelerometer[4] = event.values[1];
                     accelerometer[5] = event.values[2];
+                    Log.d("valorx", Float.toString(event.values[0]));
+                    Log.d("valory", Float.toString(event.values[1]));
+                    Log.d("valorz", Float.toString(event.values[2]));
                     stop = true;
                     send = true;
                 }
@@ -176,7 +182,15 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
                 Wearable.DataApi.putDataItem(apiClient, putDataReq);
                 Log.d(TAG, "Connected mensaje enviado");
-                stop = false;
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        stop = false;
+                    }
+                }, 500);
+                //stop = false;
                 send = false;
             }
         }
