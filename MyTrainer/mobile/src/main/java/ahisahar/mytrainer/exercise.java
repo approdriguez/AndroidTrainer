@@ -67,7 +67,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
     static final float ALPHA = 0.25f;
     private float acel_x = 0, acel_y = 0, acel_z = 0;
-    float[] acel = new float[6];
+    float[] acel = new float[9];
     float[] acelfixed = new float[3];
     float[] acelnotfiltered = new float[192];
     float[] acelfiltered = new float[192];
@@ -86,11 +86,12 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     int cventana = 0;
     int dif = 0;
     double[] datos = new double[5];
-    double weight, time;
-    float velocity = 0, previousAcceleration = 0, acceleration = 0, force;
+    double  time;
+    float velocity = 0, previousAcceleration = 0, acceleration = 0, force = 0,weight = 1;
     GoogleApiClient apiClient;
     Chronometer chronometer;
-    final float window = 0.2f;
+    final float windowUp = 0.1f;
+    final float windowDown = -0.1f;
 
 
     @Override
@@ -100,8 +101,9 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         String tittl = getIntent().getStringExtra("NAME");
-        Log.d("QWERT",tittl);
-        weight = 50;
+
+        //Weight by default
+
         // Initialize Firebase Auth and Database Reference
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -130,7 +132,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         powerLabel.setKeyListener(null);
         weightLabel.setKeyListener(null);
         powerValue.setKeyListener(null);
-        weightLabel.setInputType(InputType.TYPE_CLASS_NUMBER);
+        weightValue.setInputType(InputType.TYPE_CLASS_NUMBER);
         tittle.setText(tittl);
 
         chronometer = (Chronometer) findViewById(R.id.chronometer);
@@ -148,51 +150,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
             }
         });
 
-        //}
 
-
-
-        /*
-        ((TextView) findViewById(R.id.z)).setText(Float.toString(1));
-        File file = new File("datas.txt");
-        */
-        //Receive the message
-
-
-
-
-/*
-        PendingResult<DataItemBuffer> resultado= Wearable.DataApi.getDataItems(apiClient);
-        resultado.setResultCallback(new ResultCallback<DataItemBuffer>() {
-            @Override
-            public void onResult(DataItemBuffer dataItems) {
-
-                for (DataItem dataItem : dataItems) {
-
-                    /*if (dataItem.getUri().getPath().equals(ITEM_0)) {
-                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
-
-                        acel_x = dataMapItem.getDataMap().getFloat(KEY);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ((TextView) findViewById(R.id.x)).setText(Float.toString(acel_x));
-
-                            }
-                        });
-                    }*/
-
-             /*       if (dataItem.getUri().getPath().equals(ITEM_1)) {
-                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
-                        acel = dataMapItem.getDataMap().getFloatArray(KEY);
-                       /* runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-//                                ((TextView) findViewById(R.id.y)).setText(Float.toString((Float)acel[1]));
-
-                            }
-                        });*/
         apiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this) //nos notifica cuando estamos conectados
@@ -201,27 +159,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
 
     }
-                    /*
-                    if (dataItem.getUri().getPath().equals(ITEM_2)) {
-                        DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
 
-                        acel_z = dataMapItem.getDataMap().getInt(KEY);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ((TextView) findViewById(R.id.z)).setText(Float.toString(acel_z));
-
-                            }
-                        });
-                    }*/
-          /*      }
-                dataItems.release();
-                ((TextView) findViewById(R.id.z)).setText(Float.toString(23));
-            }
-        });
-
-    }*/
 
     @Override
     protected void onStart() {
@@ -316,7 +254,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                         startTime = SystemClock.elapsedRealtime();
                     }
                     /*  Unfiltered accelerometer data */
-                    ///*
+                    /*
                     mDatabase.child("users").child(mUserId).child("test").child(Integer.toString(count)).child("x").setValue(acel[0]);
                     mDatabase.child("users").child(mUserId).child("test").child(Integer.toString(count)).child("y").setValue(acel[1]);
                     mDatabase.child("users").child(mUserId).child("test").child(Integer.toString(count)).child("z").setValue(acel[2]);
@@ -329,8 +267,8 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("z").setValue(acel[5]);
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("time").setValue(difference);
                     */
-                    quaternion = orientacion.update((double) acel[0], (double) acel[1], (double) acel[2], (double) acel[3], (double) acel[4], (double) acel[5]);
-                    acelfixed = gravityCompensation.fixAccelerometerData(quaternion, acel[0], acel[2], acel[1]);
+                    quaternion = orientacion.update((double) acel[0], (double) acel[1], (double) acel[2], (double) acel[3], (double) acel[4], (double) acel[5],(double) acel[6],(double) acel[7],(double) acel[8]);
+                    acelfixed = gravityCompensation.fixAccelerometerData(quaternion, acel[0], acel[1], acel[2]);
 
                     /*          Save filtered data
                     mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("x").setValue(acelfixed[0]);
@@ -341,11 +279,18 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                                     *//*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
                                     ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
                                     ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
-                    modulo = sqrt(pow(acelfixed[2], 2)); //Solo teniendo en cuenta el eje Y
+                    //modulo = sqrt(pow(acelfixed[2], 2)); //Solo teniendo en cuenta el eje Z
                     //Acceleration asgined
-                    acceleration = acelfixed[2];
+                    acceleration = acelfixed[0];
+                    //********************acceleration = acel[0];
+                    Log.e("valorSinCalibrar",Float.toString(acceleration));
+                    //acceleration = acel[1];
                     //Check if there is real movement
                     acceleration = mechanicalFilteringWindow(acceleration);
+                    //calculate force
+                    force = acceleration * weight;
+                    Log.e("valorConVentana",Float.toString(acceleration));
+
                     //Integrate acceleration to calculate velocity
                     velocity = computeVelocity(previousAcceleration, velocity, acceleration);
                     //Last acceleration value
@@ -405,8 +350,10 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                         cventana=0;
                     }
                     */
-                    if (modulo < 0.4) modulo = 0;
+                    //if (modulo < 0.4) modulo = 0;
                     //modulo = aceleracion en m/s^2
+                    modulo = velocity;
+                    //modulo = sqrt(pow(modulo,2));
                     time = SystemClock.elapsedRealtime() - startTime;
                     //velocity = modulo * time;
                     //force = modulo * weight;
@@ -463,7 +410,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     //Mechanical filtering window for zero movement condition
     public float mechanicalFilteringWindow(float acceleration) {
 
-        if (acceleration <= window && acceleration >= -(window))
+        if (acceleration <= windowUp && acceleration >= windowDown)
             acceleration = 0;
         return acceleration;
     }

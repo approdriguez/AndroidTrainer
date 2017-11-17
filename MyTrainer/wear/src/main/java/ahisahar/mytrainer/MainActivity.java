@@ -49,27 +49,28 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
-public class MainActivity extends WearableActivity implements SensorEventListener, DataApi.DataListener, MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends WearableActivity implements SensorEventListener, DataApi.DataListener, MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String KEY = "SensorService";
-    private static final String ITEM_0="/accelerometer0";
+    private static final String ITEM_0 = "/accelerometer0";
     private final static int SENS_ACCELEROMETER = Sensor.TYPE_ACCELEROMETER;
     private static final String TAG = "AccelerometerData";
     //private final static int SENS_GYROSCOPE = Sensor.TYPE_GYROSCOPE;
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private Sensor mGyro;
+    private Sensor mMag;
 
     GoogleApiClient apiClient;
 
     PutDataMapRequest putDataMapReq;
     PendingResult<DataApi.DataItemResult> resultado;
-//  float[] accelerometer = new float[120000];
-    float[] accelerometer = new float[6];
+    //  float[] accelerometer = new float[120000];
+    float[] accelerometer = new float[9];
     PutDataRequest putDataReq;
     //Parar medición
-    Boolean stop=false,send=false, meassuring=false;
-    int visibility=View.INVISIBLE;
+    Boolean stop = false, send = false, meassuring = false;
+    int visibility = View.INVISIBLE;
 
     int i = 0;
 
@@ -92,35 +93,35 @@ public class MainActivity extends WearableActivity implements SensorEventListene
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 info.setVisibility(visibility);
-                meassuring=!meassuring;
-                if(meassuring){
-                    visibility=View.VISIBLE;
+                meassuring = !meassuring;
+                if (meassuring) {
+                    visibility = View.VISIBLE;
                     button.setText("STOP");
-                }
-                else {
+                } else {
                     visibility = View.INVISIBLE;
                     button.setText("START");
                 }
                 bar.setVisibility(visibility);
 
 
-
             }
         });
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-
+        mMag = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
 
         //x = (TextView) findViewById(R.id.x);
         //y = (TextView) findViewById(R.id.y);
         //z = (TextView) findViewById(R.id.z);
 
-        //mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
-        //mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+        mSensorManager.registerListener(this, mMag, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mMag, SensorManager.SENSOR_DELAY_FASTEST);
 
         // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -144,13 +145,12 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     }
 
 
-
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        if(meassuring) {
+        if (meassuring) {
 
-            if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
                 if (!stop) {
                     //x.setText(Float.toString(event.values[0]));
@@ -168,36 +168,40 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     accelerometer[3] = event.values[0];
                     accelerometer[4] = event.values[1];
                     accelerometer[5] = event.values[2];
-                    Log.d("valorx", Float.toString(event.values[0]));
-                    Log.d("valory", Float.toString(event.values[1]));
-                    Log.d("valorz", Float.toString(event.values[2]));
+                }
+            } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+                if (!stop) {
+                    accelerometer[6] = event.values[0];
+                    accelerometer[7] = event.values[1];
+                    accelerometer[8] = event.values[2];
                     stop = true;
                     send = true;
                 }
             }
-            if (send) {
-                putDataMapReq = PutDataMapRequest.create(ITEM_0);
-                putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
-                putDataReq = putDataMapReq.asPutDataRequest();
-                resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
-                Wearable.DataApi.putDataItem(apiClient, putDataReq);
-                Log.d(TAG, "Connected mensaje enviado");
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Do something after 5s = 5000ms
-                        stop = false;
-                    }
-                }, 500);
-                //stop = false;
-                send = false;
-            }
         }
-            //i=0;
-        //}
+        if (send) {
+            putDataMapReq = PutDataMapRequest.create(ITEM_0);
+            putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
+            putDataReq = putDataMapReq.asPutDataRequest();
+            resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
+            Wearable.DataApi.putDataItem(apiClient, putDataReq);
+            Log.d(TAG, "Connected mensaje enviado");
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Do something after 5s = 5000ms
+                    stop = false;
+                }
+            }, 300);
+            //stop = false;
+            send = false;
+        }
+    }
+    //i=0;
+    //}
 
-        //enviarMensaje(ITEM_1, accelerometer.toString());
+    //enviarMensaje(ITEM_1, accelerometer.toString());
 /*
         //Valor eje y
         putDataMapReq = PutDataMapRequest.create(ITEM_1);
@@ -212,7 +216,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         putDataReq = putDataMapReq.asPutDataRequest();
         resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
         //enviarMensaje(ITEM_2, Float.toString(accelerometer[2]));*/
-    }
+
 
     @Override
     public void onResume() {
@@ -254,13 +258,13 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     }
 
 
-    private void enviarMensaje(final String path, final String texto){
+    private void enviarMensaje(final String path, final String texto) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                NodeApi.GetConnectedNodesResult nodos=Wearable.NodeApi.getConnectedNodes(apiClient).await();
+                NodeApi.GetConnectedNodesResult nodos = Wearable.NodeApi.getConnectedNodes(apiClient).await();
                 Log.d(TAG, "sincronizacion betaalfa");
-                for (Node nodo: nodos.getNodes()){
+                for (Node nodo : nodos.getNodes()) {
                     Wearable.MessageApi.sendMessage(apiClient, nodo.getId(), path, texto.getBytes())
                             .setResultCallback(
                                     new ResultCallback<MessageApi.SendMessageResult>() {

@@ -8,12 +8,12 @@
 
     <TextView
         android:id="@+id/info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
         android:text="Pulsa el botón para empezar a monitorizar el ejercicio"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 

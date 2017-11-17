@@ -33,7 +33,8 @@
         android:layout_toStartOf="@+id/powerValue"
         android:width="120dp"
         android:text="Weight (Kg)"
-        android:inputType="none"/>
+        android:inputType="none"
+        />
 
 
     <EditText
@@ -45,7 +46,7 @@
         android:width="120dp"
         android:ems="10"
         android:inputType="number"
-        android:text="0" />
+        android:text="1" />
 
     <EditText
         android:id="@+id/powerValue"
@@ -70,7 +71,7 @@
         android:layout_alignBottom="@+id/powerValue"
         android:layout_toStartOf="@+id/logoutbutton"
         android:width="120dp"
-
+        android:inputType="none"
         android:text="Peak power"
         android:textSize="20dp"
         />
