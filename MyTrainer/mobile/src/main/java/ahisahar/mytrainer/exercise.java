@@ -35,7 +35,9 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static java.lang.Math.pow;
@@ -92,7 +94,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     Chronometer chronometer;
     final float windowUp = 0.1f;
     final float windowDown = -0.1f;
-
+    String strDate,tittl,hour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +102,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         setContentView(R.layout.activity_exercise);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        String tittl = getIntent().getStringExtra("NAME");
+        tittl = getIntent().getStringExtra("NAME");
 
         //Weight by default
 
@@ -110,6 +112,11 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sff = new SimpleDateFormat("HH:mm:ss");
+        hour = sff.format(c.getTime());
+        strDate = sdf.format(c.getTime());
         /*if (mFirebaseUser == null) {
             // Not logged in, launch the Log In activity
             loadLogInView();
@@ -146,6 +153,9 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                 graph.removeAllSeries();
                 series = new LineGraphSeries<>();
                 chronometer.setBase(SystemClock.elapsedRealtime());
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat sff = new SimpleDateFormat("HH:mm:ss");
+                hour = sff.format(c.getTime());
 
             }
         });
@@ -260,31 +270,34 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     mDatabase.child("users").child(mUserId).child("test").child(Integer.toString(count)).child("z").setValue(acel[2]);
                     difference = SystemClock.elapsedRealtime() - startTime;
                     mDatabase.child("users").child(mUserId).child("test").child(Integer.toString(count)).child("time").setValue(difference);
-                    //*/
-                    /* save raw data
+                    //*//* save raw data */
+                    /*
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("x").setValue(acel[3]);
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("y").setValue(acel[4]);
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("z").setValue(acel[5]);
                     mDatabase.child("users").child(mUserId).child("gyroscopeStopped4").child(Integer.toString(count)).child("time").setValue(difference);
                     */
                     quaternion = orientacion.update((double) acel[0], (double) acel[1], (double) acel[2], (double) acel[3], (double) acel[4], (double) acel[5],(double) acel[6],(double) acel[7],(double) acel[8]);
+                    //quaternion = orientacion.create((double)acel[3],(double)acel[4],(double)acel[5],(double)acel[6]);
+                    //acelfixed = gravityCompensation.fixAccelerometerData(quaternion, acel[0], acel[1], acel[2]);
                     acelfixed = gravityCompensation.fixAccelerometerData(quaternion, acel[0], acel[1], acel[2]);
 
-                    /*          Save filtered data
-                    mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("x").setValue(acelfixed[0]);
-                    mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("y").setValue(acelfixed[1]);
-                    mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("z").setValue(acelfixed[2]);
+                    //          Save filtered data/
+
+                    mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("x").setValue(acel[0]);
+                    mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("y").setValue(acel[1]);
+                    mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("z").setValue(acel[2]);
                     difference = SystemClock.elapsedRealtime() - startTime;
-                    mDatabase.child("users").child(mUserId).child("linearAcelPropia2").child(Integer.toString(count)).child("time").setValue(difference);
-                                    *//*((TextView) findViewById(R.id.x)).setText(Double.toString((Double)acelfixed[0]));
-                                    ((TextView) findViewById(R.id.y)).setText(Double.toString((Double)acelfixed[1]));
-                                    ((TextView) findViewById(R.id.z)).setText(Double.toString((Double)acelfixed[2]));*/
+                    mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("time").setValue(difference);
+
                     //modulo = sqrt(pow(acelfixed[2], 2)); //Solo teniendo en cuenta el eje Z
                     //Acceleration asgined
-                    acceleration = acelfixed[0];
+                    //acceleration = acelfixed[0];
+                    acceleration = acel[0];
                     //********************acceleration = acel[0];
                     Log.e("valorSinCalibrar",Float.toString(acceleration));
-                    //acceleration = acel[1];
+                    //
+
                     //Check if there is real movement
                     acceleration = mechanicalFilteringWindow(acceleration);
                     //calculate force
@@ -292,6 +305,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     Log.e("valorConVentana",Float.toString(acceleration));
 
                     //Integrate acceleration to calculate velocity
+
                     velocity = computeVelocity(previousAcceleration, velocity, acceleration);
                     //Last acceleration value
                     previousAcceleration = acceleration;
@@ -357,6 +371,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     time = SystemClock.elapsedRealtime() - startTime;
                     //velocity = modulo * time;
                     //force = modulo * weight;
+
                     series.appendData(new DataPoint(count, modulo), false, 200);
                     count++;
                     graph.addSeries(series);

@@ -77,7 +77,7 @@ package ahisahar.mytrainer;
 public class Orientation {
 
     double mBeta = 1;
-    double mSamplingPeriod = 1;
+    double mSamplingPeriod = 3;
     double q1, q2, q3, q4;
 
     public Orientation(double beta, double samplingPeriod, double q1, double q2, double q3, double q4)
@@ -193,6 +193,10 @@ public class Orientation {
         q4 = q4 * norm;
 
 
+        return new Quaternion(q1,q2,q3,q4);
+    }
+
+    public Quaternion create(double q1,double q2, double q3, double q4){
         return new Quaternion(q1,q2,q3,q4);
     }
 

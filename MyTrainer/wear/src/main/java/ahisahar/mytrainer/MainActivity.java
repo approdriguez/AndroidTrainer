@@ -49,6 +49,8 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import static android.R.attr.gravity;
+
 public class MainActivity extends WearableActivity implements SensorEventListener, DataApi.DataListener, MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String KEY = "SensorService";
@@ -71,6 +73,13 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     //Parar medición
     Boolean stop = false, send = false, meassuring = false;
     int visibility = View.INVISIBLE;
+    float[] mGravity = new float[3];
+    float [] mMagneticfield = new float[3];
+    float []mOrientation;float []mQuaternion;
+    //LOW PASS FILTER
+    float []gravity = new float[3];
+    float []linear_acceleration = new float[3];
+    final float alpha = 0.750187547f;
 
     int i = 0;
 
@@ -107,7 +116,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
             }
         });
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         mMag = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
@@ -150,56 +159,91 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
         if (meassuring) {
 
-            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
 
                 if (!stop) {
+
+                    /*
+                    // Isolate the force of gravity with the low-pass filter.
+                    gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+                    gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+                    gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+
+                    // Remove the gravity contribution with the high-pass filter.
+                    accelerometer[0] = event.values[0] - gravity[0];
+                    accelerometer[1] = event.values[1] - gravity[1];
+                    accelerometer[2] = event.values[2] - gravity[2];
+                    */
                     //x.setText(Float.toString(event.values[0]));
                     //y.setText(Float.toString(event.values[1]));
                     //z.setText(Float.toString(event.values[2]));
                     accelerometer[0] = event.values[0];
                     accelerometer[1] = event.values[1];
                     accelerometer[2] = event.values[2];
-                    //Log.d("valorx", Float.toString(event.values[0]));
-                    //Log.d("valory", Float.toString(event.values[1]));
-                    //Log.d("valorz", Float.toString(event.values[2]));
+
+                    accelerometer[3] = event.values[0];
+                    accelerometer[4] = event.values[1];
+                    accelerometer[5] = event.values[2];
+                    accelerometer[6] = event.values[0];
+                    accelerometer[7] = event.values[1];
+                    accelerometer[8] = event.values[2];
+                    stop = true;
+                    send = true;
+                    Log.d("valorx", Float.toString(event.values[0]));
+                    Log.d("valory", Float.toString(event.values[1]));
+                    Log.d("valorz", Float.toString(event.values[2]));
+                    Log.d("valorxx", Float.toString(accelerometer[0]));
+                    Log.d("valoryy", Float.toString(accelerometer[1]));
+                    Log.d("valorzz", Float.toString(accelerometer[2]));
+
                 }
-            } else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+            }/* else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
                 if (!stop) {
                     accelerometer[3] = event.values[0];
                     accelerometer[4] = event.values[1];
                     accelerometer[5] = event.values[2];
+                    Log.d("valora", Float.toString(event.values[0]));
+                    Log.d("valorb", Float.toString(event.values[1]));
+                    Log.d("valorc", Float.toString(event.values[2]));
+
                 }
             } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
                 if (!stop) {
                     accelerometer[6] = event.values[0];
                     accelerometer[7] = event.values[1];
                     accelerometer[8] = event.values[2];
+                    Log.d("valord", Float.toString(event.values[0]));
+                    Log.d("valore", Float.toString(event.values[1]));
+                    Log.d("valorf", Float.toString(event.values[2]));
                     stop = true;
                     send = true;
                 }
+            }*/
+        }
+            if (send) {
+                putDataMapReq = PutDataMapRequest.create(ITEM_0);
+                putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
+                putDataReq = putDataMapReq.asPutDataRequest();
+                resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
+                Wearable.DataApi.putDataItem(apiClient, putDataReq);
+                Log.d(TAG, "Connected mensaje enviado");
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        stop = false;
+                        //send = false;
+                    }
+                }, 100);
+                //stop = false;
+                send = false;
             }
+
         }
-        if (send) {
-            putDataMapReq = PutDataMapRequest.create(ITEM_0);
-            putDataMapReq.getDataMap().putFloatArray(KEY, accelerometer);
-            putDataReq = putDataMapReq.asPutDataRequest();
-            resultado = Wearable.DataApi.putDataItem(apiClient, putDataReq);
-            Wearable.DataApi.putDataItem(apiClient, putDataReq);
-            Log.d(TAG, "Connected mensaje enviado");
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Do something after 5s = 5000ms
-                    stop = false;
-                }
-            }, 300);
-            //stop = false;
-            send = false;
-        }
-    }
+
     //i=0;
-    //}
+
 
     //enviarMensaje(ITEM_1, accelerometer.toString());
 /*
