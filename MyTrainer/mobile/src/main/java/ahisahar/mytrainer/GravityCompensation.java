@@ -16,9 +16,9 @@ public class GravityCompensation {
 
 
     public float [] fixAccelerometerData(Orientation.Quaternion quaternion, Float x,Float y, Float z){
-        fixedAccelerometerData[0] =(float)(2 * (quaternion.q2 * quaternion.q4 - quaternion.q1 * quaternion.q3));
-        fixedAccelerometerData[1] = (float)(2 * (quaternion.q1 * quaternion.q2 + quaternion.q3 * quaternion.q4));
-        fixedAccelerometerData[2] = (float)(quaternion.q1 * quaternion.q1 - quaternion.q2 * quaternion.q2 - quaternion.q3 * quaternion.q3 + quaternion.q4 * quaternion.q4);
+        fixedAccelerometerData[0] =x - (float)(2 * (quaternion.q2 * quaternion.q4 - quaternion.q1 * quaternion.q3));
+        fixedAccelerometerData[1] =y - (float)(2 * (quaternion.q1 * quaternion.q2 + quaternion.q3 * quaternion.q4));
+        fixedAccelerometerData[2] =z - (float)(quaternion.q1 * quaternion.q1 - quaternion.q2 * quaternion.q2 - quaternion.q3 * quaternion.q3 + quaternion.q4 * quaternion.q4);
         return fixedAccelerometerData;
     }
 
