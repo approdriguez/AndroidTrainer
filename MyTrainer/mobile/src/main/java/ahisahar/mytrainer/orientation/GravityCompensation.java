@@ -1,4 +1,4 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.orientation;
 
 /**
  * Created by a on 25/10/16.
@@ -15,7 +15,7 @@ public class GravityCompensation {
     private float[] fixedAccelerometerData = new float[3];
 
 
-    public float [] fixAccelerometerData(Orientation.Quaternion quaternion, Float x,Float y, Float z){
+    public float [] fixAccelerometerData(Orientation.Quaternion quaternion, Float x, Float y, Float z){
         fixedAccelerometerData[0] =x - (float)(2 * (quaternion.q2 * quaternion.q4 - quaternion.q1 * quaternion.q3));
         fixedAccelerometerData[1] =y - (float)(2 * (quaternion.q1 * quaternion.q2 + quaternion.q3 * quaternion.q4));
         fixedAccelerometerData[2] =z - (float)(quaternion.q1 * quaternion.q1 - quaternion.q2 * quaternion.q2 - quaternion.q3 * quaternion.q3 + quaternion.q4 * quaternion.q4);

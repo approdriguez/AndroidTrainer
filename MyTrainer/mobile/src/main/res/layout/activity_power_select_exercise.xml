@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ahisahar.mytrainer.power_select_exercise">
+    tools:context="ahisahar.mytrainer.selectors.power_select_exercise">
 
     <Button
         android:layout_width="wrap_content"

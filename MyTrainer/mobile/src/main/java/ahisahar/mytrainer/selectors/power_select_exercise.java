@@ -1,10 +1,16 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.selectors;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import ahisahar.mytrainer.R;
+import ahisahar.mytrainer.descriptors.bench_press_descriptor;
+import ahisahar.mytrainer.descriptors.deadlift_descriptor;
+import ahisahar.mytrainer.descriptors.row_descriptor;
+import ahisahar.mytrainer.descriptors.squat_descriptor;
 
 public class power_select_exercise extends AppCompatActivity {
 

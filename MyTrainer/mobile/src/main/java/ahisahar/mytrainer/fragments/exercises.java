@@ -1,20 +1,20 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.fragments;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import ahisahar.mytrainer.R;
+import ahisahar.mytrainer.descriptors.bench_press_descriptor;
+import ahisahar.mytrainer.descriptors.deadlift_descriptor;
+import ahisahar.mytrainer.descriptors.row_descriptor;
+import ahisahar.mytrainer.descriptors.squat_descriptor;
 
 public class exercises extends Fragment {
 
@@ -59,7 +59,7 @@ public class exercises extends Fragment {
         name2.setText("Sentadillas");
         image3.setImageResource(R.drawable.dead0);
         name3.setText("Peso muerto");
-        image4.setImageResource(R.drawable.squat0);
+        image4.setImageResource(R.drawable.row);
         name4.setText("Remo");
         // initialize views
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,12 +36,12 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
 
 import java.nio.*;
+
+import ahisahar.mytrainer.authentication.LogInActivity;
+import ahisahar.mytrainer.orientation.GravityCompensation;
+import ahisahar.mytrainer.orientation.Orientation;
 
 public class exercise extends AppCompatActivity implements DataApi.DataListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -89,12 +87,14 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
     int dif = 0;
     double[] datos = new double[5];
     double  time;
-    float velocity = 0, previousAcceleration = 0, acceleration = 0, force = 0,weight = 1;
+    float velocity = 0, previousAcceleration = 0, acceleration = 0, force = 0,weight = 5,power = 0,maxpower = 0,s=1;
     GoogleApiClient apiClient;
     Chronometer chronometer;
     final float windowUp = 0.1f;
     final float windowDown = -0.1f;
     String strDate,tittl,hour;
+    EditText powerValue;
+    Ex exinfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,14 +132,21 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
         //Texedit inmutables
 
         EditText powerLabel = (EditText) findViewById(R.id.powerLabel);
-        EditText powerValue = (EditText) findViewById(R.id.powerValue);
-        EditText weightLabel = (EditText) findViewById(R.id.weightLabel);
+        powerValue = (EditText) findViewById(R.id.powerValue);
+        final EditText weightLabel = (EditText) findViewById(R.id.weightLabel);
         EditText weightValue = (EditText) findViewById(R.id.weightValue);
         TextView tittle = (TextView) findViewById(R.id.titulo);
         powerLabel.setKeyListener(null);
         weightLabel.setKeyListener(null);
         powerValue.setKeyListener(null);
         weightValue.setInputType(InputType.TYPE_CLASS_NUMBER);
+        weightValue.setText("5");
+        weightValue.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                weight = Integer.parseInt(weightLabel.getText().toString());
+            }
+        });
         tittle.setText(tittl);
 
         chronometer = (Chronometer) findViewById(R.id.chronometer);
@@ -156,6 +163,9 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                 Calendar c = Calendar.getInstance();
                 SimpleDateFormat sff = new SimpleDateFormat("HH:mm:ss");
                 hour = sff.format(c.getTime());
+                velocity = 0;
+                acceleration = 0;
+                s++;
 
             }
         });
@@ -283,12 +293,17 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     acelfixed = gravityCompensation.fixAccelerometerData(quaternion, acel[0], acel[1], acel[2]);
 
                     //          Save filtered data/
+                    //strDate
 
-                    mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("x").setValue(acel[0]);
-                    mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("y").setValue(acel[1]);
-                    mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("z").setValue(acel[2]);
-                    difference = SystemClock.elapsedRealtime() - startTime;
-                    mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("time").setValue(difference);
+                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("x").setValue(acel[0]);
+                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("y").setValue(acel[1]);
+                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("z").setValue(acel[2]);
+                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("velocity").setValue(velocity);
+                        difference = SystemClock.elapsedRealtime() - startTime;
+                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("time").setValue(difference);
+
+
+                        //mDatabase.child("users").child(mUserId).child(strDate).child("Resumen "+tittl).setValue(new Ex(velocity,maxpower,s,weight));
 
                     //modulo = sqrt(pow(acelfixed[2], 2)); //Solo teniendo en cuenta el eje Z
                     //Acceleration asgined
@@ -307,6 +322,12 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     //Integrate acceleration to calculate velocity
 
                     velocity = computeVelocity(previousAcceleration, velocity, acceleration);
+                    power = velocity * force;
+                    if(power>=maxpower){
+                        maxpower = power;
+                        powerValue = (EditText) findViewById(R.id.powerValue);
+                        powerValue.setText(Float.toString(maxpower));
+                    }
                     //Last acceleration value
                     previousAcceleration = acceleration;
                     /*Window
@@ -371,7 +392,7 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     time = SystemClock.elapsedRealtime() - startTime;
                     //velocity = modulo * time;
                     //force = modulo * weight;
-
+                    
                     series.appendData(new DataPoint(count, modulo), false, 200);
                     count++;
                     graph.addSeries(series);
@@ -440,3 +461,4 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
 
 
 }
+

@@ -79,7 +79,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     //LOW PASS FILTER
     float []gravity = new float[3];
     float []linear_acceleration = new float[3];
-    final float alpha = 0.750187547f;
+    final float alpha = 0.7501f;
 
     int i = 0;
 
@@ -163,7 +163,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
                 if (!stop) {
 
-                    /*
+                /*
                     // Isolate the force of gravity with the low-pass filter.
                     gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
                     gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
@@ -173,13 +173,14 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     accelerometer[0] = event.values[0] - gravity[0];
                     accelerometer[1] = event.values[1] - gravity[1];
                     accelerometer[2] = event.values[2] - gravity[2];
-                    */
+                */
                     //x.setText(Float.toString(event.values[0]));
                     //y.setText(Float.toString(event.values[1]));
                     //z.setText(Float.toString(event.values[2]));
                     accelerometer[0] = event.values[0];
                     accelerometer[1] = event.values[1];
                     accelerometer[2] = event.values[2];
+
 
                     accelerometer[3] = event.values[0];
                     accelerometer[4] = event.values[1];
@@ -195,6 +196,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     Log.d("valorxx", Float.toString(accelerometer[0]));
                     Log.d("valoryy", Float.toString(accelerometer[1]));
                     Log.d("valorzz", Float.toString(accelerometer[2]));
+
 
                 }
             }/* else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
@@ -235,7 +237,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                         stop = false;
                         //send = false;
                     }
-                }, 100);
+                }, 333);
                 //stop = false;
                 send = false;
             }

@@ -1,40 +1,37 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.descriptors;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
-import static ahisahar.mytrainer.R.styleable.Toolbar;
+import ahisahar.mytrainer.R;
+import ahisahar.mytrainer.exercise;
 
-public class deadlift_descriptor extends AppCompatActivity {
+public class squat_descriptor extends AppCompatActivity {
 
     CarouselView carouselView;
     Button launch;
-    int[] sampleImages = {R.drawable.dead0, R.drawable.dead2, R.drawable.dead1};
+    int[] sampleImages = {R.drawable.squat0, R.drawable.squat1};
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_deadlift_descriptor);
+        setContentView(R.layout.activity_squat_descriptor);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        launch = (Button) findViewById(R.id.start);
         carouselView = (CarouselView) findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
         //super.onBackPressed();
-        launch = (Button) findViewById(R.id.start);
         launch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 launchExercise();
@@ -55,9 +52,9 @@ public class deadlift_descriptor extends AppCompatActivity {
 
     private void launchExercise(){
         Intent intent = new Intent(this, exercise.class);
-        //intent.putExtra("id",2);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("NAME","Peso muerto");
+        intent.putExtra("id",2);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("NAME","Sentadillas");
         startActivity(intent);
     }
 

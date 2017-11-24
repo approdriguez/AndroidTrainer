@@ -1,4 +1,4 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.descriptors;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,12 +11,15 @@ import android.widget.ImageView;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
+import ahisahar.mytrainer.R;
+import ahisahar.mytrainer.exercise;
+
 public class row_descriptor extends AppCompatActivity {
 
     CarouselView carouselView;
     Button launch;
 
-    int[] sampleImages = {R.drawable.dead0, R.drawable.dead2, R.drawable.dead1};
+    int[] sampleImages = {R.drawable.row, R.drawable.dead2, R.drawable.dead1};
 
 
     @Override

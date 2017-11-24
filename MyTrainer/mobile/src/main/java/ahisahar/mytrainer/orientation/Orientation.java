@@ -1,4 +1,4 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.orientation;
 
 /* Rev 0.1
  *

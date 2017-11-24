@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ahisahar.mytrainer.bench_press_descriptor"
+    tools:context="ahisahar.mytrainer.descriptors.bench_press_descriptor"
     tools:showIn="@layout/activity_bench_press_descriptor">
 
     <com.synnapps.carouselview.CarouselView
@@ -42,7 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:background="#F44336"
+        android:background="@android:color/holo_orange_dark"
+        android:width="300dp"
         android:textColor="#FFEBEE"
         android:id="@+id/start"
         />

@@ -1,13 +1,9 @@
 package ahisahar.mytrainer;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,13 +13,22 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.jjoe64.graphview.GraphView;
-import java.util.ArrayList;
-import java.util.List;
+
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
+
+import ahisahar.mytrainer.authentication.LogInActivity;
+import ahisahar.mytrainer.fragments.exercises;
+import ahisahar.mytrainer.fragments.historico;
+import ahisahar.mytrainer.fragments.home;
+import ahisahar.mytrainer.fragments.notes;
+import ahisahar.mytrainer.fragments.settings;
+import ahisahar.mytrainer.selectors.power_select_exercise;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -199,11 +204,15 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            mFirebaseAuth.signOut();
-            loadLogInView();
+
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void logout(){
+        mFirebaseAuth.signOut();
+        loadLogInView();
     }
 
 

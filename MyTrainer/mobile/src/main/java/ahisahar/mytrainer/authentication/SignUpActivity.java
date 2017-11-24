@@ -1,10 +1,9 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.authentication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -16,11 +15,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import ahisahar.mytrainer.MainActivity;
+import ahisahar.mytrainer.R;
+
 public class SignUpActivity extends AppCompatActivity {
 
     protected EditText passwordEditText;
     protected EditText emailEditText;
-    protected Button signUpButton;
+    protected Button signUpButton,forget;
     private FirebaseAuth mFirebaseAuth;
 
     @Override
@@ -33,7 +35,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         passwordEditText = (EditText)findViewById(R.id.passwordField);
         emailEditText = (EditText)findViewById(R.id.emailField);
-        signUpButton = (Button)findViewById(R.id.signupButton);
+        signUpButton = (Button) findViewById(R.id.signupButton);
+        forget = (Button) findViewById(R.id.restorepassword);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +77,32 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = emailEditText.getText().toString();
+                email = email.trim();
+                restoreEmail(email);
+            }
+        });
+    }
+
+    public void restoreEmail(String emailAddress){
+        mFirebaseAuth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                            builder.setMessage(task.getException().getMessage())
+                                    .setTitle("Email enviado")
+                                    .setPositiveButton(android.R.string.ok, null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    }
+                });
     }
 
 }

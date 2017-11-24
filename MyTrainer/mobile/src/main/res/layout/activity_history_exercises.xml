@@ -9,7 +9,169 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ahisahar.mytrainer.history_exercises">
+    tools:context="ahisahar.mytrainer.historical.history_exercises">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardRemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="300px"
+        android:minWidth="100px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="17dp">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="94dp"
+            android:layout_height="104dp"
+            app:srcCompat="@drawable/row" />
+
+
+        <TextView
+            android:id="@+id/series_remo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="80px"
+            android:text=" 0 series" />
+
+        <TextView
+            android:id="@+id/potencia_remo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="120px"
+            android:text="Max potencia = 0" />
+
+        <TextView
+            android:id="@+id/velocidad_remo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="160px"
+            android:text="Max velocidad: 0m/s²" />
+
+        <TextView
+            android:id="@+id/peso_remo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="200px"
+            android:text="Peso: 0Kg" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardPeso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="300px"
+        android:minWidth="100px"
+        android:layout_marginBottom="29dp"
+        android:layout_above="@+id/cardRemo"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="94dp"
+            android:layout_height="104dp"
+            app:srcCompat="@drawable/dead2" />
+
+
+        <TextView
+            android:id="@+id/series_peso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="80px"
+            android:text="0 series" />
+
+        <TextView
+            android:id="@+id/potencia_peso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="120px"
+            android:text="Max potencia = 0" />
+
+        <TextView
+            android:id="@+id/velocidad_peso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="160px"
+            android:text="Max velocidad: 0 m/s²" />
+
+        <TextView
+            android:id="@+id/peso_Peso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="200px"
+            android:text="Peso: 0Kg" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardSentadillas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cardPress"
+        android:layout_marginTop="32dp"
+        android:minHeight="300px"
+        android:minWidth="100px">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="94dp"
+            android:layout_height="104dp"
+            app:srcCompat="@drawable/squat0" />
+
+
+        <TextView
+            android:id="@+id/series_sentadillas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="80px"
+            android:text="0 series" />
+
+        <TextView
+            android:id="@+id/potencia_sentadillas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="120px"
+            android:text="Max potencia = 0" />
+
+        <TextView
+            android:id="@+id/velocidad_sentadillas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="160px"
+            android:text="Max velocidad: 0 m/s²" />
+
+        <TextView
+            android:id="@+id/peso_sentadillas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="200px"
+            android:text="Peso: 0Kg" />
+    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -18,97 +180,49 @@
         android:layout_alignParentStart="true"
         android:minWidth="100px"
         android:minHeight="300px"
-        android:id="@+id/cardView">
+        android:id="@+id/cardPress">
 
         <ImageView
-            android:layout_width="115dp"
-            android:layout_height="114dp"
+            android:layout_width="93dp"
+            android:layout_height="91dp"
             app:srcCompat="@drawable/bench0"
             android:id="@+id/imageView" />
 
         <TextView
-            android:text="Press de Banca"
+            android:id="@+id/series_press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginRight="100px"
             android:layout_marginTop="80px"
-            android:layout_marginRight="100px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3" />
-        <TextView
-            android:text="2 series ,5 repeticiones"
-            android:layout_gravity="right"
-            android:layout_marginTop="120px"
-            android:layout_marginRight="100px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4" />
-        <TextView
-            android:text="Max velocidad: 1m/s²"
-            android:layout_gravity="right"
-            android:layout_marginTop="160px"
-            android:layout_marginRight="100px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView5" />
+            android:text="0 series" />
 
         <TextView
-            android:text="Peso: 50Kg"
-            android:layout_gravity="right"
-            android:layout_marginTop="200px"
-            android:layout_marginRight="100px"
+            android:id="@+id/potencia_press"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView6" />
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="120px"
+            android:text="Max potencia = 0" />
+
+        <TextView
+            android:id="@+id/velocidad_press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="160px"
+            android:text="Max velocidad: 0m/s²" />
+
+        <TextView
+            android:id="@+id/peso_press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="100px"
+            android:layout_marginTop="200px"
+            android:text="Peso: 0 Kg" />
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cardView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp"
-        android:minWidth="100px"
-        android:minHeight="300px">
-
-        <ImageView
-            android:layout_width="124dp"
-            android:layout_height="153dp"
-            app:srcCompat="@drawable/squat0"
-            android:id="@+id/imageView2" />
-
-
-        <TextView
-            android:text="Sentadillas"
-            android:layout_gravity="right"
-            android:layout_marginTop="80px"
-            android:layout_marginRight="100px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView7" />
-        <TextView
-            android:text="3 series ,8 repeticiones"
-            android:layout_gravity="right"
-            android:layout_marginTop="120px"
-            android:layout_marginRight="100px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView8" />
-        <TextView
-            android:text="Max velocidad: 1,5m/s²"
-            android:layout_gravity="right"
-            android:layout_marginTop="160px"
-            android:layout_marginRight="100px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView9" />
-
-        <TextView
-            android:text="Peso: 40Kg"
-            android:layout_gravity="right"
-            android:layout_marginTop="200px"
-            android:layout_marginRight="100px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView10" />
-    </android.support.v7.widget.CardView>
 </RelativeLayout>

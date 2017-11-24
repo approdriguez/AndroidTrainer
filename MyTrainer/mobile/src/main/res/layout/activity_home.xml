@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ahisahar.mytrainer.home">
+    tools:context="ahisahar.mytrainer.fragments.home">
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chartactivity"
@@ -23,11 +23,12 @@
         android:id="@+id/text"
         android:layout_width="127dp"
         android:layout_height="60dp"
-        android:text="Hola Ahisahar!"
+        android:layout_marginTop="28dp"
+        android:text="Hola!"
         android:textSize="19dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginEnd="51dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignEnd="@+id/chartactivity" />
 
 
 </RelativeLayout>

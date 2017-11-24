@@ -1,26 +1,35 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.descriptors;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
-public class bench_press_descriptor extends AppCompatActivity {
+import ahisahar.mytrainer.R;
+import ahisahar.mytrainer.exercise;
+
+import static ahisahar.mytrainer.R.styleable.Toolbar;
+
+public class deadlift_descriptor extends AppCompatActivity {
 
     CarouselView carouselView;
     Button launch;
+    int[] sampleImages = {R.drawable.dead0, R.drawable.dead2, R.drawable.dead1};
 
-    int[] sampleImages = {R.drawable.bench0, R.drawable.bench1, R.drawable.bench2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_squat_descriptor);
+        setContentView(R.layout.activity_deadlift_descriptor);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -49,10 +58,9 @@ public class bench_press_descriptor extends AppCompatActivity {
 
     private void launchExercise(){
         Intent intent = new Intent(this, exercise.class);
-        //intent.putExtra("id",0);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("NAME","Press de banca");
+        //intent.putExtra("id",2);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("NAME","Peso muerto");
         startActivity(intent);
     }
 

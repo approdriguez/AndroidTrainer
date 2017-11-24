@@ -110,7 +110,8 @@
                 android:clickable="true"
                 android:elevation="2dp"
                 android:padding="20dp"
-                android:text="Cerrar sesión" />
+                android:text="Cerrar sesión"
+                android:id="@+id/logout"/>
 
 
         </LinearLayout>

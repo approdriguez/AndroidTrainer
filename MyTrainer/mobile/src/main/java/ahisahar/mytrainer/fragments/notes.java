@@ -1,16 +1,14 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.fragments;
 
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 
-import java.util.Calendar;
+
+import ahisahar.mytrainer.R;
 
 public class notes extends Fragment {
 

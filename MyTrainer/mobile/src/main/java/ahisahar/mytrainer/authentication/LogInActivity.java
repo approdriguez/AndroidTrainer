@@ -1,4 +1,4 @@
-package ahisahar.mytrainer;
+package ahisahar.mytrainer.authentication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +15,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import ahisahar.mytrainer.MainActivity;
+import ahisahar.mytrainer.R;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -85,4 +88,6 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
