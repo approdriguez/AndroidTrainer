@@ -295,15 +295,15 @@ public class exercise extends AppCompatActivity implements DataApi.DataListener,
                     //          Save filtered data/
                     //strDate
 
-                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("x").setValue(acel[0]);
-                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("y").setValue(acel[1]);
-                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("z").setValue(acel[2]);
-                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("velocity").setValue(velocity);
+                        mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("x").setValue(acel[0]);
+                        mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("y").setValue(acel[1]);
+                        mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("z").setValue(acel[2]);
+                        mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("velocity").setValue(velocity);
                         difference = SystemClock.elapsedRealtime() - startTime;
-                        mDatabase.child("users").child(mUserId).child("testlargo").child(tittl).child(hour).child(Integer.toString(count)).child("time").setValue(difference);
+                        mDatabase.child("users").child(mUserId).child(strDate).child(tittl).child(hour).child(Integer.toString(count)).child("time").setValue(difference);
 
 
-                        //mDatabase.child("users").child(mUserId).child(strDate).child("Resumen "+tittl).setValue(new Ex(velocity,maxpower,s,weight));
+                        mDatabase.child("users").child(mUserId).child(strDate).child("Resumen "+tittl).setValue(new Ex(velocity,maxpower,s,weight));
 
                     //modulo = sqrt(pow(acelfixed[2], 2)); //Solo teniendo en cuenta el eje Z
                     //Acceleration asgined
