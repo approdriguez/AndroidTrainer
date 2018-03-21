@@ -1,0 +1,23 @@
+\chapter{Conclusiones y trabajo futuro}
+
+\section*{Conclusiones}
+
+A la hora de realizar el proyecto, se partía con una serie de objetivos en mente, los cuales se debían conseguir para el correcto funcionamiento de la aplicación. Una vez finalizado el proyecto, no se puede afirmar que los objetivos se hayan conseguido. Pues aún habiendo obtenido una aplicación totalmente operativa y completa, no podemos garantizar que la monitorización del ejercicio sea correcta.
+\\
+Esto es debido a que la desviación producida al calcular la velocidad diverge rápidamente, a causa del ruido en función del tiempo. Por lo que el error de offset entre la potencia real y potencia monitorizada, aumentará rápidamente conforme el tiempo de realización del ejercicio aumenta. Además, la frecuencia de muestreo en Android puede cambiar a lo largo del tiempo (recibiendo los datos antes o después de la tasa especificada) y no puede ser controlada \cite{SensorGoogle}, produciendo así incoherencia en el cálculo de la velocidad. Lo cual produce que la aplicación solo pueda ser usada en series de 1 a 3 repeticiones y, consecuentemente, inviable en la mayoría de entrenamientos.
+\\
+Dicha desviación podría ser corregida realizando la asunción de patrones conocidos, como que el usuario realice una parada entre repeticiones. Pero en dicho caso la rutina del usuario estaría condicionada, por lo que no es viable.
+\\
+\\
+Se debe destacar que para la realización de este trabajo fue necesario realizar un estudio sobre la monitorización del movimiento utilizando sensores en un escenario 3D, sus limitaciones y métodos de calibración. Implementando los métodos más prometedores y comparandolos. Sorprendentemente, el algoritmo de orientación de Madgwick, siendo el más prometedor de todos, fue el que peores resultados obtuvo. Aparentemente, sobre el sistema operativo Android parece no funcionar tan bien, debido principalmente a que la frecuencia de muestreo en Android es orientativa, el desarrollador no tiene control absoluto sobre la frecuencia de muestreo y además, varía con el tiempo. Lo cual afecta mucho a la precisión de algunos algoritmos de calibración y posicionamiento.
+
+\section*{Trabajo futuro}
+
+La aplicación aún siendo funcional presenta una serie de limitaciones. Las cuales se podrán intentar resolver con las siguientes propuestas (ordenadas por prioridad):
+
+\begin{itemize}
+  \item Mejora de la calibración de los sensores. Utilizando otras técnicas con el fin de obtener mayor precisión.
+  \item Empleo de sensores de mayor calidad.
+  \item Creación de un backend propio con una API Rest. Si bien es cierto que Firebase nos proporciona muchas funcionalidades y servicios. El plan gratuito del servicio habilita hasta 100 conexiones simultáneas. Lo cual se traduce en un cuello de botella.
+  \item Mejora de las interfaces de usuario. Tanto de la aplicación móvil como wear, con el fin de mejorar la experiencia de usuario.
+\end{itemize}

@@ -1,0 +1,162 @@
+\chapter{Planificación}
+
+En este capítulo se pueden encontrar dos secciones, en la primera se aborda la Planificación 4.1, para el desarrollo del proyecto y en la segunda el Coste del proyecto 4.2, la cual contiene un presupuesto sobre el coste del desarrollo de este proyecto.
+
+\section{Planificación}
+
+Se ha realizado la planificación del proyecto en base a una metodología ágil. Obteniendo así una mayor flexibilidad en el desarrollo, para ello se han realizado historias de usuario, definiendo en ellas la funcionalidad mínima para el correcto funcionamiento del sistema, iterando desde las tareas de máxima prioridad hasta las de prioridad más baja.
+\\
+Se han desarrollado dos grandes hitos:
+\begin{itemize}
+\setlength\itemsep{0pt}
+    \item \textbf{1. Asistente entrenamiento potencia}
+    \item  \textbf{2. Uso de un servidor}
+\end{itemize}
+\noindent
+Se han conseguido desarrollar los dos hitos, a falta de mejorar la interfaz de cara a una mejor experiencia del usuario. %Puesto el resultado obtenido desarrollado buscando la funcionalidad, quedando pendiente dicha mejora.
+\\
+\\
+A continuación se van a detallar los hitos:
+\subsection{Asistente entrenamiento potencia}
+\begin{adjustbox}{margin=3.5ex 16ex 3.5ex 3.5ex,center}
+	\begin{forest} for tree={
+	    growth parent anchor=south,
+	    parent anchor=south,
+	    child anchor=north,
+	    edge path={none},
+	    l sep=.25cm,
+	}
+	%
+	[Asistente entrenamiento potencia, goal, name=agoal
+	    [Aplicación Android Wear, activity
+	        [1. Conexión con la aplicación Android, task
+	       	[2. Recolección de los datos de los sensores, task
+	        [3. Envío de los datos a la aplicación Android, task
+	        [4. Mejora de la interfaz de inicio y fin de serie, task
+	        ] ] ] ] ]
+	    [Aplicación Android, activity
+	        [1. Conexión con la aplicación wear, task
+			[2. Mostrar la lista de ejercicios disponibles, task
+	        [3. Recepción de los datos desde la aplicación Wear, task
+	        [4. Tratamiento de los datos recibidos, task
+	        [5. Calculo de la velocidad y de la potencia, task
+	        [6. Representación de cada serie de manera visual, task
+	        ] ] ] ] ] ] ] ]
+	%
+	\end{forest}
+\end{adjustbox}
+\noindent
+Una vez finalizado este hito, se ha conseguido una arquitectura totalmente operativa para realizar y monitorizar un entrenamiento basado en potencia en tiempo real. Por lo que el objetivo principal del proyecto se podría dar por conseguido.
+\\
+\\
+En el siguiente hito dotaremos al proyecto de funcionalidades adicionales, que mejoren el funcionamiento del mismo y amplien sus capacidades.
+\\
+\\
+Para ello dotaremos a nuestro sistema de conexión a un servidor, el cual ampliará las capacidades de la aplicación de cara al usuario y también el propio sistema.
+\\
+\subsection{Uso de un servidor}
+
+\begin{adjustbox}{margin=3.5ex 6ex 3.5ex 3.5ex,center}
+
+	\begin{forest} for tree={
+	    growth parent anchor=south,
+	    parent anchor=south,
+	    child anchor=north,
+	    edge path={none},
+	    l sep=.25cm,
+	}
+	%
+	[Asistente entrenamiento potencia, goal, name=agoal
+	    [Servidor, activity
+	        [1. Conexión con la aplicación Android, task
+	       	[2. Creación de usuarios, task
+	        [3. Autenticación de los usuarios, task
+	        [4. Recepción y envío de datos a la aplicación Android, task
+	        ] ] ] ] ]
+	    [Aplicación Android, activity
+	        [1. Conexión con el servidor, task
+			[2. Envío de credenciales al servidor, task
+	        [3. Envío y recepción de datos al servidor, task
+	        [4. Representación de los datos recibidos por el servidor, task
+	        ] ] ] ] ] ]
+	%
+	\end{forest}
+\end{adjustbox}
+\noindent
+Una vez finalizado este hito se ha completado las competencias de este proyecto y su funcionalidad es completa, a falta de una reconstrucción de la interfaz que mejore la experiencia de los usuarios del sistema.
+
+\section{Coste del proyecto}
+
+En esta sección se va a realizar una estimación de los costes materiales y humanos del proyecto tratado en esta memoria.
+
+\subsection*{Costes materiales}
+
+El equipo utilizado para este proyecto consta de:
+\\
+Ordenador utilizado para el desarrollo, junto al siguiente software:
+
+\begin{itemize}
+\setlength\itemsep{0em}
+    \item Sistema Operativo: Ubuntu 16.04
+    \item Editor de texto: Sharelatex (Online)
+    \item IDE: Android Studio
+    \item Diseño de programas UML: Visual Paradigm CE
+    \item Gestión de versiones: Github
+\end{itemize}
+\noindent
+Además se ha utilizado un móvil Android (Honor 8 lite) y dos smartwatches (Moto 360 y Sony Smartwatch Sport 3).
+\\
+Por lo tanto los costes materiales son de :
+\begin{itemize}
+\setlength\itemsep{0em}
+    \item Ordenador. Coste total 900€. Con una vida útil estimada de 5 años \cite{lifespan}, tiene un coste anual de 180 euros/año, 15 euros por mes.
+    \item Móvil Android. Coste total 200€. Con una vida útil media de 2 años \cite{nytimes}, supone un coste de 100 euros/año, 8,3 euros/mes.
+    \item Dispositivos wearable. Coste total 150 euros y 120 euros respectivamente. Con un ciclo de vida media de dos años \cite{authority}, suponen un coste de 75 euros/año y 60 euros/año y, consecuentemente, un coste de 6,25 euros/mes y 5 euros/mes.
+\end{itemize}
+
+\subsection*{Costes humanos}
+
+Se ha realizado un seguimiento de horas empleadas en cada tarea para estimar los costes humanos del proyecto. Para estimar el coste, se ha teniendo en el salario medio de un programador junior en España \cite{infojob}, siendo de 19.787 euros/año, el coste por hora es de 8,83 euros.
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[H]
+\centering
+\caption{Costes humanos del proyecto}
+\label{Costes humanos del proyecto}
+\begin{tabular}{llll}
+\hline
+\multicolumn{1}{|l|}{Nombre de la tarea}              & \multicolumn{1}{l|}{Número de horas} & \multicolumn{1}{l|}{Coste por hora}  & \multicolumn{1}{l|}{Total (euros)} \\ \hline
+\multicolumn{1}{|l|}{Estudio previo}                  & \multicolumn{1}{l|}{120}             & \multicolumn{1}{l|}{8,83 euros/hora} & \multicolumn{1}{l|}{1059,6}        \\ \hline
+\multicolumn{1}{|l|}{Estudio de los requisitos}       & \multicolumn{1}{l|}{8}               & \multicolumn{1}{l|}{8,83 euros/hora} & \multicolumn{1}{l|}{70,64}         \\ \hline
+\multicolumn{1}{|l|}{Estudio del mercado}             & \multicolumn{1}{l|}{8}               & \multicolumn{1}{l|}{8,83 euros/hora} & \multicolumn{1}{l|}{70,64}         \\ \hline
+\multicolumn{1}{|l|}{Planificación}                   & \multicolumn{1}{l|}{8}               & \multicolumn{1}{l|}{8,83 euros/hora} & \multicolumn{1}{l|}{70,64}         \\ \hline
+\multicolumn{1}{|l|}{Desarrollo del Hito 1}           & \multicolumn{1}{l|}{240}             & \multicolumn{1}{l|}{8,83 euros/hora} & \multicolumn{1}{l|}{2119,2}        \\ \hline
+\multicolumn{1}{|l|}{Desarrollo del Hito 2}           & \multicolumn{1}{l|}{40}              & \multicolumn{1}{l|}{8,83 euros/hora} & \multicolumn{1}{l|}{353,2}         \\ \hline
+\multicolumn{1}{|l|}{Elaboraciónde las pruebas}       & \multicolumn{1}{l|}{6}               & \multicolumn{1}{l|}{8,83 euros/hora} & \multicolumn{1}{l|}{52,98}         \\ \hline
+\multicolumn{1}{|l|}{Elaboración de la documentación} & \multicolumn{1}{l|}{50}              & \multicolumn{1}{l|}{8,83 euros/hora} & \multicolumn{1}{l|}{441,5}         \\ \hline
+Total                                                 & \cellcolor[HTML]{38FFF8}480          & 8,83 euros/hora                       & \cellcolor[HTML]{96FFFB}4240 euros
+\end{tabular}
+\end{table}
+\noindent
+Se añaden los costes materiales a los humanos.
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[H]
+\centering
+\caption{Coste total del proyecto}
+\label{Coste total del proyecto}
+\begin{tabular}{llllll}
+\hline
+\multicolumn{1}{|l|}{Descripción}     & \multicolumn{1}{l|}{Tipo Recurso} & \multicolumn{1}{l|}{Coste por hora} & \multicolumn{1}{l|}{Coste mensual} & \multicolumn{1}{l|}{Tiempo}  & \multicolumn{1}{l|}{Total}            \\ \hline
+\multicolumn{1}{|l|}{Ordenador}       & \multicolumn{1}{l|}{Material}     & \multicolumn{1}{l|}{-}              & \multicolumn{1}{l|}{15 euros}      & \multicolumn{1}{l|}{3 meses} & \multicolumn{1}{l|}{45 euros}         \\ \hline
+\multicolumn{1}{|l|}{Móvil}           & \multicolumn{1}{l|}{Material}     & \multicolumn{1}{l|}{-}              & \multicolumn{1}{l|}{8,3 euros}     & \multicolumn{1}{l|}{3 meses} & \multicolumn{1}{l|}{24,9 euros}       \\ \hline
+\multicolumn{1}{|l|}{Moto 360}        & \multicolumn{1}{l|}{Material}     & \multicolumn{1}{l|}{-}              & \multicolumn{1}{l|}{6,25 euros}    & \multicolumn{1}{l|}{3 meses} & \multicolumn{1}{l|}{18,75 euros}      \\ \hline
+\multicolumn{1}{|l|}{Sony Smartwatch} & \multicolumn{1}{l|}{Material}     & \multicolumn{1}{l|}{-}              & \multicolumn{1}{l|}{5 euros}       & \multicolumn{1}{l|}{3 meses} & \multicolumn{1}{l|}{15 euros}         \\ \hline
+\multicolumn{1}{|l|}{Desarrollo}      & \multicolumn{1}{l|}{Humano}       & \multicolumn{1}{l|}{8,83 euros}     & \multicolumn{1}{l|}{-}             & \multicolumn{1}{l|}{3 meses} & \multicolumn{1}{l|}{4238,5 euros}     \\ \hline
+Total                                 &                                   &                                     &                                    &                              & \cellcolor[HTML]{38FFF8}4342,05 euros
+\end{tabular}
+\end{table}
+\noindent
+Y por lo tanto, el coste total del proyecto será de 4342,05 euros.

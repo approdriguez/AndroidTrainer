@@ -1,0 +1,77 @@
+\chapter{Especificación de requisitos}
+
+Todo software es creado con el fin de cumplir un servicio o una necesidad. Y como en todo proyecto de software, los requisitos deben ser especificados en la fase previa al desarrollo con el fin de dar cobertura a todas las necesidades del usuario.
+\\
+\\
+Se entiende como requisito una funcionalidad o requerimiento que un usuario necesita para poder poder cumplir una necesidad en concreto o resolver un problema.
+\\
+\\
+En este capítulo se analizan los distintos requisitos del sistema que vamos a detallar en este documento. Se encuentra estructurado en tres secciones. Requisitos funcionales 3.1, los cuales definen funciones del sistema. En la segunda sección encontramos los Requisitos no funcionales 3.2, los cuales contienen restricciones del sistema relacionadas con el diseño o la implementacion. Finalmente, encontramos la sección Requisitos de información 3.3, los cuales hacen referencia a información que debe ser almacenada en el sistema.
+
+\section{Requisitos funcionales}
+
+Los requisitos funcionales son los encargados de definir una función del sistema. De manera que se cubran todas las necesidades de los usuarios.\\
+\\
+El sistema cuenta con los siguientes requisitos funcionales:
+
+\textbf{RF-1. Autenticación:} Control de usuarios.
+\\
+
+\begin{itemize}
+
+\item \textbf{RF-1.1} El usuario debe poder darse de alta en la aplicación.
+\item \textbf{RF-1.2} El usuario debe poder inicar sesión en la aplicación.
+\item \textbf{RF-1.3} El usuario debe poder recuperar sus credenciales.
+\end{itemize}
+\\
+\\\\
+\textbf{RF-2. Control:} Control del ejercicio.
+\\
+\\
+\begin{itemize}
+\item \textbf{RF-2.1} Se debe poder controlar el inicio del ejercicio/repetición.
+\item \textbf{RF-2.2} Se debe poder controlar el final del ejercicio/repetición.
+\item \textbf{RF-2.3} El usuario puede seleccionar el tipo de ejercicio.
+\item \textbf{RF-2.4} El usuario debe ser capaz de realizar una nueva serie.
+\item \textbf{RF-2.5} El usuario debe ser capaz de introducir el peso con el que esta realizando el ejercicio.
+\end{itemize}
+\\\\
+\\
+\textbf{RF-3. Visualización:} Representación de la información.
+\\
+\begin{itemize}
+\item \textbf{RF-3.1} El usuario podrá consultar la potencia realizada.
+\item \textbf{RF-3.2} Visualizar el contenido de un dia en concreto.
+\end{itemize}
+\\
+
+\section{Requisitos no funcionales}
+
+Los requisitos no funcionales describen restricciones del sistema que se relacionan con el diseño o la implementación del proyecto.
+\\
+\\
+A continuación se describen los requisitos no funcionales de este proyecto:
+\\
+\begin{itemize}
+\item \textbf{RNF-1}. Ambas aplicaciones han de ser implementadas en Java.
+\item \textbf{RNF-2}. El envío de datos debe ser en tiempo real.
+\item \textbf{RNF-3}. La visualización debe ser creada en tiempo real, durante la realización del ejercicio.
+\item \textbf{RNF-4}. El sistema deberá enviar la información al servidor, con el fin de no ocupar almacenamiento local en el dispositivo.
+\item \textbf{RNF-5}. El sistema deberá almacenar la información en local si no dispone de conexión a Internet.
+\item \textbf{RNF-6}. La frecuencia de muestreo debe ser ajustada para usar la menor cantidad de memoria posible.
+\item \textbf{RNF-7}. Los datos deben ser tratados para conseguir la máxima precisión posible.
+\end{itemize}
+\\
+\\
+\section{Requisitos de información}
+
+Los requisitos de información se refieren a la información que es imprescindible almacenar en el sistema.
+\\
+\\
+A continuación vamos a describir los requisitos de información del sistema:
+\\
+\\
+\begin{itemize}
+    \item \textbf{RI-1} Almacenamiento de credenciales: correo electrónico y contraseña.
+    \item \textbf{RI-2} Historial de entrenamiento del usuario.
+\end{itemize}
